@@ -1,4 +1,4 @@
 class Event < ActiveRecord::Base
 
-  has_one :organizer, :class => "User"
+  belongs_to :owner, :class => "User"
 end

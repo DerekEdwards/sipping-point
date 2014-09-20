@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   root to: 'events#index'
-  
-  resources :events
 
-  resources :users
+  resources :users do
+    resources :events
+  end
+
   devise_for :users
 
   # The priority is based upon order of creation: first created -> highest priority.
