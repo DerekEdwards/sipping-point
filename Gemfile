@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'haml-rails'
-gem 'boostrap-sass'
+# https://github.com/twbs/bootstrap-sass/issues/692 for why we're hitting github here...
+gem 'bootstrap-sass', :git => 'https://github.com/twbs/bootstrap-sass.git', :branch => 'next'
 gem 'simple_form'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

@@ -1,0 +1,14 @@
+%h1 Listing events
+%table
+  %thead
+    %tr
+      %th Name
+      %th{:colspan => "3"}
+  %tbody
+    - @events.each do |event|
+      %tr
+        %td= event.name
+%br
+%button.btn.btn-primary.btn-lg{"data-target" => "#myModal", "data-toggle" => "modal"}
+  Launch demo modal
+= render "new_event_modal"

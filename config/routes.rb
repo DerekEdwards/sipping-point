@@ -2,8 +2,11 @@ Rails.application.routes.draw do
   root to: 'events#index'
 
   resources :users do
-    resources :events
+    member do
+      get 'new'
+    end
   end
+  resources :events
 
   devise_for :users
 
