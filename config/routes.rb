@@ -6,7 +6,9 @@ Rails.application.routes.draw do
       get 'new'
     end
   end
-  resources :events
+  resources :events do
+    resources :rsvps, shallow: true
+  end
 
   devise_for :users
 
