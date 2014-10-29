@@ -27,6 +27,11 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(event_params)
+    owner_email = params[:event][:owner_email] 
+
+    #If this is the first time for this user, create a new user account
+    user = User.where(email: owner_email).first_or_create
+    @event.owner = user
 
     respond_to do |format|
       if @event.save
