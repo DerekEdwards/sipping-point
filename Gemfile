@@ -42,3 +42,5 @@ gem 'devise'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# For better debuggin on Heroku
+gem rails_12factor
