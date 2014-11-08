@@ -44,3 +44,9 @@ gem 'devise'
 
 # For better debuggin on Heroku
 gem 'rails_12factor'
+
+group :development do
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem "sextant"
+end

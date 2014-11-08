@@ -4,6 +4,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
+    logger.info("Index Event")
     @events = Event.all
     @event = Event.new
   end
@@ -11,35 +12,35 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-  end
-
-  # GET /events/new
-  def new
-    # @owner = User.find(params[:user_id])
-    @event = Event.new
+    logger.info("Show Event")
   end
 
   # GET /events/1/edit
   def edit
   end
 
+  def new
+  end
+
   # POST /events
   # POST /events.json
   def create
-    puts 'here here here herer herer herer'
-
+    logger.info('Create Event')
     @event = Event.new(event_params)
     owner_email = params[:event][:owner_email] 
 
     #If this is the first time for this user, create a new user account
     user = User.where(email: owner_email).first_or_create
+    
+    #We currently don't use fully fledged user accounts.  This is a placeholder for if/when we do.
+    user.password = "sippingpoint"
+    user.password_confirmation = "sippingpoint"
     user.save 
-    puts user.email 
     @event.owner = user
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to new_event_path, notice: 'Event was successfully created.' }
+        format.html { redirect_to event_path(@event), notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
@@ -71,7 +72,7 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
@@ -80,6 +81,7 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:name)
+      params.require(:event).permit(:name, :owner_email, :threshold, :name, :time, :dealine )
     end
+
 end

@@ -4,13 +4,6 @@ class Event < ActiveRecord::Base
   has_many   :rsvps
   has_many   :invitees, through: :rsvps, :source => "User"
 
-  #after_update :is_sipped?
-
   attr_accessor :owner_email
 
-  protected
-
-  #def is_sipped?
-  #  confirmed_users
-  #end
 end
