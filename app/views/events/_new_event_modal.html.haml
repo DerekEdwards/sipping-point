@@ -6,7 +6,7 @@
         %button.close{"data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
           %span.sr-only Close
-        %h4#myModalLabel.modal-title Create Trip
+        %h4#myModalLabel.modal-title Create a New Event
       = simple_form_for(@event,:html => {:class => 'form-vertical' }) do |f|
         .modal-body
           - if @event.errors.any?
@@ -18,12 +18,12 @@
                   %li 
                     =message
 
-          =f.input :name, :input_html => {:size => 40, :maxlength => 50}
-          =f.input :owner_email, :input_html => {:size => 40, :maxlength => 50}
-          =f.input :threshold
-          =f.input :time
-          =f.input :deadline
+          =f.input :name, :label => "Event Name", :placeholder => "Drinks at the Shack", :hint => "What are we doing?", :input_html => {:size => 40, :maxlength => 50}
+          =f.input :owner_email, :label => "Email", :input_html => {:size => 40, :maxlength => 50}
+          =f.input :threshold, :label => "Sipping Point", :hint => "Any few than this, and it's just not a party."
+          =f.input :time, :label => "Event Date", :hint => "When is this thing?"
+          =f.input :deadline, :label => "RSVP by", :hint => "If you ain't go by now, I reckon you ain't going at all."
   
         .modal-footer 
           %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
-          %button.btn.btn-primary{:type => "submit"} Create
+          %button.btn.btn-primary{:type => "submit"} Next
