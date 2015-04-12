@@ -3,6 +3,7 @@ class EventsController < ApplicationController
 
   # GET /events
   # GET /events.json
+
   def index
     logger.info("Index Event")
     @events = Event.all
