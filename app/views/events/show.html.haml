@@ -1,0 +1,40 @@
+
+%h1
+  =@event.name
+%p
+  Description
+  =@event.description
+%p
+  Sipping Point
+  =@event.threshold
+%p
+  Location
+  =@event.location
+%p
+  Date
+  =@event.time
+%p
+  Deadline
+  =@event.deadline
+%p
+  Rsvps
+  %table
+    %tr
+      %td
+        Name
+      %td
+        Email
+      %td
+        Response
+    -@event.rsvps.each do |rsvp|
+      %tr
+        %td
+          =rsvp.user.name
+        %td
+          =rsvp.user.email
+        %td
+          =rsvp.response
+
+
+
+=link_to 'Edit', edit_event_path(@event)
