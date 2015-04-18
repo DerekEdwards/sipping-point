@@ -2,12 +2,13 @@ class RsvpsController < ApplicationController
  
 
   def edit
-    @rsvp = Rsvp.find_by(hash_key: params[:hash_key])
+    @rsvp = Rsvp.find_by(hash_key: params[:id])
+    
   end
 
   def update
 
-    @rsvp = Rsvp.find(params[:id])
+    @rsvp = Rsvp.find_by(hash_key: params[:id])
     @rsvp.response = params[:rsvp][:response].to_i
     @rsvp.save
 

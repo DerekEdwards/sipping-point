@@ -8,14 +8,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :events
-
+  resources :events 
 
   resources :rsvps do
     member do
       patch 'update'
-    end
-    collection do
       get 'edit'
     end
   end

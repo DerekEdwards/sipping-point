@@ -13,18 +13,17 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    logger.info("Show Event")
-  end
+  
+  end 
 
-  # GET /events/1/edit
   def edit
-    @event = Event.find(params[:id])
+
   end
 
   def new
+  
   end
 
-  # POST /events
   # POST /events.json
   def create
     logger.info('Create Event')
@@ -38,7 +37,9 @@ class EventsController < ApplicationController
     user.password = "sippingpoint"
     user.password_confirmation = "sippingpoint"
     user.save 
+    
     @event.owner = user
+    @event.generate_hash_key
 
     respond_to do |format|
       if @event.save
@@ -69,6 +70,7 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
+
     @event.destroy
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
@@ -79,12 +81,12 @@ class EventsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
-      @event = Event.find(params[:id])
+      @event = Event.find_by(hash_key: params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
       params.require(:event).permit(:name, :owner_email, :threshold, :name, :time, :description, :deadline, :invitee_emails )
     end
-
+  
 end
