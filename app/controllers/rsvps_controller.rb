@@ -1,6 +1,6 @@
 class RsvpsController < ApplicationController
  
-
+ 
   def edit
     @rsvp = Rsvp.find_by(hash_key: params[:id])
     

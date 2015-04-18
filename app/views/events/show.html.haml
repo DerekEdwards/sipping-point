@@ -35,6 +35,5 @@
           =rsvp.response
 
 
-="todo: only the owner can see this link"
-
-=link_to 'Invite people and finalize the details.', edit_event_path(@event)
+-if current_user == @event.owner
+  =link_to 'Invite people and finalize the details.', edit_event_path(@event)

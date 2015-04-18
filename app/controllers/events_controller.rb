@@ -1,12 +1,14 @@
 class EventsController < ApplicationController
+  
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :except => [:show, :index]  
 
   # GET /events
   # GET /events.json
 
   def index
     logger.info("Index Event")
-    @events = Event.all
+    @events = Event.where(owner: current_user)
     @event = Event.new
   end
 
@@ -17,7 +19,7 @@ class EventsController < ApplicationController
   end 
 
   def edit
-
+    confirm_owner
   end
 
   def new
@@ -26,19 +28,12 @@ class EventsController < ApplicationController
 
   # POST /events.json
   def create
+
     logger.info('Create Event')
     @event = Event.new(event_params)
     owner_email = params[:event][:owner_email] 
-
-    #If this is the first time for this user, create a new user account
-    user = User.where(email: owner_email).first_or_create
     
-    #We currently don't use fully fledged user accounts.  This is a placeholder for if/when we do.
-    user.password = "sippingpoint"
-    user.password_confirmation = "sippingpoint"
-    user.save 
-    
-    @event.owner = user
+    @event.owner = current_user
     @event.generate_hash_key
 
     respond_to do |format|
@@ -55,6 +50,8 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
   def update
+    
+    confirm_owner
 
     respond_to do |format|
       if @event.update(event_params)
@@ -70,6 +67,8 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
+
+    confirm_owner
 
     @event.destroy
     respond_to do |format|
@@ -88,5 +87,11 @@ class EventsController < ApplicationController
     def event_params
       params.require(:event).permit(:name, :owner_email, :threshold, :name, :time, :description, :deadline, :invitee_emails )
     end
+
+    def confirm_owner
+      unless @event.owner == current_user 
+        redirect_to root_url
+      end     
+    end 
   
 end

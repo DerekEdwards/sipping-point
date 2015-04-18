@@ -2,4 +2,9 @@
 %br
 %button.btn.btn-primary.btn-lg.center-block{"data-target" => "#myModal", "data-toggle" => "modal"}
   Let's Drink!
+
+-@events.each do |event|
+  =link_to event.name, event_path(event)
+  = "<>"   
+
 = render "new_event_modal"

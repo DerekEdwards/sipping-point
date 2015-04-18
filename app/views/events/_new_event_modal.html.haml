@@ -20,7 +20,7 @@
 
           =f.input :name, :label => "Event Name", :placeholder => "Drinks at the Shack", :hint => "What are we doing?", :input_html => {:size => 40, :maxlength => 50}
           -if signed_in?
-            =f.input :owner_email, :label => "Email", :default => current_user.email, :input_html => {:size => 40, :maxlength => 50}
+            =f.input :owner_email, :label => "Email", :placeholder => current_user.email, :default => current_user.email, :input_html => {:size => 40, :maxlength => 50}
           -else            
             =f.input :owner_email, :label => "Email", :input_html => {:size => 40, :maxlength => 50}
 
