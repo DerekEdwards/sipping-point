@@ -1,0 +1,5 @@
+=@rsvp.event.name
+
+=simple_form_for @rsvp do |f|
+	=f.input :response, collection: {Yes: 1, No: 0}, as: :radio_buttons, label: "Are you going or what?"
+	=f.button :submit
