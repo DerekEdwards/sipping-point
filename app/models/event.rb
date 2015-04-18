@@ -12,8 +12,12 @@ class Event < ActiveRecord::Base
   	invitees = []
   	emails.each do |email|
   	  user = User.where(email: email.strip).first_or_create(password: 'sippingpoint', password_confirmation: 'sippingpoint')
+      user.save
+  	  rsvp  = Rsvp.where(user: user, event: self).first_or_create
+      rsvp.generate_hash_key
+      rsvp.save
+      UserMailer.invite_email(rsvp).deliver! 	  
 
-  	  rsvp  = Rsvp.where(user: user, event: self).first_or_create 	  
   	end 
   end
 

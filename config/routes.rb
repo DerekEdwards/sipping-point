@@ -7,8 +7,17 @@ Rails.application.routes.draw do
       get 'new'
     end
   end
-  resources :events do
-    resources :rsvps, shallow: true
+
+  resources :events
+
+
+  resources :rsvps do
+    member do
+      patch 'update'
+    end
+    collection do
+      get 'edit'
+    end
   end
 
   devise_for :users

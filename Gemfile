@@ -44,3 +44,11 @@ gem 'devise'
 
 # For better debuggin on Heroku
 gem 'rails_12factor'
+
+# Pretty print
+gem 'awesome_print'
+
+group :development  do
+	gem 'better_errors'
+	gem 'binding_of_caller'
+end
