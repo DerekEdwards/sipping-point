@@ -14,12 +14,12 @@ class Rsvp < ActiveRecord::Base
   #Validations
   validates :hash_key, uniqueness: true
 
-  #Constants
-  UNRESPONDED =  0
-  NO          = -1
-  YES         =  1
+  #Scopes
+  scope :said_yes, -> { where(response: 1) }
+  scope :said_no, -> { where(response: 0) }
+  scope :unanswered, -> { where(response: nil) }
 
-  #Methods
+  #Methods> 
   def to_param
     self.hash_key
   end 

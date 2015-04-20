@@ -12,6 +12,12 @@ class Event < ActiveRecord::Base
   #Validations
   validates :hash_key, uniqueness: true
 
+  #Constants
+  INITIALIZED = 'initalized'
+  OPEN = 'open'
+  EXPIRED = 'expired'
+  CONFIRMED = 'confirmed'
+
   #Methods
   def to_param
     self.hash_key
@@ -42,6 +48,20 @@ class Event < ActiveRecord::Base
       return hash_key 
     end
   
+  end
+
+  def update_status
+    if self.rsvps.count == 0
+      self.status = Event::INITIALIZED
+    elsif self.rsvps.said_yes.count >= self.threshold
+      self.status = Event::CONFIRMED
+    elsif self.deadline < DateTime.now
+      self.status = Event::EXPIRED
+    else
+      self.status = Event::OPEN
+    end
+    self.save
+    return self.status 
   end
 
   def invitee_emails

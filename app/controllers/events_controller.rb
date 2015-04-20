@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, :except => [:show, :index]  
+  after_action  :update_status, only: [:create, :show, :update, :destroy]
 
   # GET /events
   # GET /events.json
@@ -35,6 +36,7 @@ class EventsController < ApplicationController
     
     @event.owner = current_user
     @event.generate_hash_key
+    @event.update_status
 
     respond_to do |format|
       if @event.save
@@ -93,5 +95,8 @@ class EventsController < ApplicationController
         redirect_to root_url
       end     
     end 
-  
+
+    def update_status
+      @event.update_status
+    end 
 end

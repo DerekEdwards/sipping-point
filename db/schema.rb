@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150418121902) do
+ActiveRecord::Schema.define(version: 20150420005153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20150418121902) do
     t.integer  "threshold"
     t.datetime "deadline"
     t.string   "hash_key"
+    t.string   "status"
   end
 
   create_table "rsvps", force: true do |t|
