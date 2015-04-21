@@ -7,4 +7,16 @@ class UserMailer < ActionMailer::Base
   	@rsvp = rsvp
   	mail(to: @user.email, subject: "You're Invited.")
   end
-end
+
+  def confirmation_email(rsvp)
+  	@user = rsvp.user
+  	@rsvp = rsvp
+  	mail(to: @user.email, subject: "It's on!")
+  end 
+
+  def expiration_email(rsvp)
+  	@user = rsvp.user
+  	@rsvp = rsvp
+  	mail(to: @user.email, subject:  "Bwah Bwah! :(")
+  end
+ end 

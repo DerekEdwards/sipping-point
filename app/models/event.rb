@@ -50,19 +50,47 @@ class Event < ActiveRecord::Base
   
   end
 
-  def update_status
+  def update_status send_email=false
+    #The event has been created
     if self.rsvps.count == 0
       self.status = Event::INITIALIZED
+
+    #The event is on
     elsif self.rsvps.said_yes.count >= self.threshold
+      if self.status != Event::CONFIRMED and send_email
+        send_confirmation_emails
+      end
       self.status = Event::CONFIRMED
+
+    #The deadline has passed
     elsif self.deadline < DateTime.now
+      if self.status != Event::EXPIRED and send_email
+        send_expiration_emails
+      end
       self.status = Event::EXPIRED
+
+    #The event is awaiting RSVPs
     else
       self.status = Event::OPEN
     end
+
     self.save
+
     return self.status 
   end
+
+  def send_confirmation_emails
+    self.rsvps.each do |rsvp|
+      UserMailer.confirmation_email(rsvp).deliver!
+    end
+  end   
+
+  def send_expiration_emails
+    self.rsvps.each do |rsvp|
+      UserMailer.expiration_email(rsvp).deliver!
+    end
+  end    
+
 
   def invitee_emails
   	nil

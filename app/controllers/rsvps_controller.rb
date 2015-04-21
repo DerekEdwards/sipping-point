@@ -10,7 +10,7 @@ class RsvpsController < ApplicationController
     @rsvp = Rsvp.find_by(hash_key: params[:id])
     @rsvp.response = params[:rsvp][:response].to_i
     @rsvp.save
-    @rsvp.event.update_status
+    @rsvp.event.update_status(send_email=true)
 
     respond_to do |format|
       format.html { redirect_to @rsvp.event }
