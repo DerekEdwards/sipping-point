@@ -18,6 +18,10 @@ class Event < ActiveRecord::Base
   EXPIRED = 'expired'
   CONFIRMED = 'confirmed'
 
+  #Scopes
+  scope :open, -> { where(status:Event::OPEN) }
+  scope :deadline_passed, -> { where("deadline < ?", DateTime.now) }
+
   #Methods
   def to_param
     self.hash_key

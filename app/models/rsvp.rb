@@ -19,7 +19,7 @@ class Rsvp < ActiveRecord::Base
   scope :said_no, -> { where(response: 0) }
   scope :unanswered, -> { where(response: nil) }
 
-  #Methods> 
+  #Methods 
   def to_param
     self.hash_key
   end 
