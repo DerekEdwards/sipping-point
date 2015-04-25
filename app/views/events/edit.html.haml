@@ -4,8 +4,12 @@
       %h1
         =@event.name
       You have created your event.  It's time to invite some people and finalize it!
-      = simple_form_for @event do |f|
-        = f.input :description
-        = f.input :location
-        = f.input :invitee_emails, as: :text 
-        = f.button :submit
+
+      .panel.translucent
+        .panel-body 
+        = simple_form_for @event do |f|
+          = f.input :description
+          = f.input :location
+          = f.input :invitee_emails, as: :text 
+      
+      %button.btn.btn-primary.btn-xl{:type => "submit"} Send the invites!
