@@ -3,9 +3,20 @@
     .header-content-inner
       %h1
         =@rsvp.event.name
-      =simple_form_for @rsvp do |f|
+
+      =form_tag(rsvp_path, method: "patch") do 
         .panel.translucent
-          .panel-body 
-            =f.input :response, collection: {Yes: 1, No: 0}, as: :radio_buttons, label: "Are you going or what?"
-  
+          .panel-body
+            .panel-text
+              %table.table-center{:style=>"border: 1px; width: 50%"}
+                %tr
+                  %td
+                    %strong
+                      So are you going or what?
+                  %td
+                    %input{:type => "radio", :name => :response, :value => 1, :checked => 1}
+                      Yes
+                  %td
+                    %input{:type => "radio", :name => :response, :value => 0}
+                      No 
         %button.btn.btn-primary.btn-xl{:type => "submit"} Save and Send Invites!
