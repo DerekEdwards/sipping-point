@@ -47,7 +47,7 @@ gem 'rails_12factor'
 
 # Pretty print
 gem 'awesome_print'
-gem "font-awesome-rails"
+gem 'font-awesome-rails'
 
 group :development  do
 	gem 'better_errors'
