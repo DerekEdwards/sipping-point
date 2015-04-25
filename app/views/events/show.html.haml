@@ -7,9 +7,19 @@
         .panel-body
           .panel-text
             %h4
-              ="Your event has been created, but no one has been invited yet."
-            %br
-            %table.table-center
+              -if @event.status == Event::INITIALIZED
+                ="Your event has been created, but no one has been invited yet."
+              -elsif @event.status == Event::OPEN
+                ="Your event is awaiting RSVPs"
+              -elsif @event.status == Event::CONFIRMED
+                ="Your event has reached The Sipping Point.  It's on!  Go have fun!"
+              -elsif @event.status == Event::EXPIRED
+                ="Sorry.  You event was lame and no one wanted to go, or maybe you just need better friends"
+            %hr
+            %h4
+              Event Details
+
+            %table.table.table-center
               %tr
                 %td
                   Description
@@ -27,25 +37,26 @@
                   =@event.location
               %tr
                 %td
-                  Date
+                  Date & Time
                 %td
-                  =@event.time
+                  =@event.time.strftime("%B %-d, %Y at %-I:%M%p")
               %tr
                 %td
-                  Deadline
+                  Deadline to Respond
                 %td
-                  =@event.deadline
+                  =@event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
             -if @event.rsvps.count > 0
               %hr
-              Rsvps
-              %table.table-center
-                %th
-                  %td
+              %h4
+                Statuses of RSVPs
+              %table.table.table-center.table-striped
+                %tr
+                  %th.text-center
                     Name
-                  %td
+                  %th.text-center
                     Email
-                  %td
-                    Response
+                  %th.text-center
+                    Going?
                 - @event.rsvps.each do |rsvp|
                   %tr
                     %td
@@ -53,9 +64,14 @@
                     %td
                       = rsvp.user.email
                     %td
-                      = rsvp.response
+                      -if rsvp.response == 1
+                        ="Yes"
+                      -elsif rsvp.response == 0
+                        ="No"
+                      -else
+                        =""
             - if current_user == @event.owner and @event.rsvps.count > 0
-              %hr.light
+              %br
               = link_to 'Edit', edit_event_path(@event)
       
       -if current_user == @event.owner and @event.rsvps.count == 0
