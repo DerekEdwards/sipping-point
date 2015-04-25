@@ -1,1 +1,25 @@
-Placeholder
+= simple_form_for(@event,:html => {:class => 'form-vertical' }) do |f|
+  .modal-body
+    - if @event.errors.any?
+      #error_explanation
+        %h2
+          =pluralize(@event.errors.count, "error").to_s + "prohibited this event from being saved:<"
+        %ul
+          - @event.errors.full_messages.each do |message| 
+            %li 
+              =message
+
+    =f.input :name, :label => "Event Name", :placeholder => "Drinks at the Shack", :hint => "What are we doing?", :input_html => {:size => 40, :maxlength => 50}
+    -if signed_in?
+      =f.input :owner_email, :label => "Email", :placeholder => current_user.email, :default => current_user.email, :input_html => {:size => 40, :maxlength => 50}
+    -else            
+      =f.input :owner_email, :label => "Email", :input_html => {:size => 40, :maxlength => 50}
+
+    =f.input :threshold, :label => "Sipping Point", :hint => "Any few than this, and it's just not a party."
+    =f.input :time, :label => "Event Date", :hint => "When is this thing?"
+    =f.input :deadline, :label => "RSVP by", :hint => "If you ain't go by now, I reckon you ain't going at all."
+
+  
+ 
+  %button.btn.btn-default.btn-xl{:type => "submit"} Let's do it!
+  

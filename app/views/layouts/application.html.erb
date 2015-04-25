@@ -10,6 +10,9 @@
     <meta name="author" content="">
 
     <title>The Sipping Point</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/assets/bootstrap.min.css" type="text/css">
@@ -52,18 +55,21 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right">
-                  <li>
-                      <a class="page-scroll" href="#about">About</a>
-                  </li>
-                  <li>
-                      <a class="page-scroll" href="#services">Services</a>
-                  </li>
-                  <li>
-                      <a class="page-scroll" href="#portfolio">Portfolio</a>
-                  </li>
-                  <li>
-                      <%= link_to "Sign up", new_user_registration_path, :class => 'page-scroll'  %> 
-                  </li>
+                  <% if user_signed_in? %>
+                    <li>
+                       <%= link_to 'Edit profile', edit_user_registration_path, :class => 'page-scroll' %>
+                    </li>
+                    <li>
+                       <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'page-scroll'  %>
+                    </li>
+                  <% else %>
+                    <li>
+                        <%= link_to "Sign up", new_user_registration_path, :class => 'page-scroll'  %> 
+                    </li>
+                    <li>
+                        <%= link_to "Login", new_user_session_path, :class => 'page-scroll'  %>
+                    </li>
+                  <% end %>  
               </ul>
           </div>
           <!-- /.navbar-collapse -->
