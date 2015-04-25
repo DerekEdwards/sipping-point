@@ -1,0 +1,61 @@
+%header
+  .header-content
+    .header-content-inner
+      %h1
+        =@event.name  
+      .panel.translucent
+        .panel-body
+          .panel-text
+            %h4
+              ="Your event has been created, but no one has been invited yet."
+            %table.table-center
+              %tr
+                %td
+                  Description
+                %td
+                  =@event.description
+              %tr
+                %td
+                  Sipping Point
+                %td
+                  =@event.threshold
+              %tr
+                %td
+                  Location
+                %td
+                  =@event.location
+              %tr
+                %td
+                  Date
+                %td
+                  =@event.time
+              %tr
+                %td
+                  Deadline
+                %td
+                  =@event.deadline
+            -if @event.rsvps.count > 0
+              %hr
+              Rsvps
+              %table.table-center
+                %th
+                  %td
+                    Name
+                  %td
+                    Email
+                  %td
+                    Response
+                - @event.rsvps.each do |rsvp|
+                  %tr
+                    %td
+                      = rsvp.user.name
+                    %td
+                      = rsvp.user.email
+                    %td
+                      = rsvp.response
+            - if current_user == @event.owner and @event.rsvps.count > 0
+              %hr.light
+              = link_to 'Edit', edit_event_path(@event)
+      
+      -if current_user == @event.owner and @event.rsvps.count == 0
+        %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Let's invite some people!
