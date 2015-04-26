@@ -1,0 +1,28 @@
+<header>
+<div class="header-content">
+<div class="header-content-inner">
+<h1>Forgot your password?</h1>
+
+<%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+<div class="panel translucent">
+<div class="panel-body">  
+
+
+  <div class="form-inputs">
+    <%= f.input :email, required: true, autofocus: true, input_html: { maxlength: 50, size: 25 }  %>
+  </div>
+
+   </div>
+        
+        </div>
+        <button class="btn btn-primary btn-xl" type="submit">Send Me Reset Password Instructions</button>
+      <% end %>
+      <hr>
+      <div class="panel translucent">
+        <div class="panel-body"> 
+          <%= render "devise/shared/links" %>
+        </div>
+      </div>
+    </div>    
+  </div>
+</header>

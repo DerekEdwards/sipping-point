@@ -14,9 +14,11 @@
                 =message
 
       =f.input :name, :label => "Event Name", :placeholder => "Drinks at the Shack", :hint => "What are we doing?", :input_html => {:color => "black", :size => 40, :maxlength => 50}
-      =f.input :threshold, :label => "Sipping Point", :hint => "Any fewer than this, and it's just not a party.", :collection => 1..20, :selected => 4
-      =f.input :time, :label => "Event Date", :hint => "When is this thing?"
-      =f.input :deadline, :label => "RSVP by", :hint => "If you ain't go by now, I reckon you ain't going at all."
+      =f.input :threshold, :label => "Sipping Point", :hint => "Any fewer people than this, and it's just not a party.", :collection => 1..20, :selected => 4
+      %br
+      =f.input :time, :label => "Event Date & Time", :hint => "When is this thing happening?"
+      %br
+      =f.input :deadline, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they ain't going."
 
   %button.btn.btn-primary.btn-xl{:type => "submit"} Let's do it!
   

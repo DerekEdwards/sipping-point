@@ -60,16 +60,27 @@
                 - @event.rsvps.each do |rsvp|
                   %tr
                     %td
-                      = rsvp.user.name
+                      -if current_user == rsvp.user
+                        = rsvp.user.name || "" + " (Me)"
+                      -else
+                        = rsvp.user.name
                     %td
                       = rsvp.user.email
                     %td
-                      -if rsvp.response == 1
-                        ="Yes"
-                      -elsif rsvp.response == 0
-                        ="No"
+                      -if current_user == rsvp.user
+                        -if rsvp.response == 1
+                          = link_to 'Yes', edit_rsvp_url(rsvp)
+                        -elsif rsvp.response == 0
+                          = link_to 'No', edit_rsvp_url(rsvp)
+                        -else
+                          = link_to 'Click to Respond', edit_rsvp_url(rsvp)
                       -else
-                        =""
+                        -if rsvp.response == 1
+                          ="Yes"
+                        -elsif rsvp.response == 0
+                          ="No"
+                        -else
+                          =""
             - if current_user == @event.owner and @event.rsvps.count > 0
               %br
               = link_to 'Edit', edit_event_path(@event)
