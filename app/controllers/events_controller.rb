@@ -33,7 +33,6 @@ class EventsController < ApplicationController
 
     logger.info('Create Event')
     @event = Event.new(event_params)
-    owner_email = params[:event][:owner_email] 
     
     @event.owner = current_user
     @event.generate_hash_key
