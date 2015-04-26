@@ -61,7 +61,7 @@
                   %tr
                     %td
                       -if current_user == rsvp.user
-                        = rsvp.user.name + " (Me)"
+                        = rsvp.user.name || "" + " (Me)"
                       -else
                         = rsvp.user.name
                     %td
