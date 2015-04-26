@@ -33,7 +33,6 @@ class Event < ActiveRecord::Base
     create_owner_rsvp
 
   	emails = value.split(',')
-  	invitees = []
   	emails.each do |email|
   	  user = User.where(email: email.strip).first_or_create do |u|
         u.password = u.password_confirmation =Devise.friendly_token.first(8)
