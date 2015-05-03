@@ -178,12 +178,17 @@ header {
     min-height: auto;
     text-align: center;
     color: #fff;
-    background-image: url(header3.jpg);
+    background-image: url(header.jpg);
     background-position: center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
+}
+
+.attached {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 header .header-content {
@@ -237,6 +242,21 @@ header .header-content .header-content-inner p {
         max-width: 80%;
         font-size: 18px;
     }
+}
+
+.static-header {
+ 
+    color: #fff;
+    background-image: url(header3.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    text-align: center;
+}
+
+.static-header-title {
+    margin: 30px auto;
+    text-transform: uppercase;
+    font-weight: 700;
 }
 
 .section-heading {
