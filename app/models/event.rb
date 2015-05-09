@@ -29,6 +29,7 @@ class Event < ActiveRecord::Base
 
   def invitee_emails=(value)
 
+    create_owner_rsvp
 
   	emails = value.split(',')
   	emails.each do |email|
@@ -84,6 +85,13 @@ class Event < ActiveRecord::Base
     self.save
 
     return self.status 
+  end
+
+  def create_owner_rsvp
+    Rsvp.where(user: self.owner, event: self).first_or_create do |rsvp|
+      rsvp.generate_hash_key
+      rsvp.save!
+    end
   end
 
   def send_confirmation_emails
