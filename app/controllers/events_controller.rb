@@ -3,7 +3,6 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, :except => [:show, :index]  
   after_action  :update_status, only: [:create, :show, :update, :destroy]
-  after_action :send_rsvp_emails, only: [:update]
 
   # GET /events
   # GET /events.json
@@ -57,6 +56,8 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.update(event_params)
+        @event.send_rsvp_emails
+    
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
