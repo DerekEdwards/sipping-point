@@ -1,2 +1,25 @@
-It's on!
-=link_to 'Click HERE to view the Event', event_url(@rsvp.event), only_path: false
+%center
+  %hr
+  %h1
+    =link_to @event.name, event_url(@rsvp.event), only_path: false 
+    =" is Happening!"
+  %h3
+    ="See you there!"  
+  =@event.description
+  %hr
+  %h2
+    =@event.time.strftime("%A") + " " + @event.time.to_date.to_formatted_s(:long_ordinal) + " at " + @event.time.strftime("%l:%M %p")
+    %br
+    ="AT"
+    %br
+    =@event.location
+
+  %hr
+  %h4
+    = image_tag('http://i.imgur.com/qlBlBR3.gif')
+  %hr  
+  %h4
+    ="This event brought to you by the evil geniuses at"
+    =link_to 'The Sipping Point', root_url, only_path: false
+
+  

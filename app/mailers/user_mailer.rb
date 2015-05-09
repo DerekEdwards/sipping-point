@@ -1,7 +1,6 @@
 class UserMailer < ActionMailer::Base
   default from: ENV['gmail_username']
 
-
   def invite_email(rsvp)
   	@user =  rsvp.user
   	@rsvp = rsvp
@@ -12,12 +11,13 @@ class UserMailer < ActionMailer::Base
   def confirmation_email(rsvp)
   	@user = rsvp.user
   	@rsvp = rsvp
-  	mail(to: @user.email, subject: "It's on!")
+    @event = rsvp.event
+  	mail(to: @user.email, subject: "It's Happening!")
   end 
 
   def expiration_email(rsvp)
   	@user = rsvp.user
   	@rsvp = rsvp
-  	mail(to: @user.email, subject:  "Bwah Bwah! :(")
+  	mail(to: @user.email, subject:  "Event Failed")
   end
  end 
