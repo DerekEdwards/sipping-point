@@ -3,13 +3,18 @@
     .header-content-inner
       %h1
         =@rsvp.event.name
-      ="You have been invited, but this event won't happen unless enough people show up.  For this event, the minimum number is " + @rsvp.event.threshold.to_s + " people."  
+      %h3  
+        ="You have been invited, but this event won't happen unless we can get at least "
+        %strong
+          =@rsvp.event.threshold.to_s + " people"
+        =" to come."  
       %br
       %hr
-      ="Sipping Point will let you know on or before " 
-      %strong
-        =@rsvp.event.deadline.strftime("%A") + " " + @rsvp.event.deadline.to_date.to_formatted_s(:long_ordinal) + " at " + @rsvp.event.deadline.strftime("%l:%M %p")
-      ="if this event is confirmed."
+      %h4
+        ="Sipping Point will let you know on or before " 
+        %strong
+          =@rsvp.event.deadline.strftime("%A") + " " + @rsvp.event.deadline.to_date.to_formatted_s(:long_ordinal) + " at " + @rsvp.event.deadline.strftime("%l:%M %p")
+        ="if this event is confirmed."
 
       =form_tag(rsvp_path, method: "patch") do 
         .panel.translucent

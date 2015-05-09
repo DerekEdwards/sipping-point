@@ -1,10 +1,10 @@
 %center
+  %h2
+    ="Success! This event has reached The Sipping Point!  It's officially happening!"
   %hr
   %h1
     =link_to @event.name, event_url(@rsvp.event), only_path: false 
-    =" is Happening!"
   %h3
-    ="See you there!"  
   =@event.description
   %hr
   %h2
@@ -16,7 +16,10 @@
 
   %hr
   %h4
-    = image_tag('http://i.imgur.com/qlBlBR3.gif')
+    = image_tag('http://i.imgur.com/n08NGU8.gif')
+  %hr
+  %h3
+    ="Thanks for making this event happen. See you there."  
   %hr  
   %h4
     ="This event brought to you by the evil geniuses at"
