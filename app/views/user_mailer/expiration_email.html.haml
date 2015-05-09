@@ -1,3 +1,18 @@
-This event is a total failure!  Not enough support to make it happen.  Oh well, better luck next time.
-%br
-=link_to 'Click HERE to view the Event', event_url(@rsvp.event), only_path: false
+%center
+  %hr
+  %h1
+    =link_to @event.name, event_url(@rsvp.event), only_path: false   
+    =" is a complete and total failure."
+  %hr
+  %h4
+    =@event.owner.name + ", maybe your event sucked and nobody wanted to go.  Maybe your friends suck. Maybe you smell bad. It's not really Sipping Point's problem. But at least you didn't show up with nobody there. You're welcome for that."   
+  %hr
+  %h4
+    = "Thank you for using sipping point.  Better luck next time."
+  %hr
+  %h4
+    = image_tag('http://i.imgur.com/gPZGjPA.gif')
+  %hr  
+  %h4
+    ="This event brought to you by the evil geniuses at"
+    =link_to 'The Sipping Point', root_url, only_path: false

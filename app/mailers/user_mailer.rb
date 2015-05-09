@@ -18,6 +18,7 @@ class UserMailer < ActionMailer::Base
   def expiration_email(rsvp)
   	@user = rsvp.user
   	@rsvp = rsvp
+    @event = rsvp.event
   	mail(to: @user.email, subject:  "Event Failed")
   end
  end 
