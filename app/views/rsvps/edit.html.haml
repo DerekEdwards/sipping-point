@@ -3,6 +3,13 @@
     .header-content-inner
       %h1
         =@rsvp.event.name
+      ="You have been invited, but this event won't happen unless enough people show up.  For this event, the minimum number is " + @rsvp.event.threshold.to_s + " people."  
+      %br
+      %hr
+      ="Sipping Point will let you know on or before " 
+      %strong
+        =@rsvp.event.deadline.strftime("%A") + " " + @rsvp.event.deadline.to_date.to_formatted_s(:long_ordinal) + " at " + @rsvp.event.deadline.strftime("%l:%M %p")
+      ="if this event is confirmed."
 
       =form_tag(rsvp_path, method: "patch") do 
         .panel.translucent
@@ -12,11 +19,11 @@
                 %tr
                   %td
                     %strong
-                      So are you going or what?
+                      ="So are you in our out?"
                   %td
                     %input{:type => "radio", :name => :response, :value => 1, :checked => 1}
-                      Yes
+                      In
                   %td
                     %input{:type => "radio", :name => :response, :value => 0}
-                      No 
+                      Out 
         %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
