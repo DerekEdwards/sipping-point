@@ -41,9 +41,7 @@ class Event < ActiveRecord::Base
       rsvp = Rsvp.where(user: user, event: self).first_or_create
       rsvp.generate_hash_key
       rsvp.save!
-      UserMailer.invite_email(rsvp).deliver!    
-      
-  	end 
+    end 
   end
 
   def create_owner_rsvp
@@ -106,7 +104,13 @@ class Event < ActiveRecord::Base
     self.rsvps.each do |rsvp|
       UserMailer.expiration_email(rsvp).deliver!
     end
-  end    
+  end 
+
+  def send_rsvp_emails
+    self.rsvps.each do |rsvp| 
+      UserMailer.invite_email(rsvp).deliver!
+    end
+  end  
 
 
   def invitee_emails

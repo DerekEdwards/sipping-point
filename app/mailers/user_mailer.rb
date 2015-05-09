@@ -5,6 +5,7 @@ class UserMailer < ActionMailer::Base
   def invite_email(rsvp)
   	@user =  rsvp.user
   	@rsvp = rsvp
+    @event = rsvp.event
   	mail(to: @user.email, subject: "You're Invited.")
   end
 

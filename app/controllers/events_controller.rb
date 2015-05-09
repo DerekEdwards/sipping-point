@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, :except => [:show, :index]  
   after_action  :update_status, only: [:create, :show, :update, :destroy]
+  after_action :send_rsvp_emails, only: [:update]
 
   # GET /events
   # GET /events.json
@@ -50,7 +51,6 @@ class EventsController < ApplicationController
   end
 
   # PATCH/PUT /events/1
-  # PATCH/PUT /events/1.json
   def update
     
     confirm_owner
@@ -87,7 +87,7 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:name, :owner_email, :threshold, :name, :time, :description, :deadline, :invitee_emails, :location )
+      params.require(:event).permit(:name, :owner_email, :threshold, :name, :time, :description, :deadline, :invitee_emails, :location)
     end
 
     def confirm_owner
@@ -95,6 +95,10 @@ class EventsController < ApplicationController
         redirect_to root_url
       end     
     end 
+
+    def send_rsvp_emails
+      @event.send_rsvp_emails
+    end
 
     def update_status
       @event.update_status

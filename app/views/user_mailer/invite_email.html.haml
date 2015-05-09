@@ -1,5 +1,23 @@
-You are invited bro!
-%b
-=link_to 'Click HERE to RSVP', edit_rsvp_url(@rsvp), only_path: false
-%br
-=link_to 'Click HERE to view the Event', event_url(@rsvp.event), only_path: false
+%center
+  %b
+    =@event.owner.name 
+  ="invites you to"
+  %hr
+  %h1
+    =link_to @event.name, event_url(@rsvp.event), only_path: false
+  =@event.description
+  %hr
+  %h2
+    =@event.time.strftime("%A") + " " + @event.time.to_date.to_formatted_s(:long_ordinal) + " at " + @event.time.strftime("%l:%M %p")
+    %br
+    ="AT"
+    %br
+    =@event.location
+
+  %hr
+  %h2
+    =link_to 'Click HERE to RSVP', edit_rsvp_url(@rsvp), only_path: false
+  %hr
+  %h4
+    ="This event brought to you by the evil geniuses at"
+    =link_to 'The Sipping Point', root_url, only_path: false
