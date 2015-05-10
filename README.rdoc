@@ -1,10 +1,10 @@
-== README
+== The Sipping Point
 
-This is the repository for The Sipping Point
+### Configuration: ###
 
-Configuration:
+#### Check for Expired Events ####
+The following rake task should be scheduled to run at least once per hour.  Ideally, it will run every minute.
 
-schedule a job to check for expired events.  The job should run at minimum every hour.
-rake sipping_point:update_statues
+ - rake sipping_point:update_statues
 
 
