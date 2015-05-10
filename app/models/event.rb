@@ -72,7 +72,7 @@ class Event < ActiveRecord::Base
 
     #The deadline has passed
     elsif self.deadline < DateTime.now
-      if send_email
+      if self.status != Event::EXPIRED and send_email
         send_expiration_emails
       end
       self.status = Event::EXPIRED

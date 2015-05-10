@@ -102,6 +102,6 @@ class EventsController < ApplicationController
     end
 
     def update_status
-      @event.update_status
+      @event.update_status(true)
     end 
 end
