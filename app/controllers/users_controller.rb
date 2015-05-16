@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :events]
 
   # GET /users
   # GET /users.json
@@ -59,6 +59,12 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def events
+    @my_upcoming_events = Event.where(owner: @user).where('time >= ?', Time.now).order('time')
+    @my_prior_events = Event.where(owner: @user).where('time < ?', Time.now).order('time')
+    @new_rsvps = Rsvp.where(user: @user, response:nil)
   end
 
   private
