@@ -1,134 +1,137 @@
 %section.static-header
   %div.container
-    
-    -if @new_rsvps.count > 0
-      %h2
-        -if @new_rsvps.count > 1
-          =@new_rsvps.count.to_s + " New Invitations"
-        -else
-          =@new_rsvps.count.to_s + " New Invitation"
-      .panel.translucent
-        .panel-body
-          .panel-text
-            %table.table.table-center.table-striped
-              %tr
-                %th.text-center
-                  Name
-                %th.text-center
-                  Date
-                %th.text-center
-                  Deadline
-                %th.text-center
-                  Respond
-                -@new_rsvps.each do |rsvp|
-                  %tr
-                    %td
-                      =link_to rsvp.event.name, event_path(rsvp.event)
-                    %td
-                      -if rsvp.event.time
-                        =rsvp.event.time.strftime("%B %-d, %Y at %-I:%M%p")
-                    %td
-                      -if rsvp.event.deadline
-                        =rsvp.event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
-                    %td 
-                      =link_to 'Click to RSVP', edit_rsvp_path(rsvp)              
-    
-    -if @my_upcoming_events.count > 0 
-      %h2
-        ="Events I'm Hosting"
-      .panel.translucent
-        .panel-body
-          .panel-text
-            %table.table.table-center.table-striped
-              %tr
-                %th.text-center
-                  Name
-                %th.text-center
-                  Date
-                %th.text-center
-                  Sipping Point
-                %th.text-center
-                  Deadline
-                %th.text-center
-                  Confirmations
-                -@my_upcoming_events.each do |event|
-                  %tr
-                    %td
-                      =link_to event.name, event_path(event)
-                    %td
-                      -if event.time
-                        =event.time.strftime("%B %-d, %Y at %-I:%M%p")
-                    %td
-                      =event.threshold
-                    %td
-                      -if event.deadline
-                        =event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
-                    %td
-                      =event.rsvps.where(response: true).count
-    
-    -if @events_im_attending.count > 0  
-      %h2
-        ="Events I'm Attending"
-      .panel.translucent
-        .panel-body
-          .panel-text
-            %table.table.table-center.table-striped
-              %tr
-                %th.text-center
-                  Name
-                %th.text-center
-                  Date
-                %th.text-center
-                  Deadline
-                %th.text-center
-                  Status
-                -@events_im_attending.each do |rsvp|
-                  %tr
-                    %td
-                      =link_to rsvp.event.name, event_path(rsvp.event)
-                    %td
-                      -if rsvp.event.time
-                        =rsvp.event.time.strftime("%B %-d, %Y at %-I:%M%p")
-                    %td
-                      -if rsvp.event.deadline
-                        =rsvp.event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
-                    %td 
-                      =rsvp.event.short_description 
-    
-    -if @my_prior_events.count > 0
-      %h2
-        ="Past Events"
-      .panel.translucent
-        .panel-body
-          .panel-text
-            %table.table.table-center.table-striped
-              %tr
-                %th.text-center
-                  Name
-                %th.text-center
-                  Date
-                %th.text-center
-                  Sipping Point
-                %th.text-center
-                  Deadline
-                %th.text-center
-                  Confirmations
-                %th.text-center
-                  Status
-                -@my_prior_events.each do |event|
-                  %tr
-                    %td
-                      =link_to event.name, event_path(event)
-                    %td
-                      -if event.time
-                        =event.time.strftime("%B %-d, %Y at %-I:%M%p")
-                    %td
-                      =event.threshold
-                    %td
-                      -if event.deadline
-                        =event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
-                    %td
-                      =event.rsvps.where(response: true).count
-                    %td
-                      =event.short_description 
+    -if @user.rsvps.count < 1
+      %h1
+        You have no events.  
+    -else
+      -if @new_rsvps.count > 0
+        %h2
+          -if @new_rsvps.count > 1
+            =@new_rsvps.count.to_s + " New Invitations"
+          -else
+            =@new_rsvps.count.to_s + " New Invitation"
+        .panel.translucent
+          .panel-body
+            .panel-text
+              %table.table.table-center.table-striped
+                %tr
+                  %th.text-center
+                    Name
+                  %th.text-center
+                    Date
+                  %th.text-center
+                    Deadline
+                  %th.text-center
+                    Respond
+                  -@new_rsvps.each do |rsvp|
+                    %tr
+                      %td
+                        =link_to rsvp.event.name, event_path(rsvp.event)
+                      %td
+                        -if rsvp.event.time
+                          =rsvp.event.time.strftime("%B %-d, %Y at %-I:%M%p")
+                      %td
+                        -if rsvp.event.deadline
+                          =rsvp.event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+                      %td 
+                        =link_to 'Click to RSVP', edit_rsvp_path(rsvp)              
+      
+      -if @my_upcoming_events.count > 0 
+        %h2
+          ="Events I'm Hosting"
+        .panel.translucent
+          .panel-body
+            .panel-text
+              %table.table.table-center.table-striped
+                %tr
+                  %th.text-center
+                    Name
+                  %th.text-center
+                    Date
+                  %th.text-center
+                    Sipping Point
+                  %th.text-center
+                    Deadline
+                  %th.text-center
+                    Confirmations
+                  -@my_upcoming_events.each do |event|
+                    %tr
+                      %td
+                        =link_to event.name, event_path(event)
+                      %td
+                        -if event.time
+                          =event.time.strftime("%B %-d, %Y at %-I:%M%p")
+                      %td
+                        =event.threshold
+                      %td
+                        -if event.deadline
+                          =event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+                      %td
+                        =event.rsvps.where(response: true).count
+      
+      -if @events_im_attending.count > 0  
+        %h2
+          ="Events I'm Attending"
+        .panel.translucent
+          .panel-body
+            .panel-text
+              %table.table.table-center.table-striped
+                %tr
+                  %th.text-center
+                    Name
+                  %th.text-center
+                    Date
+                  %th.text-center
+                    Deadline
+                  %th.text-center
+                    Status
+                  -@events_im_attending.each do |rsvp|
+                    %tr
+                      %td
+                        =link_to rsvp.event.name, event_path(rsvp.event)
+                      %td
+                        -if rsvp.event.time
+                          =rsvp.event.time.strftime("%B %-d, %Y at %-I:%M%p")
+                      %td
+                        -if rsvp.event.deadline
+                          =rsvp.event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+                      %td 
+                        =rsvp.event.short_description 
+      
+      -if @my_prior_events.count > 0
+        %h2
+          ="Past Events"
+        .panel.translucent
+          .panel-body
+            .panel-text
+              %table.table.table-center.table-striped
+                %tr
+                  %th.text-center
+                    Name
+                  %th.text-center
+                    Date
+                  %th.text-center
+                    Sipping Point
+                  %th.text-center
+                    Deadline
+                  %th.text-center
+                    Confirmations
+                  %th.text-center
+                    Status
+                  -@my_prior_events.each do |event|
+                    %tr
+                      %td
+                        =link_to event.name, event_path(event)
+                      %td
+                        -if event.time
+                          =event.time.strftime("%B %-d, %Y at %-I:%M%p")
+                      %td
+                        =event.threshold
+                      %td
+                        -if event.deadline
+                          =event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+                      %td
+                        =event.rsvps.where(response: true).count
+                      %td
+                        =event.short_description 
 
