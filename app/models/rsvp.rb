@@ -18,6 +18,7 @@ class Rsvp < ActiveRecord::Base
   scope :said_yes, -> { where(response: 1) }
   scope :said_no, -> { where(response: 0) }
   scope :unanswered, -> { where(response: nil) }
+  scope :upcoming, -> { joins(:event).where("time >= ?", Time.now) }
 
   #Methods 
   def to_param

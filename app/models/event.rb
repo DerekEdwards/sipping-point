@@ -21,6 +21,7 @@ class Event < ActiveRecord::Base
   #Scopes
   scope :open, -> { where(status:Event::OPEN) }
   scope :deadline_passed, -> { where("deadline < ?", DateTime.now) }
+  scope :upcoming, -> { where("time >= ?", DateTime.now) }
 
   #Methods
   def to_param
@@ -115,6 +116,19 @@ class Event < ActiveRecord::Base
 
   def invitee_emails
   	nil
+  end
+
+  def short_description
+    case self.status
+    when Event::OPEN
+      return "Waiting for RSVPs" 
+    when Event::INITIALIZED
+      return "Invitations not Sent"
+    when Event::EXPIRED
+      return "Not Happening"
+    when Event::CONFIRMED
+      return "It's On!"
+    end
   end
 
 end
