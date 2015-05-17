@@ -16,19 +16,25 @@
           =@rsvp.event.deadline.strftime("%A") + " " + @rsvp.event.deadline.to_date.to_formatted_s(:long_ordinal) + " at " + @rsvp.event.deadline.strftime("%l:%M %p")
         ="if this event is confirmed."
 
-      =form_tag(rsvp_path, method: "patch") do 
+      -if @rsvp.event.status == Event::CONFIRMED and @rsvp.response == 1
         .panel.translucent
           .panel-body
             .panel-text
-              %table.table-center{:style=>"border: 1px; width: 50%"}
-                %tr
-                  %td
-                    %strong
-                      ="So are you in or out?"
-                  %td
-                    %input{:type => "radio", :name => :response, :value => 1, :checked => 1}
-                      In
-                  %td
-                    %input{:type => "radio", :name => :response, :value => 0}
-                      Out 
-        %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
+              ="You are confirmed for this event."
+      -else  
+        =form_tag(rsvp_path, method: "patch") do 
+          .panel.translucent
+            .panel-body
+              .panel-text
+                %table.table-center{:style=>"border: 1px; width: 50%"}
+                  %tr
+                    %td
+                      %strong
+                        ="So are you in or out?"
+                    %td
+                      %input{:type => "radio", :name => :response, :value => 1, :checked => 1}
+                        In
+                    %td
+                      %input{:type => "radio", :name => :response, :value => 0}
+                        Out 
+          %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
