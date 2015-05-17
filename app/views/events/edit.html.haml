@@ -1,14 +1,54 @@
-%header
-  .header-content
-    .header-content-inner
-      %h1
-        =@event.name
-      You have created your event.  It's time to invite some people and finalize it!        
-      = simple_form_for @event do |f|
-        .panel.translucent
-          .panel-body 
-            = f.input :description
+%section.static-header
+  %div.container
+    %h1.static-header-title
+      =@event.name
+    %h3
+      -if @event.status == Event::INITIALIZED
+        You have created your event.  It's time to invite some people and finalize it!       
+    = simple_form_for @event do |f|
+      .panel.translucent
+        .panel-body 
+          - if @event.status == Event::INITIALIZED
+            =f.input :name, :label => "Event Name", :placeholder => "Drinks at the Shack", :hint => "What are we doing?", :input_html => {:color => "black", :size => 40, :maxlength => 50}
+            =f.input :threshold, :label => "Sipping Point", :hint => "Any fewer people than this, and it's just not a party.", :collection => 1..20, :selected => 4
+            =f.input :time, as: :string, :label => "Event Date & Time", :hint => "When is things thing happening?"
+            =f.input :deadline, as: :string, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they ain't going."
             = f.input :location
-            = f.input :invitee_emails, as: :text, :hint => "Enter emails separated by a comma.", :placeholder => "stacy@example.com, john@example.com", label: "Invitation Emails" 
-      
-        %button.btn.btn-primary.btn-xl{:type => "submit"} Save and Send Invites!
+          = f.input :description
+          = f.input :invitee_emails, as: :text, :hint => "Enter emails separated by a comma.", :placeholder => "stacy@example.com, john@example.com", label: "Invitation Emails" 
+    
+      %button.btn.btn-primary.btn-xl{:type => "submit"} Save and Send Invites!
+:javascript
+  $(document).ready(function() {
+    // light modification from http://codereview.stackexchange.com/questions/33527/find-next-occurring-friday-or-any-dayofweek
+     var nextFridayAtEight = function() {
+      var fridayIdx  = 5;
+      var today      = new Date;
+      // If today is friday, plan for next week.
+      if (today.getDay() === 5) {
+        today.setDate(today.getDate() + 7)
+      }
+      var resultDate = today;
+    
+      resultDate.setDate(today.getDate() + (7 + fridayIdx - today.getDay()) % 7);
+      return resultDate;
+    };
+
+    var startDate = nextFridayAtEight();
+    startDate.setHours(20);
+    var startValue = startDate.getTime()
+    var endDate   = new Date(startDate.getTime());
+    endDate.setDate(startDate.getDate() - 1);
+
+    // Now create the actual pickers
+    $("#event_time").datetimepicker({
+       format: 'Y/m/d h:i A',
+       value: startDate,
+       minDate: 0,
+    });
+    $("#event_deadline").datetimepicker({
+       format: 'Y/m/d h:i A',
+       value: endDate,
+       minDate: 0
+    });
+  });
