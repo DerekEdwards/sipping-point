@@ -49,6 +49,8 @@ gem 'rails_12factor'
 gem 'awesome_print'
 gem 'font-awesome-rails'
 
+gem 'acts_as_commentable_with_threading'
+
 group :development  do
 	gem 'better_errors'
 	gem 'binding_of_caller'

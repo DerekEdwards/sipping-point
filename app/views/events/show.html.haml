@@ -16,73 +16,101 @@
               ="Sorry.  You event was lame and no one wanted to go, or maybe you just need better friends"
           %hr
           %h4
-            Event Details
+            =@event.description.html_safe
 
-          %table.table.table-center
-            %tr
-              %td
-                Description
-              %td
-                =@event.description
-            %tr
-              %td
-                Sipping Point
-              %td
-                =@event.threshold
-            %tr
-              %td
-                Location
-              %td
-                =@event.location
-            %tr
-              %td
-                Date & Time
-              %td
-                =@event.time.strftime("%B %-d, %Y at %-I:%M%p")
-            %tr
-              %td
-                Deadline to Respond
-              %td
-                =@event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
-          -if @event.rsvps.count > 0
-            %hr
-            %h4
-              Statuses of RSVPs
-            %table.table.table-center.table-striped
+    %div.col-md-8
+      %h2
+        Event Details
+      .panel.translucent
+        .panel-body
+          .panel-text
+            %table.table.table-center
               %tr
-                %th.text-center
-                  Name
-                %th.text-center
-                  Email
-                %th.text-center
-                  Going?
-              - @event.rsvps.each do |rsvp|
+                %td
+                  Sipping Point
+                %td
+                  =@event.threshold
+              %tr
+                %td
+                  Location
+                %td
+                  =@event.location
+              %tr
+                %td
+                  Date & Time
+                %td
+                  =@event.time.strftime("%B %-d, %Y at %-I:%M%p")
+              %tr
+                %td
+                  Deadline to Respond
+                %td
+                  =@event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+      
+      -if @event.rsvps.count > 0
+        %h2
+          Who's Coming?
+        .panel.translucent
+          .panel-body
+            .panel-text
+              %table.table.table-center.table-striped
                 %tr
-                  %td
-                    -if current_user == rsvp.user
-                      = rsvp.user.name || "" + " (Me)"
-                    -else
-                      = rsvp.user.name
-                  %td
-                    = rsvp.user.email
-                  %td
-                    -if current_user == rsvp.user
-                      -if rsvp.response == 1
-                        = link_to 'Yes', edit_rsvp_url(rsvp)
-                      -elsif rsvp.response == 0
-                        = link_to 'No', edit_rsvp_url(rsvp)
+                  %th.text-center
+                    Name
+                  %th.text-center
+                    Email
+                  %th.text-center
+                    Going?
+                - @event.rsvps.each do |rsvp|
+                  %tr
+                    %td
+                      -if current_user == rsvp.user
+                        = rsvp.user.name || "" + " (Me)"
                       -else
-                        = link_to 'Click to Respond', edit_rsvp_url(rsvp)
-                    -else
-                      -if rsvp.response == 1
-                        ="Yes"
-                      -elsif rsvp.response == 0
-                        ="No"
+                        = rsvp.user.name
+                    %td
+                      = rsvp.user.email
+                    %td
+                      -if current_user == rsvp.user
+                        -if rsvp.response == 1
+                          = link_to 'Yes', edit_rsvp_url(rsvp)
+                        -elsif rsvp.response == 0
+                          = link_to 'No', edit_rsvp_url(rsvp)
+                        -else
+                          = link_to 'Click to Respond', edit_rsvp_url(rsvp)
                       -else
-                        =""
-          - if current_user == @event.owner and @event.rsvps.count > 0
-            %br
-            = link_to 'Edit', edit_event_path(@event)
-    
-    -if current_user == @event.owner and @event.rsvps.count == 0
-      %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Let's invite some people!
+                        -if rsvp.response == 1
+                          ="Yes"
+                        -elsif rsvp.response == 0
+                          ="No"
+                        -else
+                          =""
+
+      -if current_user == @event.owner and @event.rsvps.count == 0
+        %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Let's invite some people!
+      - if current_user == @event.owner and @event.rsvps.count > 0
+        %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Edit Details                    
+
+    %div.col-md-4
+      %h2  
+        Comments
+      -if @comments.count == 0
+        ="Be the first to leave a comment"
+      -else
+        -@comments.each do |comment|
+          .panel.translucent
+            .panel-body 
+              %div
+                .col-md-6
+                  .message-header-text
+                    =(comment.user.name || comment.user.email)
+                .col-md-6
+                  .message-time-text
+                    =comment.created_at.strftime("%B %-d, %Y at %-I:%M%p")
+              %div
+                .col-md-12
+                  .message-body-text
+                    =comment.body
+
+                
+
+

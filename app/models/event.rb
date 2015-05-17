@@ -23,6 +23,9 @@ class Event < ActiveRecord::Base
   scope :deadline_passed, -> { where("deadline < ?", DateTime.now) }
   scope :upcoming, -> { where("time >= ?", DateTime.now) }
 
+  #Commentable
+  acts_as_commentable
+
   #Methods
   def to_param
     self.hash_key
