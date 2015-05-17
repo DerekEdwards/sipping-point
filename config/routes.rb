@@ -12,6 +12,12 @@ Rails.application.routes.draw do
   
   resources :events 
 
+  resources :comments do
+    member do
+      patch 'create'
+    end
+  end
+
   resources :rsvps do
     member do
       patch 'update'

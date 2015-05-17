@@ -16,8 +16,8 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @comments = @event.comment_threads
-  
+    @comments = @event.comment_threads.order('created_at')
+    @new_comment = Comment.new(commentable: @event, user: current_user)
   end 
 
   def edit

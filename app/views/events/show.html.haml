@@ -18,7 +18,7 @@
           %h4
             =@event.description.html_safe
 
-    %div.col-md-8
+    %div.col-md-6
       %h2
         Event Details
       .panel.translucent
@@ -90,7 +90,7 @@
       - if current_user == @event.owner and @event.rsvps.count > 0
         %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Edit Details                    
 
-    %div.col-md-4
+    %div.col-md-6
       %h2  
         Comments
       -if @comments.count == 0
@@ -109,7 +109,15 @@
               %div
                 .col-md-12
                   .message-body-text
-                    =comment.body
+                    =comment.body.html_safe
+
+      = simple_form_for @new_comment do |f|
+        .panel.translucent
+          .panel-body 
+            =f.input :body, label: false, :input_html => {:style=> 'width: 100%'}
+            =f.hidden_field :commentable_id, value: @event.id
+            =f.hidden_field :commentable_type, value: "Event"
+            %button.btn.btn-primary{:type => "submit"} Comment
 
                 
 
