@@ -118,20 +118,20 @@
                     Confirmations
                   %th.text-center
                     Status
-                  -@my_prior_events.each do |event|
+                  -@my_prior_events.each do |rsvp|
                     %tr
                       %td
-                        =link_to event.name, event_path(event)
+                        =link_to rsvp.event.name, event_path(rsvp.event)
                       %td
-                        -if event.time
-                          =event.time.strftime("%B %-d, %Y at %-I:%M%p")
+                        -if rsvp.event.time
+                          =rsvp.event.time.strftime("%B %-d, %Y at %-I:%M%p")
                       %td
-                        =event.threshold
+                        =rsvp.event.threshold
                       %td
-                        -if event.deadline
-                          =event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+                        -if rsvp.event.deadline
+                          =rsvp.event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
                       %td
-                        =event.rsvps.where(response: true).count
+                        =rsvp.event.rsvps.where(response: true).count
                       %td
-                        =event.short_description 
+                        =rsvp.event.short_description 
 
