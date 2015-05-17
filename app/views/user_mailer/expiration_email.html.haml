@@ -1,7 +1,7 @@
 %center
   %hr
   %h1
-    =link_to @event.name, event_url(@rsvp.event), only_path: false   
+    =link_to @event.name, event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false   
     =" is a No Go."
   %hr
   %h4

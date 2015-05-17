@@ -110,14 +110,20 @@
                 .col-md-12
                   .message-body-text
                     =comment.body.html_safe
-
-      = simple_form_for @new_comment do |f|
+      -unless @comment_as.nil?
+        = simple_form_for @new_comment do |f|
+          .panel.translucent
+            .panel-body 
+              =f.input :body, label: false, :input_html => {:style=> 'width: 100%'}
+              =f.hidden_field :commentable_id, value: @event.id
+              =f.hidden_field :commentable_type, value: "Event"
+              =f.hidden_field :user_id, value: @comment_as.id 
+              =f.hidden_field :rsvp_hash_key, value: @rsvp_hash_key
+              %button.btn.btn-primary{:type => "submit"} Comment
+      -else
         .panel.translucent
-          .panel-body 
-            =f.input :body, label: false, :input_html => {:style=> 'width: 100%'}
-            =f.hidden_field :commentable_id, value: @event.id
-            =f.hidden_field :commentable_type, value: "Event"
-            %button.btn.btn-primary{:type => "submit"} Comment
+          .panel-body.panel-text
+            Login to leave comments on this event.
 
                 
 

@@ -17,7 +17,18 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @comments = @event.comment_threads.order('created_at')
-    @new_comment = Comment.new(commentable: @event, user: current_user)
+    @rsvp_hash_key = params[:rsvp]
+
+    if current_user
+      @comment_as = current_user
+    elsif @rsvp_hash_key
+      @comment_as = Rsvp.find_by(hash_key: @rsvp_hash_key).user 
+    else
+      @comment_as = nil
+    end
+
+    @new_comment = Comment.new()
+
   end 
 
   def edit
