@@ -3,7 +3,10 @@
     
     -if @new_rsvps.count > 0
       %h2
-        ="New Invitations"
+        -if @new_rsvps.count > 1
+          =@new_rsvps.count.to_s + " New Invitations"
+        -else
+          =@new_rsvps.count.to_s + " New Invitation"
       .panel.translucent
         .panel-body
           .panel-text

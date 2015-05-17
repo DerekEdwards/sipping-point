@@ -57,7 +57,12 @@
               <ul class="nav navbar-nav navbar-right">
                   <% if user_signed_in? %>
                     <li>
-                      <%= link_to 'My Events', events_user_path(current_user), :class => 'page-scroll' %>
+                      <%= link_to events_user_path(current_user), :class => 'page-scroll' do %>
+                        My Events <% if current_user.rsvps.upcoming.where(response: nil).count > 0
+ %><span class="badge"><%= current_user.rsvps.upcoming.where(response: nil).count %>
+</span><% end %>
+                      <% end %>
+
                     </li>                      
                     <li>
                        <%= link_to 'Edit profile', edit_user_registration_path, :class => 'page-scroll' %>
