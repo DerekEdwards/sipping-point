@@ -10,5 +10,13 @@ class User < ActiveRecord::Base
 
   #Validations
   validates_uniqueness_of :email
+
+  def display_name
+    if self.name.nil? or self.name.blank?
+      return self.email
+    else
+      return self.name
+    end
+  end
   
 end

@@ -102,7 +102,7 @@
               %div
                 .col-md-6
                   .message-header-text
-                    =(comment.user.name || comment.user.email)
+                    =comment.user.display_name
                 .col-md-6
                   .message-time-text
                     =comment.created_at.strftime("%B %-d, %Y at %-I:%M%p")
