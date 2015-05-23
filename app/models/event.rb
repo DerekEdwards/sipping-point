@@ -11,6 +11,7 @@ class Event < ActiveRecord::Base
 
   #Validations
   validates :hash_key, uniqueness: true
+  validates_presence_of :name
 
   #Constants
   INITIALIZED = 'initalized'
