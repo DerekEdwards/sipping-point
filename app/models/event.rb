@@ -42,12 +42,12 @@ class Event < ActiveRecord::Base
       end
 
       rsvp = Rsvp.where(user: user, event: self).first_or_create
+      rsvp.emailed = false
+      rsvp.new_record?
       rsvp.generate_hash_key
       rsvp.save!
     end 
   end
-
-
 
   def generate_hash_key
 
@@ -112,7 +112,11 @@ class Event < ActiveRecord::Base
 
   def send_rsvp_emails
     self.rsvps.each do |rsvp| 
-      UserMailer.invite_email(rsvp).deliver!
+      unless rsvp.emailed?
+        UserMailer.invite_email(rsvp).deliver!
+        rsvp.emailed = true
+        rsvp.save
+      end
     end
   end  
 
