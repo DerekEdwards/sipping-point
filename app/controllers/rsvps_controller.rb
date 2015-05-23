@@ -12,11 +12,8 @@ class RsvpsController < ApplicationController
     @rsvp.save
     @rsvp.event.update_status(send_email=true)
 
-    puts params
-    puts @rsvp.response
-
     respond_to do |format|
-      format.html { redirect_to @rsvp.event }
+      format.html { redirect_to event_url(@rsvp.event, rsvp: @rsvp.hash_key) }
     end
   
   end

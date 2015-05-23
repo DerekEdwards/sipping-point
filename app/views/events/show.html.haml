@@ -70,7 +70,7 @@
                     %td
                       = rsvp.user.email
                     %td
-                      -if current_user == rsvp.user
+                      -if current_user == rsvp.user or @comment_as == rsvp.user
                         -if rsvp.response == 1
                           = link_to 'Yes', edit_rsvp_url(rsvp)
                         -elsif rsvp.response == 0
