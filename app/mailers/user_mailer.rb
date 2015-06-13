@@ -5,20 +5,20 @@ class UserMailer < ActionMailer::Base
   	@user =  rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
-  	mail(to: @user.email, subject: "You're Invited.")
+  	mail(to: @user.email, subject: @event.owner.display_name + " Invites You")
   end
 
   def confirmation_email(rsvp)
   	@user = rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
-  	mail(to: @user.email, subject: "It's Happening!")
+  	mail(to: @user.email, subject: @event.name + " is Happening!")
   end 
 
   def expiration_email(rsvp)
   	@user = rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
-  	mail(to: @user.email, subject:  "Event Failed")
+  	mail(to: @user.email, subject: @event.name + " is canceled")
   end
  end 

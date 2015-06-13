@@ -10,9 +10,10 @@
   %h2
     =@event.time.strftime("%A") + " " + @event.time.to_date.to_formatted_s(:long_ordinal) + " at " + @event.time.strftime("%l:%M %p")
     %br
-    ="AT"
-    %br
-    =@event.location
+    -unless @event.location.blank?
+      ="AT"
+      %br
+      =@event.location
 
   %hr
   %h4
