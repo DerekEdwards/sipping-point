@@ -44,27 +44,16 @@
                 %td
                   Deadline to Respond
                 %td
-                  =@event.deadline.strftime("%B %-d, %Y at %-I:%M%p")   
+                  =@event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+          
+          
+          = link_to "http://www.google.com/calendar/event?action=TEMPLATE&text=" + @event.name + "&dates=" + @event.time.strftime("%Y%m%dT%H%M%S") +"/" + (@event.time + 7200).strftime("%Y%m%dT%H%M%S") + "&details=" + @event.description + "&location=" + (@event.location || ""), :target => "blank" do  
+            %i.fa.fa-calendar.fa-stack-2x.panel-text
+            %br
+            %br
+            ="Add to GCal"
 
 
-            %span.addtocalendar.atc-style-button-icon
-              %var.atc_event
-                %var.atc_date_start 
-                  =@event.time
-                %var.atc_date_end 
-                  =@event.time+7200
-                %var.atc_timezone 
-                  America/New_York
-                %var.atc_title  
-                  =@event.name
-                %var.atc_description 
-                  =@event.description
-                %var.atc_location 
-                  =@event.location
-                %var.atc_organizer 
-                  =@event.owner.name
-                %var.atc_organizer_email 
-                  =@event.owner.email  
 
       -if @event.rsvps.count > 0
         %h2
@@ -144,6 +133,7 @@
         .panel.translucent
           .panel-body.panel-text
             Login to leave comments on this event.
+       
 
 
 
