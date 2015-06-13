@@ -10,7 +10,7 @@
         .panel-body 
           - if @event.status == Event::INITIALIZED
             =f.input :name, :label => "Event Name", :placeholder => "Drinks at the Shack", :hint => "What are we doing?", :input_html => {:color => "black", :size => 40, :maxlength => 50}
-            =f.input :threshold, :label => "Sipping Point", :hint => "Any fewer people than this, and it's just not a party.", :collection => 1..20, :selected => 4
+            =f.input :threshold, :label => "Sipping Point", :hint => "Any fewer people than this, and it's just not a party.", :collection => 1..20
             =f.input :time, as: :string, :label => "Event Date & Time", :hint => "When is things thing happening?"
             =f.input :deadline, as: :string, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they ain't going."
             = f.input :location
