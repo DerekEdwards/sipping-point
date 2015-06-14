@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   #Scopes
   scope :open, -> { where(status:Event::OPEN) }
   scope :deadline_passed, -> { where("deadline < ?", DateTime.now) }
-  scope :upcoming, -> { where("time >= ?", DateTime.now) }
+  scope :upcoming, -> { where("time >= ?", Time.now - 2*3600) }
 
   #Commentable
   acts_as_commentable

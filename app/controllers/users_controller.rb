@@ -62,7 +62,7 @@ class UsersController < ApplicationController
   end
 
   def events
-    @my_upcoming_events = Event.where(owner: @user).where('time >= ?', Time.now).order('time')
+    @my_upcoming_events = Event.where(owner: @user).upcoming.order('time')
     @events_im_attending = Rsvp.upcoming.where(user: @user, response: true)
     @my_prior_events = @user.rsvps.prior
     @new_rsvps = Rsvp.upcoming.where(user: @user, response: nil)
