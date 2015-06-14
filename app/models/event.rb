@@ -32,6 +32,14 @@ class Event < ActiveRecord::Base
     self.hash_key
   end 
 
+  def percent_complete
+    ([self.rsvps.said_yes.count.to_f/self.threshold,1].min)*100
+  end    
+
+  def rsvps_needed
+    [(self.threshold - self.rsvps.said_yes.count), 0].max
+  end
+
   def invitee_emails=(value)
 
     create_owner_rsvp
