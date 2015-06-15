@@ -97,29 +97,30 @@
                   %th.text-center
                     Going?
                 - @event.rsvps.each do |rsvp|
-                  %tr
-                    %td
-                      -if current_user == rsvp.user
-                        = rsvp.user.name || "" + " (Me)"
-                      -else
-                        = rsvp.user.name
-                    %td
-                      = rsvp.user.email
-                    %td
-                      -if current_user == rsvp.user or @comment_as == rsvp.user
-                        -if rsvp.response == 1
-                          = link_to 'Yes', edit_rsvp_url(rsvp)
-                        -elsif rsvp.response == 0
-                          = link_to 'No', edit_rsvp_url(rsvp)
+                  -unless rsvp.user.nil?
+                    %tr
+                      %td
+                        -if current_user == rsvp.user
+                          = rsvp.user.name || "" + " (Me)"
                         -else
-                          = link_to 'Click to Respond', edit_rsvp_url(rsvp)
-                      -else
-                        -if rsvp.response == 1
-                          ="Yes"
-                        -elsif rsvp.response == 0
-                          ="No"
+                          = rsvp.user.name
+                      %td
+                        = rsvp.user.email
+                      %td
+                        -if current_user == rsvp.user or @comment_as == rsvp.user
+                          -if rsvp.response == 1
+                            = link_to 'Yes', edit_rsvp_url(rsvp)
+                          -elsif rsvp.response == 0
+                            = link_to 'No', edit_rsvp_url(rsvp)
+                          -else
+                            = link_to 'Click to Respond', edit_rsvp_url(rsvp)
                         -else
-                          =""
+                          -if rsvp.response == 1
+                            ="Yes"
+                          -elsif rsvp.response == 0
+                            ="No"
+                          -else
+                            =""
 
       -if current_user == @event.owner and @event.rsvps.count == 0
         %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Let's invite some people!
