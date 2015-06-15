@@ -16,7 +16,8 @@
               ="Sorry.  This event was lame and no one wanted to go, or maybe you just need better friends"
           %hr
           %h4
-            =@event.description.html_safe
+            -unless @event.description.blank?
+              =@event.description.html_safe
 
     %div.col-md-6
       %h2
@@ -44,10 +45,11 @@
                 %td
                   Deadline to Respond
                 %td
-                  =@event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+                  -unless @event.deadline.nil?
+                    =@event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
           
           
-          = link_to "http://www.google.com/calendar/event?action=TEMPLATE&text=" + @event.name + "&dates=" + @event.time.strftime("%Y%m%dT%H%M%S") +"/" + (@event.time + 7200).strftime("%Y%m%dT%H%M%S") + "&details=" + @event.description + "&location=" + (@event.location || ""), :target => "blank" do  
+          = link_to "http://www.google.com/calendar/event?action=TEMPLATE&text=" + @event.name + "&dates=" + @event.time.strftime("%Y%m%dT%H%M%S") +"/" + (@event.time + 7200).strftime("%Y%m%dT%H%M%S") + "&details=" + @event.description.to_s + "&location=" + (@event.location || ""), :target => "blank" do  
             %i.fa.fa-calendar.fa-stack-2x.panel-text
             %br
             %br
@@ -143,7 +145,8 @@
               %div
                 .col-md-12
                   .message-body-text
-                    =comment.body.html_safe
+                    -unless comment.body.blank?
+                      =comment.body.html_safe
       -unless @comment_as.nil?
         = simple_form_for @new_comment do |f|
           .panel.translucent

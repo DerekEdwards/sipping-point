@@ -3,18 +3,32 @@
     .header-content-inner
       %h1
         =@rsvp.event.name
-      %h3  
-        ="You have been invited, but this event won't happen unless we can get at least "
-        %strong
-          =@rsvp.event.threshold.to_s + " people"
-        =" to come."  
+      .panel.translucent
+        .panel-body
+          .panel-text  
+            %h4  
+              ="You have been invited, but this event won't happen unless we can get at least "
+              %strong
+                =@rsvp.event.threshold.to_s + " people"
+              =" to come."  
       %br
       %hr
-      %h4
-        ="Sipping Point will let you know on or before " 
-        %strong
-          =@rsvp.event.deadline.strftime("%A") + " " + @rsvp.event.deadline.to_date.to_formatted_s(:long_ordinal) + " at " + @rsvp.event.deadline.strftime("%l:%M %p")
-        ="if this event is confirmed."
+      .panel.translucent
+        .panel-body
+          .panel-text
+
+            %h4
+              ="Sipping Point will let you know on or before " 
+              %strong
+                =@rsvp.event.deadline.strftime("%A") + " " + @rsvp.event.deadline.to_date.to_formatted_s(:long_ordinal) + " at " + @rsvp.event.deadline.strftime("%l:%M %p")
+              ="if this event is confirmed."
+            %h3
+              =link_to "View Event Details", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false
+
+
+
+
+      %hr        
 
       -if @rsvp.event.status == Event::CONFIRMED and @rsvp.response == 1
         .panel.translucent
