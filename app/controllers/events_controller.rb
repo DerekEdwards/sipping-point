@@ -91,6 +91,12 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def caltest
+    respond_to do |format|
+      format.html {render :caltest, :layout => false}
+    end
+  end
   
   private
     # Use callbacks to share common setup or constraints between actions.
