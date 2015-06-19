@@ -16,4 +16,6 @@
 //= require turbolinks
 //= require jquery.fittext
 //= require wow.min
+//= require moment
+//= require bootstrap-datetimepicker
 //= require_tree .

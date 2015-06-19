@@ -12,6 +12,12 @@ Rails.application.routes.draw do
   
   resources :events 
 
+  resources :events do 
+    member do
+      get 'caltest'
+    end
+  end
+
   resources :comments do
     member do
       patch 'create'

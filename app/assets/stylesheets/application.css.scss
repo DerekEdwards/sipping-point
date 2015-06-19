@@ -12,11 +12,11 @@
  *
  */
 
-@import "jquery.datetimepicker";
-@import "bootstrap-sprockets";
-@import "bootstrap";
 @import "base";
 @import "animate.min";
 @import "bootstrap.min";
 @import "creative";
 @import "font-awesome";
+@import "bootstrap-sprockets";
+@import 'bootstrap';
+@import 'bootstrap-datetimepicker';
