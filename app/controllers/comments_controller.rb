@@ -1,11 +1,12 @@
 class CommentsController < ApplicationController
-  
+  include ActionView::Helpers::TextHelper
   # GET /events
   # GET /events.json
 
   def create
     logger.info('Create Comment')
     @comment = Comment.new(comment_params)
+    @comment.body = sanitize(simple_format(comment_params[:body]))
     @rsvp_hash_key = params[:comment][:rsvp_hash_key]
 
     respond_to do |format|

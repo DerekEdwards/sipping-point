@@ -32,6 +32,10 @@ class Event < ActiveRecord::Base
     self.hash_key
   end 
 
+  def html_description
+    self.description.gsub("\n", "<br>")
+  end
+
   def percent_complete
     ([self.rsvps.said_yes.count.to_f/self.threshold,1].min)*100
   end    

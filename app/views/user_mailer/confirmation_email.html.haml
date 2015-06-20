@@ -6,7 +6,7 @@
     %h1
       =link_to @event.name, event_url(@rsvp.event, rsvp:@rsvp.hash_key), only_path: false, :style => "text-decoration:none; color:#000000;"
     %div{:style => "text-decoration:none; color:#000000;"}
-      =@event.description
+      =@event.html_description.html_safe
     %hr{ :style => "border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));"}
     %h2{:style => "text-decoration:none; color:#000000;"}
       =@event.time.strftime("%A") + " " + @event.time.to_date.to_formatted_s(:long_ordinal) + " at " + @event.time.strftime("%l:%M %p")

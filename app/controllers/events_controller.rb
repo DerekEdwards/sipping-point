@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
-  
+  include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::SanitizeHelper
+
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, :except => [:show, :index]  
   after_action  :update_status, only: [:create, :show, :update, :destroy]
@@ -68,6 +70,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.update(event_params)
+        @event.description = (sanitize(simple_format(params[:event][:description]))).gsub("<p>","").gsub("</p>","")
         @event.send_rsvp_emails
     
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
