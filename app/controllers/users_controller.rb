@@ -66,6 +66,12 @@ class UsersController < ApplicationController
     @events_im_attending = Rsvp.upcoming.where(user: @user, response: true)
     @my_prior_events = @user.rsvps.prior
     @new_rsvps = Rsvp.upcoming.where(user: @user, response: nil)
+    
+    if @user = current_user 
+      respond_to do |format|
+        format.html { render :events }
+      end
+    end
   end
 
   private
