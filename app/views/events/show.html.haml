@@ -13,7 +13,7 @@
             -elsif @event.status == Event::CONFIRMED
               ="This event has reached The Sipping Point!  It's officialy happening!"
             -elsif @event.status == Event::EXPIRED
-              ="Sorry.  This event was lame and no one wanted to go, or maybe you just need better friends"
+              ="This event failed to reach The Sipping Point.  It is canceled."
           %hr
           %h4
             -unless @event.description.blank?

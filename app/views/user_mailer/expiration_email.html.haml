@@ -1,18 +1,19 @@
 %center
-  %hr
-  %h1
-    =link_to @event.name, event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false   
-    =" is a No Go."
-  %hr
-  %h4
-    ="This event is not happening.  So don't bother showing up because no one else is going to be there."   
-  %hr
-  %h4
-    = "Thank you for using The Sipping Point.  Better luck next time."
-  %hr
-  %h4
-    = image_tag('http://i.imgur.com/gPZGjPA.gif')
-  %hr  
-  %h4
-    ="This event brought to you by the evil geniuses at"
-    =link_to 'The Sipping Point', root_url, only_path: false
+  %h2{:style => "text-decoration:none; color:#58616c;"}
+    =@event.name + " is Canceled"
+
+%div.email-body{ :style => "border-radius: 25px; padding: 20px; border: 2px solid #58616c;" }    
+  %center
+    %h1
+      =link_to @event.name, event_url(@rsvp.event, rsvp:@rsvp.hash_key), only_path: false, :style => "text-decoration:none; color:#000000;"
+    %div{:style => "text-decoration:none; color:#000000;"}
+      =@event.description
+    %hr{ :style => "border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));"}
+    %h2{:style => "text-decoration:none; color:#000000;"}
+      ="This event failed to reach The Sipping Point and is canceled.  Don't bother showing up because no one else is going to be there."   
+    %hr{ :style => "border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));"}
+    %center
+      %a{ :href => event_url(@event, rsvp:@rsvp.hash_key), only_path: false, :style => "background-color:#58616c;-moz-border-radius:28px;-webkit-border-radius:28px;border-radius:28px;display:inline-block; cursor:pointer; color:#ffffff; font-family:Arial; font-size:17px; padding:10px 22px; text-decoration:none;"}
+        View Event
+%center
+  =link_to "The Sipping Point", root_url, only_path: false, :style => "text-decoration:none; font-weight:bold;color:#58616c;word-spacing:2pt;font-size:20px;"    
