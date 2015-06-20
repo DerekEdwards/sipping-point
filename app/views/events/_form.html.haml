@@ -16,9 +16,42 @@
       =f.input :name, :label => "Event Name", :placeholder => "Drinks at the Shack", :hint => "What are we doing?", :input_html => {:color => "black", :size => 40, :maxlength => 50}
       =f.input :threshold, :label => "Sipping Point", :hint => "Any fewer people than this, and it's just not a party.", :collection => 1..20, :selected => 4
       %br
-      =f.input :time, as: :datetime, :label => "Event Date & Time", :hint => "When is this thing happening?"
+      =f.input :time, as: :string, :label => "Event Date & Time", :hint => "When is this thing happening?"
       %br
-      =f.input :deadline, as: :datetime, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they ain't going."
+      =f.input :deadline, as: :string, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they ain't going."
 
   %button.btn.btn-primary.btn-xl{:type => "submit"} Let's do it!
-  
+:javascript
+  $(document).ready(function() {
+    // light modification from http://codereview.stackexchange.com/questions/33527/find-next-occurring-friday-or-any-dayofweek
+     var nextFridayAtEight = function() {
+      var fridayIdx  = 5;
+      var today      = new Date;
+      // If today is friday, plan for next week.
+      if (today.getDay() === 5) {
+        today.setDate(today.getDate() + 7)
+      }
+      var resultDate = today;
+    
+      resultDate.setDate(today.getDate() + (7 + fridayIdx - today.getDay()) % 7);
+      return resultDate;
+    };
+
+    var startDate = nextFridayAtEight();
+    startDate.setHours(20);
+    var startValue = startDate.getTime()
+    var endDate   = new Date(startDate.getTime());
+    endDate.setDate(startDate.getDate() - 1);
+
+    // Now create the actual pickers
+    $("#event_time").datetimepicker({
+       format: 'm/d h:i',
+       value: startDate,
+       minDate: 0,
+    });
+    $("#event_deadline").datetimepicker({
+       format: 'm/d h:i A',
+       value: endDate,
+       minDate: 0
+    });
+  });
