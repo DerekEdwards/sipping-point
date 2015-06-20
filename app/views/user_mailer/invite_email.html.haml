@@ -1,27 +1,31 @@
 %center
-  %b
-    =@event.owner.display_name 
-  ="invites you to"
-  %hr
-  %h1
-    =link_to @event.name, event_url(@rsvp.event, rsvp:@rsvp.hash_key), only_path: false
-  =@event.description
-  %hr
-  %h2
-    =@event.time.strftime("%A") + " " + @event.time.to_date.to_formatted_s(:long_ordinal) + " at " + @event.time.strftime("%l:%M %p")
-    %br
-    -unless @event.location.blank?
-      ="AT"
+  %h2{:style => "text-decoration:none; color:#58616c;;"}
+    ="An invitation from " + @event.owner.display_name
+%div.email-body{ :style => "border-radius: 25px; padding: 20px; border: 2px solid #58616c;" }
+  %center
+    %h1
+      =link_to @event.name, event_url(@rsvp.event, rsvp:@rsvp.hash_key), only_path: false, :style => "text-decoration:none; color:#000000;"
+    %div{:style => "text-decoration:none; color:#000000;"}
+      =@event.description
+    %hr{ :style => "border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));"}
+    %h2{:style => "text-decoration:none; color:#000000;"}
+      =@event.time.strftime("%A") + " " + @event.time.to_date.to_formatted_s(:long_ordinal) + " at " + @event.time.strftime("%l:%M %p")
       %br
-      =@event.location
+      -unless @event.location.blank?
+        ="at"
+        %br
+        =@event.location
 
-  %hr
-  %h2
-    =link_to 'Click HERE to RSVP', edit_rsvp_url(@rsvp), only_path: false
-  %hr
-  %h4
-    = image_tag('http://i.imgur.com/b4SVSdc.gif')
-  %hr
-  %h4
-    ="This event brought to you by the evil geniuses at"
-    =link_to 'The Sipping Point', root_url, only_path: false
+    %hr{ :style => "border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));"}
+    %table
+      %tr
+        %td
+          %a{ :href => edit_rsvp_url(@rsvp), only_path: false, :style => "background-color:#58616c;-moz-border-radius:28px;-webkit-border-radius:28px;border-radius:28px;display:inline-block; cursor:pointer; color:#ffffff; font-family:Arial; font-size:17px; padding:10px 22px; text-decoration:none;"}
+            Click to Respond
+      %tr
+        %td.center
+          %center
+            =link_to "View Event", event_url(@event, rsvp:@rsvp.hash_key), only_path: false, :style => "text-decoration:none; color:#58616c;"
+%center
+  =link_to "The Sipping Point", root_url, only_path: false, :style => "text-decoration:none; font-weight:bold;color:#58616c;word-spacing:2pt;font-size:20px;"
+
