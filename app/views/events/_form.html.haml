@@ -39,9 +39,12 @@
 
     var startDate = nextFridayAtEight();
     startDate.setHours(20);
+    startDate.setMinutes(0);
     var startValue = startDate.getTime()
-    var endDate   = new Date(startDate.getTime());
-    endDate.setDate(startDate.getDate() - 1);
+    var deadlineDate   = new Date(startDate.getTime());
+    deadlineDate.setDate(startDate.getDate() - 1);
+    console.log(startDate);
+    console.log("#{@event.time}");
 
     // Now create the actual pickers
     $("#event_time").datetimepicker({
@@ -51,7 +54,7 @@
     });
     $("#event_deadline").datetimepicker({
        format: 'D, M d g:i A',
-       value: endDate,
+       value: deadlineDate,
        minDate: 0
     });
   });

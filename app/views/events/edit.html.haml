@@ -1,3 +1,4 @@
+
 %section.static-header
   %div.container
     %h1.static-header-title
@@ -19,15 +20,33 @@
     
       %button.btn.btn-primary.btn-xl{:type => "submit"} Save and Send Invites!
 :javascript
-  $(document).ready(function() {
 
+  var startDate = new Date;
+  var deadline = new Date;
+  //Saving date stuff
+  startDate.setDate("#{@event.time.day}");
+  startDate.setMonth("#{@event.time.month}" - 1);
+  startDate.setYear("#{@event.time.year}");
+  startDate.setHours("#{@event.time.hour}");
+  startDate.setMinutes("#{@event.time.min}");
+
+  deadline.setDate("#{@event.deadline.day}");
+  deadline.setMonth("#{@event.deadline.month}" - 1);
+  deadline.setYear("#{@event.deadline.year}");
+  deadline.setHours("#{@event.deadline.hour}");
+  deadline.setMinutes("#{@event.deadline.min}");
+
+
+  $(document).ready(function() {
     // Now create the actual pickers
     $("#event_time").datetimepicker({
        format: 'D, M d g:i A',
+       value: startDate,
        minDate: 0,
     });
     $("#event_deadline").datetimepicker({
        format: 'D, M d g:i A',
+       value: deadline,
        minDate: 0
     });
   });
