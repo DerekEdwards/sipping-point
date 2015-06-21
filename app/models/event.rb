@@ -40,8 +40,16 @@ class Event < ActiveRecord::Base
     display self.time
   end
 
+  def display_time_wordy
+    display_wordy self.time
+  end
+
   def display_deadline
     display self.deadline
+  end
+
+  def display_deadline_wordy
+    display_wordy self.deadline
   end
 
   def display time
@@ -52,6 +60,15 @@ class Event < ActiveRecord::Base
      time.strftime("%a, %b %d %l:%M %p").gsub("  ", " ")
     end
   end 
+
+  def display_wordy time
+    #If time is not this year AND the month is more than 90 days away from now
+    if(time.year - Time.now.year).abs > 0 and (time - Time.now).abs > 3*30*24*3600
+      time.strftime("%A, %B %d, %Y at %l:%M %p").gsub("  ", " ")
+    else
+     time.strftime("%A, %B %d at %l:%M %p").gsub("  ", " ")
+    end
+  end
 
   def yes_count_phrase
     yes_count = self.rsvps.said_yes.count

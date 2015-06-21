@@ -4,7 +4,7 @@ class UserMailer < ActionMailer::Base
   	@user =  rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
-  	mail(to: @user.email, subject: @event.owner.display_name + " Invites You", from: @event.owner.display_name)
+  	mail(to: @user.email, subject: "You're invited to " + @event.name, from: @event.owner.display_name)
   end
 
   def confirmation_email(rsvp)
