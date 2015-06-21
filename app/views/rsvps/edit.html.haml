@@ -10,8 +10,12 @@
               %div
                 ="You have been invited, but this event won't happen unless we can get at least "
                 %strong
-                  =@rsvp.event.threshold.to_s + " people"
+                  -unless @rsvp.event.threshold == 1
+                    =@rsvp.event.threshold.to_s + " people"
+                  -else
+                    =@rsvp.event.threshold.to_s + " person"
                 =" to come."  
+              %br
               %div
                 ="So far, " + @rsvp.event.yes_count_phrase + " confirmed."
       %br
