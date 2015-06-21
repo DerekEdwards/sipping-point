@@ -129,19 +129,21 @@ class Event < ActiveRecord::Base
   end
 
   def send_confirmation_emails
-    self.rsvps.each do |rsvp|
+    sendable_rsvps = self.rsvps.said_yes + self.rsvps.unanswered
+    sendable_rsvps.each do |rsvp|
       UserMailer.confirmation_email(rsvp).deliver!
     end
   end   
 
   def send_expiration_emails
-    self.rsvps.each do |rsvp|
+    sendable_rsvps = self.rsvps.said_yes + self.rsvps.unanswered
+    sendable_rsvps.each do |rsvp|
       UserMailer.expiration_email(rsvp).deliver!
     end
   end 
 
   def send_rsvp_emails
-    self.rsvps.each do |rsvp| 
+    self.rsvps.each do |rsvp|
       unless rsvp.emailed?
         UserMailer.invite_email(rsvp).deliver!
         rsvp.emailed = true
