@@ -67,11 +67,18 @@ class UsersController < ApplicationController
     @my_prior_events = @user.rsvps.prior
     @new_rsvps = Rsvp.upcoming.where(user: @user, response: nil)
     
-    if @user = current_user 
+    puts 'users go here'
+    puts @user.id
+    puts current_user.id
+
+    if @user == current_user 
       respond_to do |format|
         format.html { render :events }
       end
-    end
+    else 
+      redirect_to root_url
+    end 
+
   end
 
   private
