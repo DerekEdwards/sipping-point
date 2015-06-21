@@ -31,7 +31,7 @@ class Event < ActiveRecord::Base
   def to_param
     self.hash_key
   end 
-
+  ########## String Generators ###########
   def html_description
     self.description.gsub("\n", "<br>")
   end
@@ -52,6 +52,19 @@ class Event < ActiveRecord::Base
      time.strftime("%a, %b %d %l:%M %p").gsub("  ", " ")
     end
   end 
+
+  def yes_count_phrase
+    yes_count = self.rsvps.said_yes.count
+    if yes_count == 0
+      return "no one has"
+    elsif yes_count == 1
+      return "1 person has"
+    else
+      return yes_count.to_s + " people have"
+    end
+  end
+
+  ####### END STRING GENERATORS #######
 
   def percent_complete
     ([self.rsvps.said_yes.count.to_f/self.threshold,1].min)*100

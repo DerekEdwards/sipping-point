@@ -7,10 +7,13 @@
         .panel-body
           .panel-text  
             %h4  
-              ="You have been invited, but this event won't happen unless we can get at least "
-              %strong
-                =@rsvp.event.threshold.to_s + " people"
-              =" to come."  
+              %div
+                ="You have been invited, but this event won't happen unless we can get at least "
+                %strong
+                  =@rsvp.event.threshold.to_s + " people"
+                =" to come."  
+              %div
+                ="So far, " + @rsvp.event.yes_count_phrase + " confirmed."
       %br
       %hr
       .panel.translucent
@@ -43,12 +46,12 @@
                 %table.table-center{:style=>"border: 1px; width: 50%"}
                   %tr
                     %td
-                      %strong
+                      %strong{:style => "font-size:20px"}
                         ="So are you in or out?"
-                    %td
+                    %td{:style => "font-size:20px"}
                       %input{:type => "radio", :name => :response, :value => 1, :checked => 1}
                         In
-                    %td
+                    %td{:style => "font-size:20px"}
                       %input{:type => "radio", :name => :response, :value => 0}
                         Out 
           %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
