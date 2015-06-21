@@ -29,10 +29,10 @@
                         =link_to rsvp.event.name, event_path(rsvp.event)
                       %td
                         -if rsvp.event.time
-                          =rsvp.event.time.strftime("%B %-d, %Y at %-I:%M%p")
+                          =rsvp.event.display_time
                       %td
                         -if rsvp.event.deadline
-                          =rsvp.event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+                          =rsvp.event.display_deadline
                       %td 
                         =link_to 'Click to RSVP', edit_rsvp_path(rsvp)              
       
@@ -60,12 +60,12 @@
                         =link_to event.name, event_path(event)
                       %td
                         -if event.time
-                          =event.time.strftime("%B %-d, %Y at %-I:%M%p")
+                          =event.display_time
                       %td
                         =event.threshold
                       %td
                         -if event.deadline
-                          =event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+                          =event.display_deadline
                       %td
                         =event.rsvps.where(response: true).count
       
@@ -91,10 +91,10 @@
                         =link_to rsvp.event.name, event_path(rsvp.event)
                       %td
                         -if rsvp.event.time
-                          =rsvp.event.time.strftime("%B %-d, %Y at %-I:%M%p")
+                          =rsvp.event.display_time
                       %td
                         -if rsvp.event.deadline
-                          =rsvp.event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+                          =rsvp.event.display_deadline
                       %td 
                         =rsvp.event.short_description 
       
@@ -124,12 +124,12 @@
                         =link_to rsvp.event.name, event_path(rsvp.event)
                       %td
                         -if rsvp.event.time
-                          =rsvp.event.time.strftime("%B %-d, %Y at %-I:%M%p")
+                          =rsvp.event.display_time
                       %td
                         =rsvp.event.threshold
                       %td
                         -if rsvp.event.deadline
-                          =rsvp.event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+                          =rsvp.event.display_deadline
                       %td
                         =rsvp.event.rsvps.where(response: true).count
                       %td

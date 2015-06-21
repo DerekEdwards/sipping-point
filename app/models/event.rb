@@ -36,6 +36,23 @@ class Event < ActiveRecord::Base
     self.description.gsub("\n", "<br>")
   end
 
+  def display_time
+    display self.time
+  end
+
+  def display_deadline
+    display self.deadline
+  end
+
+  def display time
+    #If time is not this year AND the month is more than 90 days away from now
+    if(time.year - Time.now.year).abs > 0 and (time - Time.now).abs > 3*30*24*3600
+      time.strftime("%a, %b %d, %Y %l:%m %p").gsub("  ", " ")
+    else
+     time.strftime("%a, %b %d %l:%m %p").gsub("  ", " ")
+    end
+  end 
+
   def percent_complete
     ([self.rsvps.said_yes.count.to_f/self.threshold,1].min)*100
   end    

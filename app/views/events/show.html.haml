@@ -40,13 +40,13 @@
                 %td
                   Date & Time
                 %td
-                  =@event.time.strftime("%B %-d, %Y at %-I:%M%p")
+                  =@event.display_time
               %tr
                 %td
                   Deadline to Respond
                 %td
                   -unless @event.deadline.nil?
-                    =@event.deadline.strftime("%B %-d, %Y at %-I:%M%p")
+                    =@event.display_deadline
           
           
           = link_to "http://www.google.com/calendar/event?action=TEMPLATE&text=" + @event.name + "&dates=" + @event.time.strftime("%Y%m%dT%H%M%S") +"/" + (@event.time + 7200).strftime("%Y%m%dT%H%M%S") + "&details=" + @event.description.to_s + "&location=" + (@event.location || ""), :target => "blank" do  
