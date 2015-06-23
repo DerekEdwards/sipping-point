@@ -69,10 +69,9 @@ class EventsController < ApplicationController
     confirm_owner
 
     respond_to do |format|
-      if @event.update(event_params)
+      if @event.invitee_emails_are_valid params[:event][:invitee_emails] and @event.update(event_params)
         @event.description = (sanitize(simple_format(params[:event][:description]))).gsub("<p>","").gsub("</p>","")
-        @event.send_rsvp_emails
-    
+        @event.send_rsvp_emails 
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else

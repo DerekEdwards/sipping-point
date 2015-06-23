@@ -202,4 +202,26 @@ class Event < ActiveRecord::Base
     end
   end
 
+  ### Custom Validations
+  def invitee_emails_are_valid emails
+    
+    if emails.blank?
+      return true
+    end 
+    emails = emails.split(',')
+    emails.each do |email|
+      unless email.blank?
+        unless valid_email(email.strip.downcase)
+          puts 'testing ' + email
+          errors.add(:invitee_emails, email + " is not a valid email.")
+          return false
+        end
+      end
+    end 
+  end
+
+  def valid_email(email)
+    return email=~/^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i
+  end
+
 end
