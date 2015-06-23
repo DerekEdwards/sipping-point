@@ -97,15 +97,17 @@ class Event < ActiveRecord::Base
 
   	emails = value.split(',')
   	emails.each do |email|
-  	  user = User.find_or_create_by(email: email.strip.downcase) do |u|
-        u.password = u.password_confirmation =Devise.friendly_token.first(8)
-      end
+      unless email.blank?
+    	  user = User.find_or_create_by(email: email.strip.downcase) do |u|
+          u.password = u.password_confirmation =Devise.friendly_token.first(8)
+        end
 
-      rsvp = Rsvp.where(user: user, event: self).first_or_create
-      rsvp.emailed = false
-      rsvp.new_record?
-      rsvp.generate_hash_key
-      rsvp.save!
+        rsvp = Rsvp.where(user: user, event: self).first_or_create
+        rsvp.emailed = false
+        rsvp.new_record?
+        rsvp.generate_hash_key
+        rsvp.save!
+      end
     end 
   end
 
