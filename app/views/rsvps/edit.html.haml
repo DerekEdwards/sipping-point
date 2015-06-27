@@ -10,10 +10,7 @@
               %div
                 ="You have been invited, but this event won't happen unless we can get at least "
                 %strong
-                  -unless @rsvp.event.threshold == 1
-                    =@rsvp.event.threshold.to_s + " people"
-                  -else
-                    =@rsvp.event.threshold.to_s + " person"
+                  =@rsvp.event.threshold.to_s + " #{"person".pluralize(@rsvp.event.threshold)}"
                 =" to come."  
               %br
               %div
