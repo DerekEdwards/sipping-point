@@ -13,6 +13,7 @@ class Event < ActiveRecord::Base
   validates :hash_key, uniqueness: true
   validates_presence_of :name
   validate :maximum_is_not_less_than_sipping_point
+  validate :rsvp_deadline_is_before_event
 
   #Constants
   INITIALIZED = 'initalized'
@@ -214,7 +215,14 @@ class Event < ActiveRecord::Base
     end
   end
 
+  private
+
   ### Custom Validations
+  def rsvp_deadline_is_before_event
+    if deadline > time
+      errors.add(:deadline, " must be before the event starts")
+    end
+  end
 
   def maximum_is_not_less_than_sipping_point
     if maximum_attendance and maximum_attendance < threshold
