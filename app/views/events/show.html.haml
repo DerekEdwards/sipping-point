@@ -14,6 +14,10 @@
               ="This event has reached The Sipping Point!  It's officially happening!"
             -elsif @event.status == Event::EXPIRED
               ="This event failed to reach The Sipping Point.  It is canceled."
+          -if @event.is_full_up?
+            %h3
+              %strong
+                ="This event can't handle anybody else.  It's full up!"
           %hr
           %h4
             -unless @event.description.blank?

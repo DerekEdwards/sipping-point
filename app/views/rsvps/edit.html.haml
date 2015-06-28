@@ -3,19 +3,7 @@
     .header-content-inner
       %h1
         =@rsvp.event.name
-      .panel.translucent
-        .panel-body
-          .panel-text  
-            %h4  
-              %div
-                ="You have been invited, but this event won't happen unless we can get at least "
-                %strong
-                  =@rsvp.event.threshold.to_s + " #{"person".pluralize(@rsvp.event.threshold)}"
-                =" to come."  
-              %br
-              %div
-                ="So far, " + @rsvp.event.yes_count_phrase + " confirmed."
-      %br
+      = render "status_panel"
       %hr
       .panel.translucent
         .panel-body
@@ -28,22 +16,18 @@
               ="if this event is confirmed."
             %h3
               =link_to "View Event Details", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false
-
-
-
-
       %hr        
 
-      -if @rsvp.event.status == Event::CONFIRMED and @rsvp.response == 1
-        .panel.translucent
-          .panel-body
-            .panel-text
+      .panel.translucent
+        .panel-body
+          .panel-text
+            -if @rsvp.event.status == Event::CONFIRMED and @rsvp.response == 1
               ="You are confirmed for this event."
-      -else  
-        =form_tag(rsvp_path, method: "patch") do 
-          .panel.translucent
-            .panel-body
-              .panel-text
+            -elsif @rsvp.event.status != Event::EXPIRED and @rsvp.event.is_full_up?
+              %strong
+                = "Sorry!  Too slow!  The event can't handle any more people!"      
+            -else  
+              =form_tag(rsvp_path, method: "patch") do 
                 %table.table-center{:style=>"border: 1px; width: 50%"}
                   %tr
                     %td
@@ -55,4 +39,4 @@
                     %td{:style => "font-size:20px"}
                       %input{:type => "radio", :name => :response, :value => 0}
                         Out 
-          %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
+                %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP

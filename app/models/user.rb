@@ -18,5 +18,8 @@ class User < ActiveRecord::Base
       return self.name
     end
   end
-  
+
+  def to_s
+    name || email
+  end
 end

@@ -15,6 +15,10 @@
         ="at"
         %br
         =@event.location
+      -if @event.has_max_attendance?
+        %h2{:style => "text-decoration:none; color:#58616c;"}
+          = "Better hurry to RSVP!  This event has a max attendance..."
+
 
     %hr{ :style => "border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));"}
     %table

@@ -1,0 +1,18 @@
+.panel.translucent
+  .panel-body
+    .panel-text  
+      %h4  
+        %div
+          ="You have been invited, but this event won't happen unless we can get at least "
+          %strong
+            =@rsvp.event.threshold.to_s + " #{"person".pluralize(@rsvp.event.threshold)}"
+          =" to come."  
+      - if @rsvp.event.has_max_attendance?
+        %h4
+          %div
+            ="Additionally, #{@rsvp.event.owner} can only have #{@rsvp.event.maximum_attendance} people come, so RSVP as soon as possible!"
+        %br
+        %div
+          ="So far, " + @rsvp.event.yes_count_phrase + " confirmed."
+      %hr
+%br

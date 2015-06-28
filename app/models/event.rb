@@ -12,12 +12,14 @@ class Event < ActiveRecord::Base
   #Validations
   validates :hash_key, uniqueness: true
   validates_presence_of :name
+  validate :maximum_is_not_less_than_sipping_point
 
   #Constants
   INITIALIZED = 'initalized'
   OPEN = 'open'
   EXPIRED = 'expired'
   CONFIRMED = 'confirmed'
+  FULL = 'max_attendance_reached'
 
   #Scopes
   scope :open, -> { where(status:Event::OPEN) }
@@ -83,6 +85,18 @@ class Event < ActiveRecord::Base
 
   ####### END STRING GENERATORS #######
 
+  def has_max_attendance?
+    maximum_attendance.present?
+  end
+
+  def has_spots_remaining?
+    has_max_attendance? && (maximum_attendance > rsvps.said_yes.count)
+  end
+
+  def is_full_up?
+    !has_spots_remaining?
+  end
+
   def percent_complete
     ([self.rsvps.said_yes.count.to_f/self.threshold,1].min)*100
   end    
@@ -125,27 +139,23 @@ class Event < ActiveRecord::Base
   end
 
   def update_status send_email=false
-    #The event has been created
-    if self.rsvps.count == 0
-      self.status = Event::INITIALIZED
-
-    #The event is on
-    elsif self.rsvps.said_yes.count >= self.threshold
-      if self.status != Event::CONFIRMED and send_email
-        send_confirmation_emails
-      end
-      self.status = Event::CONFIRMED
-
-    #The deadline has passed
-    elsif self.deadline < DateTime.now
+    if deadline < DateTime.now # if the deadline passed, finalize the event
       if self.status != Event::EXPIRED and send_email
         send_expiration_emails
       end
       self.status = Event::EXPIRED
+    else # otherwise, set up the status appropriately
 
-    #The event is awaiting RSVPs
-    else
-      self.status = Event::OPEN
+      if self.rsvps.count == 0 # The event has been created
+        self.status = Event::INITIALIZED
+      elsif self.rsvps.said_yes.count >= self.threshold  # The event is on!
+        send_confirmation_emails if (self.status != Event::CONFIRMED and send_email)
+        self.status = Event::CONFIRMED
+      elsif self.is_full_up?
+        self.status = Event::FULL
+      else # The event is awaiting RSVPs
+        self.status = Event::OPEN
+      end
     end
 
     self.save
@@ -197,12 +207,21 @@ class Event < ActiveRecord::Base
       return "Invitations not Sent"
     when Event::EXPIRED
       return "Not Happening"
+    when Event::FULL
+      return "All Full Up"
     when Event::CONFIRMED
       return "It's On!"
     end
   end
 
   ### Custom Validations
+
+  def maximum_is_not_less_than_sipping_point
+    if maximum_attendance and maximum_attendance < threshold
+      errors.add(:maximum_attendance, " can't be lower than the sipping point")
+    end
+  end
+
   def invitee_emails_are_valid emails
     
     if emails.blank?
