@@ -120,7 +120,6 @@ class Event < ActiveRecord::Base
         rsvp = Rsvp.where(user: user, event: self).first_or_create
         rsvp.emailed = false
         rsvp.new_record?
-        rsvp.generate_hash_key
         rsvp.save!
       end
     end 
@@ -165,10 +164,7 @@ class Event < ActiveRecord::Base
   end
 
   def create_owner_rsvp
-    Rsvp.where(user: self.owner, event: self).first_or_create do |rsvp|
-      rsvp.generate_hash_key
-      rsvp.save!
-    end
+    Rsvp.where(user: self.owner, event: self).first_or_create
   end
 
   def send_confirmation_emails
