@@ -195,6 +195,16 @@ class Event < ActiveRecord::Base
     end
   end  
 
+  def send_comments_emails
+    comments = new_comments
+    if comments.count
+      self.rsvps.wants_comments_emails.each do |rsvp|
+        UserMailer.send_comments_email(rsvp).deliver!
+      end
+      self.comments_last_mailed = comments.last.created_at
+      self.save
+    end
+  end
 
   def invitee_emails
   	nil
@@ -213,6 +223,10 @@ class Event < ActiveRecord::Base
     when Event::CONFIRMED
       return "It's On!"
     end
+  end
+
+  def new_comments
+    self.comment_threads.where("created_at >= ?", self.comments_last_mailed || self.created_at).order('created_at')
   end
 
   def invitee_emails_are_valid emails

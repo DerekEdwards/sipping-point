@@ -20,4 +20,12 @@ class UserMailer < ActionMailer::Base
     @event = rsvp.event
   	mail(to: @user.email, subject: @event.name + " is canceled", from: @event.owner.display_name)
   end
+
+  def send_comments_email(rsvp)
+    @user = rsvp.user
+    @rsvp = rsvp
+    @event = rsvp.event
+    mail(to: @user.email, subject: "Someone left a comment on " @event.name, from: @event.owner.display_name)
+  end
+
  end 

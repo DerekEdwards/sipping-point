@@ -20,6 +20,8 @@ class Rsvp < ActiveRecord::Base
   scope :unanswered, -> { where(response: nil) }
   scope :upcoming, -> { joins(:event).where("time >= ?", Time.now - 2*3600) }
   scope :prior, -> { joins(:event).where("time < ?", Time.now - 2*3600) }
+  scope :wants_comments_emails, -> { where(wants_comments_emails: true)}
+
 
   #Methods 
   def to_param
