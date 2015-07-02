@@ -6,8 +6,6 @@
 # 
 ###############################################################################
 class Rsvp < ActiveRecord::Base
-
-  after_initialize :generate_hash_key
   
   #Relationships
   belongs_to :user
@@ -20,18 +18,23 @@ class Rsvp < ActiveRecord::Base
   scope :said_yes, -> { where(response: 1) }
   scope :said_no, -> { where(response: 0) }
   scope :unanswered, -> { where(response: nil) }
-  scope :upcoming, -> { joins(:event).where("time >= ?", Time.now - 2.hours) }
-  scope :prior, -> { joins(:event).where("time < ?", Time.now - 2.hours) }
+  scope :upcoming, -> { joins(:event).where("time >= ?", Time.now - 2*3600) }
+  scope :prior, -> { joins(:event).where("time < ?", Time.now - 2*3600) }
 
   #Methods 
   def to_param
     self.hash_key
   end 
 
-  private
-
-  # This is just an intrinsic detail of creating an RSVP, not something that should be exposed
   def generate_hash_key
-    hash_key ||= Digest::MD5.hexdigest(self.event.name + self.user.email + DateTime.now.to_s + rand.to_s)
+    if self.hash_key
+      return self.hash_key
+    else     
+      hash_key = Digest::MD5.hexdigest(self.event.name + self.user.email + DateTime.now.to_s + rand.to_s)
+      self.hash_key = hash_key
+      self.save
+      return hash_key
+    end 
   end
+
 end
