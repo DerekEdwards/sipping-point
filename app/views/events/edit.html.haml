@@ -13,7 +13,7 @@
             =f.input :name, :label => "Event Name", :placeholder => "Drinks at the Shack", :hint => "What are we doing?", :input_html => {:color => "black", :size => 40, :maxlength => 50}
             =f.input :threshold, :label => "Sipping Point", :hint => "Any fewer people than this, and it's just not a party.", :collection => 1..20
             =f.input :maximum_attendance, :label => "Maximum", :hint => "Any more people than this, and it's going to be too crowded.", :collection => 1..20, :prompt => "No Limit"
-            =f.input :time, as: :string, :label => "Event Date & Time", :hint => "When is things thing happening?"
+            =f.input :time, as: :string, :label => "Event Date & Time", :hint => "When is this event happening?"
             =f.input :deadline, as: :string, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they ain't going."
             = f.input :location
           = f.input :description

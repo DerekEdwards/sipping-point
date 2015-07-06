@@ -17,7 +17,7 @@
       =f.input :threshold, :label => "Sipping Point", :hint => "Any fewer people than this, and it's just not a party.", :collection => 1..20, :selected => 4
       =f.input :maximum_attendance, :label => "Maximum", :hint => "Any more people than this, and it's going to be too crowded.", :collection => 1..20, :include_blank => "No Limit"
       %br
-      =f.input :time, as: :string, :label => "Event Date & Time", :hint => "When is this thing happening?"
+      =f.input :time, as: :string, :label => "Event Date & Time", :hint => "When is this event happening?"
       %br
       =f.input :deadline, as: :string, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they ain't going."
 
