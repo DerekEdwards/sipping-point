@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     member do
       patch 'update'
       get 'edit'
+      patch 'update_email_comments_setting'
     end
   end
 

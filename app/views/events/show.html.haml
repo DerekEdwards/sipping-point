@@ -134,6 +134,13 @@
     %div.col-md-6
       %h2  
         Comments
+      -if @rsvp
+        %div.checkbox
+          %label
+            %input{:id => 'comments_email_checkbox', :type => "checkbox", :value => "", :checked => @rsvp.wants_comments_emails}
+            ="Let me know when new comments are made on this event."
+        %div{:id => 'checkbox_message'}
+
       -if @comments.count == 0
         ="Be the first to leave a comment"
       -else
@@ -166,7 +173,26 @@
         .panel.translucent
           .panel-body.panel-text
             Login to leave comments on this event.
-      
+
+:javascript
+  document.getElementById('comments_email_checkbox').onclick = function() {
+    var chkBox = document.getElementById('comments_email_checkbox');
+    var is_checked = chkBox.checked;
+      $.ajax({
+        type: 'PATCH',
+        url: '#{ update_email_comments_setting_rsvp_path(@rsvp || 1) }',
+        data: { email_setting: chkBox.checked},
+      });
+
+    if(is_checked)
+    {
+      document.getElementById('checkbox_message').innerHTML = "Awesome! We will email you when new comments are made.";
+    }  
+    else
+    {
+      document.getElementById('checkbox_message').innerHTML = "You will no longer receive emails when new comments are made.";
+    }
+  }
        
 
 

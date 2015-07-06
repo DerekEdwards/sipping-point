@@ -20,11 +20,13 @@ class EventsController < ApplicationController
   def show
     @comments = @event.comment_threads.order('created_at')
     @rsvp_hash_key = params[:rsvp]
-
+    @rsvp = Rsvp.find_by(hash_key: @rsvp_hash_key)
+    
     if current_user
       @comment_as = current_user
+      @rsvp = Rsvp.find_by(event: @event, user: current_user)
     elsif @rsvp_hash_key
-      @comment_as = Rsvp.find_by(hash_key: @rsvp_hash_key).user 
+      @comment_as = @rsvp.user
     else
       @comment_as = nil
     end
