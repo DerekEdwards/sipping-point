@@ -95,9 +95,9 @@
               %table.table.table-center.table-striped
                 %tr
                   %th.text-center
-                    Name
+                    Invitee
                   %th.text-center
-                    Email
+                    Reliability
                   %th.text-center
                     Going?
                 - @event.rsvps.each do |rsvp|
@@ -105,11 +105,13 @@
                     %tr
                       %td
                         -if current_user == rsvp.user
-                          = rsvp.user.name || "" + " (Me)"
+                          = rsvp.user.display_name || "" + " (Me)"
                         -else
-                          = rsvp.user.name
+                          = rsvp.user.display_name
                       %td
-                        = rsvp.user.email
+                        -reliability_factor = rsvp.user.reliability_factor
+                        -if reliability_factor
+                          =(reliability_factor * 100).round.to_s + "%"
                       %td
                         -if current_user == rsvp.user or @comment_as == rsvp.user
                           -if rsvp.response == 1

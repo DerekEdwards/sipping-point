@@ -21,7 +21,13 @@ class Rsvp < ActiveRecord::Base
   scope :upcoming, -> { joins(:event).where("time >= ?", Time.now - 2*3600) }
   scope :prior, -> { joins(:event).where("time < ?", Time.now - 2*3600) }
   scope :wants_comments_emails, -> { where(wants_comments_emails: true)}
+  scope :reported, -> { where.not(:attendance_report => nil) }
+  scope :flaked, -> {where(:attendance_report => Rsvp::FLAKED)}
+  scope :showed, -> {where(:attendance_report => Rsvp::SHOWED)}
 
+  #Constants
+  FLAKED = 0
+  SHOWED = 1
 
   #Methods 
   def to_param
