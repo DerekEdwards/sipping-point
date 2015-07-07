@@ -97,7 +97,7 @@ class EventsController < ApplicationController
   end
 
   def report
-
+    @rsvps = @event.rsvps.said_yes
   end
 
   def caltest
