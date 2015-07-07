@@ -91,7 +91,11 @@ class Event < ActiveRecord::Base
   end
 
   def has_spots_remaining?
-    has_max_attendance? && (maximum_attendance > rsvps.said_yes.count)
+    unless has_max_attendance?
+      return true
+    else
+      return (maximum_attendance > rsvps.said_yes.count)
+    end
   end
 
   def is_full_up?
@@ -140,13 +144,19 @@ class Event < ActiveRecord::Base
   end
 
   def update_status send_email=false
-    if deadline < DateTime.now # if the deadline passed, finalize the event
+    #Once an event expires, it cannot un-expire
+    if self.status == Event::EXPIRED
+      return self.status
+  
+    # if the deadline passed and we haven't reached the SP, finalize the event# 
+    elsif deadline < DateTime.now and self.rsvps.said_yes.count < self.threshold 
       if self.status != Event::EXPIRED and send_email
         send_expiration_emails
       end
       self.status = Event::EXPIRED
-    else # otherwise, set up the status appropriately
-
+    
+    else 
+      # otherwise, set up the status appropriately
       if self.rsvps.count == 0 # The event has been created
         self.status = Event::INITIALIZED
       elsif self.rsvps.said_yes.count >= self.threshold  # The event is on!
