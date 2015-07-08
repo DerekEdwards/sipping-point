@@ -46,4 +46,37 @@ class Rsvp < ActiveRecord::Base
     end 
   end
 
+  def reminded_time_string
+    if self.reminded == nil
+      return ""
+    end
+    time_diff = Time.now - self.reminded
+    if time_diff < 60
+      return "sent " + time_diff.round.to_s + " seconds ago"
+    elsif time_diff < 3600
+      minutes = (time_diff/60.0).round
+      if minutes > 1
+        return "sent " + minutes.to_s + " minutes ago"
+      else
+        return "sent " + minutes.to_s + " minute ago"
+      end
+    elsif time_diff < (3600*24)
+      hours = time_diff/(3600.0).round
+      if hours > 1
+        return "sent " + hours.to_s + " hours ago"
+      else
+        return "sent " + hours.to_s + " hour ago"
+      end
+    else 
+      days = (time_diff/(3600.0*24.0)).round
+      if days > 1
+        return "sent " + days.to_s + " days ago"
+      else
+        return "sent " + days.to_s + " day ago"
+      end
+    end
+
+    return ""
+  end
+
 end

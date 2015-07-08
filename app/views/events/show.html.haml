@@ -136,7 +136,10 @@
                           -elsif rsvp.response == 0
                             ="No"
                           -else
-                            =""
+                            %div
+                              %button.btn.btn-xs{:type => "submit"} Send Reminder
+                            %div{:style => "font-size: 10px;"}
+                              ="sent 3 hours ago"
 
       -if current_user == @event.owner and @event.rsvps.count == 0
         %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Let's invite some people!
