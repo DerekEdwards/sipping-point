@@ -1,11 +1,14 @@
 %section.static-header
   %div.container
     %h1.static-header-title
-      =@event.name  
-    .panel.translucent
-      .panel-body
-        .panel-text
-          =form_tag(rsvp_path, method: "patch") do 
+      ="Who Flaked Out on " + @event.name + "?"
+    %h3
+      Nothing is worse than flaking out on an event.  Tell us who flaked and who came through.
+
+    =form_tag(report_event_path, method: "patch") do
+      .panel.translucent
+        .panel-body
+          .panel-text 
             %table.table-center{:style=>"border: 1px; width: 50%"}
               -@rsvps.each do |rsvp|
                 %tr
@@ -13,10 +16,10 @@
                     %strong{:style => "font-size:20px"}
                       =rsvp.user.display_name
                   %td{:style => "font-size:20px"}
-                    %input{:type => "radio", rsvp.user.name => :response, :value => 1, :checked => 1}
+                    %input{:type => "radio", name: rsvp.user.email, :value => 0, :checked => (rsvp.attendance_report == 1 ? false : true)}
                       Flaked
                   %td{:style => "font-size:20px"}
-                    %input{:type => "radio", rsvp.user.name => :response, :value => 0}
+                    %input{:type => "radio", name: rsvp.user.email, :value => 1, :checked => (rsvp.attendance_report == 1 ? true : false)}
                       Did Not Flake
-    %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
+      %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
             

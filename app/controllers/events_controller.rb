@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
 
-  before_action :set_event, only: [:show, :edit, :update, :destroy, :report]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :report, :update_report]
   before_action :authenticate_user!, :except => [:show, :index]  
   after_action  :update_status, only: [:create, :show, :update, :destroy]
 
@@ -97,7 +97,25 @@ class EventsController < ApplicationController
   end
 
   def report
+    confirm_owner
     @rsvps = @event.rsvps.said_yes
+  end
+
+  def update_report
+
+    confirm_owner
+
+    @rsvps = @event.rsvps.said_yes
+    @rsvps.each do |rsvp|
+      rsvp.attendance_report = params[rsvp.user.email].to_i
+      rsvp.save
+    end 
+
+    respond_to do |format|
+      format.html { redirect_to @event, notice: 'Thanks for submitting your Flake Report.' }
+      format.json { render :show, status: :ok, location: @event }
+    end
+
   end
 
   def caltest
