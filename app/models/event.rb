@@ -216,6 +216,10 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def send_report_email
+    UserMailer.report_email(self).deliver!
+  end  
+
   def invitee_emails
   	nil
   end

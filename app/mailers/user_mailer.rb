@@ -29,4 +29,9 @@ class UserMailer < ActionMailer::Base
     mail(to: @user.email, subject: "Someone left a comment on " + @event.name, from: @event.owner.display_name)
   end
 
+  def report_email(event)
+    @event = event
+    mail(to: @event.owner.email, subject: "Who flaked on " + @event.name + "?", from: @event.owner.display_name)
+  end
+
  end 
