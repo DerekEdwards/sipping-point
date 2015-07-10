@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
 
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :report]
   before_action :authenticate_user!, :except => [:show, :index]  
   after_action  :update_status, only: [:create, :show, :update, :destroy]
 
@@ -94,6 +94,10 @@ class EventsController < ApplicationController
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def report
+    @rsvps = @event.rsvps.said_yes
   end
 
   def caltest

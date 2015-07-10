@@ -1,0 +1,22 @@
+%section.static-header
+  %div.container
+    %h1.static-header-title
+      =@event.name  
+    .panel.translucent
+      .panel-body
+        .panel-text
+          =form_tag(rsvp_path, method: "patch") do 
+            %table.table-center{:style=>"border: 1px; width: 50%"}
+              -@rsvps.each do |rsvp|
+                %tr
+                  %td
+                    %strong{:style => "font-size:20px"}
+                      =rsvp.user.display_name
+                  %td{:style => "font-size:20px"}
+                    %input{:type => "radio", rsvp.user.name => :response, :value => 1, :checked => 1}
+                      Flaked
+                  %td{:style => "font-size:20px"}
+                    %input{:type => "radio", rsvp.user.name => :response, :value => 0}
+                      Did Not Flake
+    %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
+            
