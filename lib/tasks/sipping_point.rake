@@ -38,4 +38,12 @@ namespace :sipping_point do
     end
   end 
 
+  desc "Send report emails"
+  task send_report_emails: :environment do
+    #Task should run hourly.
+    Event.ready_for_report.each do |e|
+      e.send_report_email
+    end
+  end
+
 end

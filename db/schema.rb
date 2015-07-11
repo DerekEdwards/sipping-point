@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150706231424) do
+ActiveRecord::Schema.define(version: 20150711021251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,16 +47,18 @@ ActiveRecord::Schema.define(version: 20150706231424) do
     t.string   "status"
     t.integer  "maximum_attendance"
     t.datetime "comments_last_mailed"
+    t.boolean  "report_sent",          default: false
   end
 
   create_table "rsvps", force: true do |t|
-    t.integer "event_id",                             null: false
-    t.integer "user_id",                              null: false
-    t.integer "response"
-    t.string  "hash_key"
-    t.boolean "emailed"
-    t.boolean "wants_comments_emails", default: true
-    t.integer "attendance_report"
+    t.integer  "event_id",                             null: false
+    t.integer  "user_id",                              null: false
+    t.integer  "response"
+    t.string   "hash_key"
+    t.boolean  "emailed"
+    t.boolean  "wants_comments_emails", default: true
+    t.integer  "attendance_report"
+    t.datetime "reminded"
   end
 
   add_index "rsvps", ["event_id"], name: "index_rsvps_on_event_id", using: :btree
