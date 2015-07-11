@@ -16,10 +16,10 @@
                     %strong{:style => "font-size:20px"}
                       =rsvp.user.display_name
                   %td{:style => "font-size:20px"}
-                    %input{:type => "radio", name: rsvp.user.email, :value => 0, :checked => (rsvp.attendance_report == 1 ? false : true)}
+                    %input{:type => "radio", name: rsvp.user.email, :value => 0, :checked => (rsvp.attendance_report.nil? ? false : (rsvp.attendance_report == 1 ? false : true))}
                       Flaked
                   %td{:style => "font-size:20px"}
-                    %input{:type => "radio", name: rsvp.user.email, :value => 1, :checked => (rsvp.attendance_report == 1 ? true : false)}
+                    %input{:type => "radio", name: rsvp.user.email, :value => 1, :checked => (rsvp.attendance_report.nil? ? true : (rsvp.attendance_report == 1 ? true : false))}
                       Did Not Flake
       %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
             
