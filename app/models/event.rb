@@ -267,7 +267,7 @@ class Event < ActiveRecord::Base
 
   ### Custom Validations
   def rsvp_deadline_is_before_event
-    if deadline > time
+    if deadline and deadline > time
       errors.add(:deadline, " must be before the event starts")
     end
   end
