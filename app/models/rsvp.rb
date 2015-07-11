@@ -24,6 +24,7 @@ class Rsvp < ActiveRecord::Base
   scope :reported, -> { where.not(:attendance_report => nil) }
   scope :flaked, -> {where(:attendance_report => Rsvp::FLAKED)}
   scope :showed, -> {where(:attendance_report => Rsvp::SHOWED)}
+  scope :needs_reminder_of_event_email, -> { joins(:event).where("time > ? and time < ? and status = ? and response = 1 and reminder_to_attend_sent = false", Time.now, Time.now + 24*3600, Event::CONFIRMED)}
 
   #Constants
   FLAKED = 0

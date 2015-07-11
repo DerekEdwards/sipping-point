@@ -7,6 +7,13 @@ class UserMailer < ActionMailer::Base
   	mail(to: @user.email, subject: "You're invited to " + @event.name, from: @event.owner.display_name)
   end
 
+  def reminder_email(rsvp)
+    @user =  rsvp.user
+    @rsvp = rsvp
+    @event = rsvp.event
+    mail(to: @user.email, subject: "Reminder about " + @event.name, from: @event.owner.display_name)
+  end
+
   def confirmation_email(rsvp)
   	@user = rsvp.user
   	@rsvp = rsvp

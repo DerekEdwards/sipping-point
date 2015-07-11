@@ -17,4 +17,8 @@ The following rake task should be scheduled to run at least once per hour.  Idea
 
   * rake sipping_point:send_report_emails (IMPORTANT!  Make sure that all old emails have event.report_sent = true, otherwise the first time this runs, we will send a ton of emails out for some very old events.)
 
+### Send Reminder emails to people who are going
+
+  * rake sipping_point:send_reminders_to_everyone_who_said_yes
+
 

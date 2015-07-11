@@ -46,4 +46,12 @@ namespace :sipping_point do
     end
   end
 
+  desc "Send Reminders to everyone who said yes"
+  task send_reminders_to_everyone_who_said_yes: :environment do
+    #Task should run hourly (ok run dail on staging)
+    Event.happening_within_24hrs.each do |event|
+      event.send_reminder_emails
+    end
+  end
+
 end

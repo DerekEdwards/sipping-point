@@ -27,6 +27,7 @@ class Event < ActiveRecord::Base
   scope :deadline_passed, -> { where("deadline < ?", DateTime.now) }
   scope :upcoming, -> { where("time >= ?", Time.now - 2*3600) }
   scope :ready_for_report, -> { where("time >= ? and report_sent = false", Time.now - 6*3600)}
+  scope :happening_within_24hrs, -> { where("time >= ? and time < ?", Time.now, Time.now + 24*3600)}
 
   #Commentable
   acts_as_commentable
@@ -221,7 +222,18 @@ class Event < ActiveRecord::Base
     UserMailer.report_email(self).deliver!
     self.report_sent = true
     self.save 
-  end  
+  end 
+
+  def send_reminder_emails
+    rsvps = Rsvp.needs_reminder_of_event_email
+    
+    rsvps.each do |rsvp| 
+      UserMailer.reminder_email(rsvp).deliver! 
+      rsvp.reminder_to_attend_sent = true
+      rsvp.save
+    end
+
+  end
 
   def invitee_emails
   	nil
