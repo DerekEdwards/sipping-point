@@ -246,6 +246,7 @@ class Event < ActiveRecord::Base
       unless rsvp.emailed?
         UserMailer.invite_email(rsvp).deliver!
         rsvp.emailed = true
+        rsvp.reminded = Time.now
         rsvp.save
       end
     end
@@ -268,6 +269,7 @@ class Event < ActiveRecord::Base
     self.save 
   end 
 
+  #Remind people who said Yes that the event is happening in 24 hours
   def send_reminder_emails
     rsvps = Rsvp.needs_reminder_of_event_email
     

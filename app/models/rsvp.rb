@@ -46,6 +46,8 @@ class Rsvp < ActiveRecord::Base
     end 
   end
 
+  ########## String Generators #######
+
   def reminded_time_string
     if self.reminded == nil
       return ""
@@ -61,7 +63,7 @@ class Rsvp < ActiveRecord::Base
         return "sent " + minutes.to_s + " minute ago"
       end
     elsif time_diff < (3600*24)
-      hours = time_diff/(3600.0).round
+      hours = (time_diff/(3600.0)).round
       if hours > 1
         return "sent " + hours.to_s + " hours ago"
       else
@@ -75,8 +77,21 @@ class Rsvp < ActiveRecord::Base
         return "sent " + days.to_s + " day ago"
       end
     end
-
     return ""
   end
+
+  ####### End String Generators ###
+
+  ########### Emails ##############
+  
+  def send_rsvp_reminder_email
+    UserMailer.rsvp_reminder_email(self).deliver!
+    self.reminded = Time.now
+    self.save 
+  end 
+  
+  ########### End Emails ##########
+
+
 
 end
