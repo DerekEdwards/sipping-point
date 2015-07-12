@@ -26,7 +26,7 @@ class Event < ActiveRecord::Base
   scope :open, -> { where(status:Event::OPEN) }
   scope :deadline_passed, -> { where("deadline < ?", DateTime.now) }
   scope :upcoming, -> { where("time >= ?", Time.now - 2*3600) }
-  scope :ready_for_report, -> { where("time >= ? and report_sent = false", Time.now - 6*3600)}
+  scope :ready_for_report, -> { where("time >= ? and report_sent = false and status = ?", Time.now - 6*3600, Event::CONFIRMED)}
   scope :happening_within_24hrs, -> { where("time >= ? and time < ?", Time.now, Time.now + 24*3600)}
 
   #Commentable
@@ -36,6 +36,7 @@ class Event < ActiveRecord::Base
   def to_param
     self.hash_key
   end 
+
   ########## String Generators ###########
   def html_description
     self.description.gsub("\n", "<br>")
