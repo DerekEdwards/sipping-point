@@ -290,13 +290,13 @@ class Event < ActiveRecord::Base
   ### Custom Validations
   def rsvp_deadline_is_before_event
     if deadline and deadline > time
-      errors.add(:deadline, " must be before the event starts")
+      errors.add(:deadline, "The deadline must be before the event starts")
     end
   end
 
   def maximum_is_not_less_than_sipping_point
     if maximum_attendance and maximum_attendance < threshold
-      errors.add(:maximum_attendance, " can't be lower than the sipping point")
+      errors.add(:maximum_attendance, "Maximum can't be lower than the Sipping Point")
     end
   end
 

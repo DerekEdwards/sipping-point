@@ -34,7 +34,13 @@
                 %td
                   Sipping Point
                 %td
-                  =@event.threshold
+                  =@event.threshold.to_s + ' people'
+              -if @event.maximum_attendance
+                %tr
+                  %td
+                    Maximum
+                  %td
+                    =@event.maximum_attendance.to_s + ' people'
               %tr
                 %td
                   Location

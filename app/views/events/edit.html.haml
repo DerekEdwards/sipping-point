@@ -12,9 +12,11 @@
           - if @event.status == Event::INITIALIZED
             =f.input :name, :label => "Event Name", :placeholder => "Drinks at the Shack", :hint => "What are we doing?", :input_html => {:color => "black", :size => 40, :maxlength => 50}
             =f.input :threshold, :label => "Sipping Point", :hint => "Any fewer people than this, and it's just not a party.", :collection => 1..20
-            =f.input :maximum_attendance, :label => "Maximum", :hint => "Any more people than this, and it's going to be too crowded.", :collection => 1..20, :prompt => "No Limit"
+          =f.input :maximum_attendance, :label => "Maximum (optional)", :hint => "Any more people than this, and it's going to be too crowded.", :collection => 1..20, :prompt => "No Limit"
+          - if @event.status == Event::INITIALIZED
             =f.input :time, as: :string, :label => "Event Date & Time", :hint => "When is this event happening?"
             =f.input :deadline, as: :string, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they ain't going."
+
           = f.input :location, :input_html => {:color => "black", :size => 40, :style=> 'width: 50%'}
           = f.input :description, :input_html => {:color => "black", :size => 40, :style=> 'width: 50%'}
           = f.input :invitee_emails, as: :text, :hint => "Enter emails separated by a comma.", :placeholder => "stacy@example.com, john@example.com", label: "Invitation Emails", :input_html => {:color => "black", :size => 40, :style=> 'width: 50%'}
