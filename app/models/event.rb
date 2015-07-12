@@ -216,7 +216,7 @@ class Event < ActiveRecord::Base
     end
   end
 
-  ####### END STRING GENERATORS ###
+  ####### End String Generators ###
 
   ########### Emails ##############
 

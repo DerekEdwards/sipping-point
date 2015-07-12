@@ -11,17 +11,6 @@ class User < ActiveRecord::Base
   #Validations
   validates_uniqueness_of :email
 
-  def display_name
-    if self.name.nil? or self.name.blank?
-      return self.email
-    else
-      return self.name
-    end
-  end
-
-  def to_s
-    name || email
-  end
 
   def flake_factor 
     reports = self.rsvps.reported
@@ -42,5 +31,32 @@ class User < ActiveRecord::Base
       return nil
     end
   end
+
+  ########## String Generators #######
+
+  def display_name
+    if self.name.nil? or self.name.blank?
+      return self.email
+    else
+      return self.name
+    end
+  end
+
+  def to_s
+    name || email
+  end
+
+  #Gmail doesn't like people with 1 name.  If a person has only
+  #1 Name, set the from to the Sipping Point stead of the name
+  def email_name
+    if self.name.split(' ').count == 1
+      return "Sipping Point"
+    else
+      return self.name
+    end
+  end
+
+  ########## End String Generators #######
+
 
 end
