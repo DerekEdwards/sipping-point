@@ -37,58 +37,6 @@ class Event < ActiveRecord::Base
     self.hash_key
   end 
 
-  ########## String Generators ###########
-  def html_description
-    self.description.gsub("\n", "<br>")
-  end
-
-  def display_time
-    display self.time
-  end
-
-  def display_time_wordy
-    display_wordy self.time
-  end
-
-  def display_deadline
-    display self.deadline
-  end
-
-  def display_deadline_wordy
-    display_wordy self.deadline
-  end
-
-  def display time
-    #If time is not this year AND the month is more than 90 days away from now
-    if(time.year - Time.now.year).abs > 0 and (time - Time.now).abs > 3*30*24*3600
-      time.strftime("%a, %b %d, %Y %l:%M %p").gsub("  ", " ")
-    else
-     time.strftime("%a, %b %d %l:%M %p").gsub("  ", " ")
-    end
-  end 
-
-  def display_wordy time
-    #If time is not this year AND the month is more than 90 days away from now
-    if(time.year - Time.now.year).abs > 0 and (time - Time.now).abs > 3*30*24*3600
-      time.strftime("%A, %B %d, %Y at %l:%M %p").gsub("  ", " ")
-    else
-     time.strftime("%A, %B %d at %l:%M %p").gsub("  ", " ")
-    end
-  end
-
-  def yes_count_phrase
-    yes_count = self.rsvps.said_yes.count
-    if yes_count == 0
-      return "no one has"
-    elsif yes_count == 1
-      return "1 person has"
-    else
-      return yes_count.to_s + " people have"
-    end
-  end
-
-  ####### END STRING GENERATORS #######
-
   def has_max_attendance?
     maximum_attendance.present?
   end
@@ -117,10 +65,10 @@ class Event < ActiveRecord::Base
 
     create_owner_rsvp
 
-  	emails = value.split(',')
-  	emails.each do |email|
+    emails = value.split(',')
+    emails.each do |email|
       unless email.blank?
-    	  user = User.find_or_create_by(email: email.strip.downcase) do |u|
+        user = User.find_or_create_by(email: email.strip.downcase) do |u|
           u.password = u.password_confirmation =Devise.friendly_token.first(8)
         end
 
@@ -176,6 +124,105 @@ class Event < ActiveRecord::Base
 
     return self.status 
   end
+
+  def invitee_emails
+    nil
+  end
+
+  def new_comments
+    self.comment_threads.where("created_at > ?", self.comments_last_mailed || self.created_at).order('created_at')
+  end
+
+  def invitee_emails_are_valid emails
+    
+    if emails.blank?
+      return true
+    end 
+    emails = emails.split(',')
+    emails.each do |email|
+      unless email.blank?
+        unless valid_email(email.strip.downcase)
+          puts 'testing ' + email
+          errors.add(:invitee_emails, email + " is not a valid email.")
+          return false
+        end
+      end
+    end 
+  end
+
+  def has_passed?
+    return self.time < Time.now
+  end 
+
+  ########## String Generators #######
+
+  def html_description
+    self.description.gsub("\n", "<br>")
+  end
+
+  def display_time
+    display self.time
+  end
+
+  def display_time_wordy
+    display_wordy self.time
+  end
+
+  def display_deadline
+    display self.deadline
+  end
+
+  def display_deadline_wordy
+    display_wordy self.deadline
+  end
+
+  def display time
+    #If time is not this year AND the month is more than 90 days away from now
+    if(time.year - Time.now.year).abs > 0 and (time - Time.now).abs > 3*30*24*3600
+      time.strftime("%a, %b %d, %Y %l:%M %p").gsub("  ", " ")
+    else
+     time.strftime("%a, %b %d %l:%M %p").gsub("  ", " ")
+    end
+  end 
+
+  def display_wordy time
+    #If time is not this year AND the month is more than 90 days away from now
+    if(time.year - Time.now.year).abs > 0 and (time - Time.now).abs > 3*30*24*3600
+      time.strftime("%A, %B %d, %Y at %l:%M %p").gsub("  ", " ")
+    else
+     time.strftime("%A, %B %d at %l:%M %p").gsub("  ", " ")
+    end
+  end
+
+  def yes_count_phrase
+    yes_count = self.rsvps.said_yes.count
+    if yes_count == 0
+      return "no one has"
+    elsif yes_count == 1
+      return "1 person has"
+    else
+      return yes_count.to_s + " people have"
+    end
+  end
+
+  def short_description
+    case self.status
+    when Event::OPEN
+      return "Waiting for RSVPs" 
+    when Event::INITIALIZED
+      return "Invitations not Sent"
+    when Event::EXPIRED
+      return "Not Happening"
+    when Event::FULL
+      return "All Full Up"
+    when Event::CONFIRMED
+      return "It's On!"
+    end
+  end
+
+  ####### END STRING GENERATORS ###
+
+  ########### Emails ##############
 
   def create_owner_rsvp
     Rsvp.where(user: self.owner, event: self).first_or_create do |rsvp|
@@ -236,45 +283,7 @@ class Event < ActiveRecord::Base
 
   end
 
-  def invitee_emails
-  	nil
-  end
-
-  def short_description
-    case self.status
-    when Event::OPEN
-      return "Waiting for RSVPs" 
-    when Event::INITIALIZED
-      return "Invitations not Sent"
-    when Event::EXPIRED
-      return "Not Happening"
-    when Event::FULL
-      return "All Full Up"
-    when Event::CONFIRMED
-      return "It's On!"
-    end
-  end
-
-  def new_comments
-    self.comment_threads.where("created_at > ?", self.comments_last_mailed || self.created_at).order('created_at')
-  end
-
-  def invitee_emails_are_valid emails
-    
-    if emails.blank?
-      return true
-    end 
-    emails = emails.split(',')
-    emails.each do |email|
-      unless email.blank?
-        unless valid_email(email.strip.downcase)
-          puts 'testing ' + email
-          errors.add(:invitee_emails, email + " is not a valid email.")
-          return false
-        end
-      end
-    end 
-  end
+  ########### End Emails ##############
 
   private
 

@@ -98,6 +98,11 @@ class EventsController < ApplicationController
 
   def report
     confirm_owner
+    
+    unless @event.status == Event::CONFIRMED and @event.has_passed?
+      redirect_to root_url
+    end 
+    
     @rsvps = @event.rsvps.said_yes
   end
 
