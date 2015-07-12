@@ -113,8 +113,6 @@ class Event < ActiveRecord::Base
       elsif self.rsvps.said_yes.count >= self.threshold  # The event is on!
         send_confirmation_emails if (self.status != Event::CONFIRMED and send_email)
         self.status = Event::CONFIRMED
-      elsif self.is_full_up?
-        self.status = Event::FULL
       else # The event is awaiting RSVPs
         self.status = Event::OPEN
       end
@@ -213,8 +211,6 @@ class Event < ActiveRecord::Base
       return "Invitations not Sent"
     when Event::EXPIRED
       return "Not Happening"
-    when Event::FULL
-      return "All Full Up"
     when Event::CONFIRMED
       return "It's On!"
     end

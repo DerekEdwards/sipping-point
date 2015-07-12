@@ -4,29 +4,34 @@
       %h1
         =@rsvp.event.name
       = render "status_panel"
-      %hr
-      .panel.translucent
-        .panel-body
-          .panel-text
+      
+      -unless @rsvp.event.status == Event::CONFIRMED or @rsvp.event.status == Event::EXPIRED
+        %hr
+        .panel.translucent
+          .panel-body
+            .panel-text
 
-            %h4
-              ="Sipping Point will let you know on or before " 
-              %strong
-                =@rsvp.event.deadline.strftime("%A") + " " + @rsvp.event.deadline.to_date.to_formatted_s(:long_ordinal) + " at " + @rsvp.event.deadline.strftime("%l:%M %p")
-              ="if this event is confirmed."
-            %h3
-              =link_to "View Event Details", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false
+              %h4
+                ="Sipping Point will let you know on or before " 
+                %strong
+                  =@rsvp.event.deadline.strftime("%A") + " " + @rsvp.event.deadline.to_date.to_formatted_s(:long_ordinal) + " at " + @rsvp.event.deadline.strftime("%l:%M %p")
+                ="if this event is confirmed."
+
       %hr        
 
       .panel.translucent
         .panel-body
           .panel-text
-            -if @rsvp.event.status == Event::CONFIRMED and @rsvp.response == 1
-              ="You are confirmed for this event."
-            -elsif @rsvp.event.status != Event::EXPIRED and @rsvp.event.is_full_up?
-              %strong
+            -if @rsvp.event.status == Event::EXPIRED
+              %h3
+                ="This event is expired.  The deadline passed before reaching the Sipping Point"
+            -elsif @rsvp.event.status == Event::CONFIRMED and @rsvp.response == 1
+              %h3
+                ="You are confirmed for this event."
+            -elsif @rsvp.event.is_full_up?
+              %h3
                 = "Sorry!  Too slow!  The event can't handle any more people!"      
-            -else  
+            -else
               =form_tag(rsvp_path, method: "patch") do 
                 %table.table-center{:style=>"border: 1px; width: 50%"}
                   %tr
@@ -40,3 +45,8 @@
                       %input{:type => "radio", :name => :response, :value => 0}
                         Out 
                 %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
+      .panel.translucent
+        .panel-body
+          .panel-text
+            %h4
+              =link_to "View Event Details", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false

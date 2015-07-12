@@ -15,9 +15,9 @@
             -elsif @event.status == Event::EXPIRED
               ="This event failed to reach The Sipping Point.  It is canceled."
           -if @event.is_full_up?
-            %h3
+            %h4
               %strong
-                ="This event can't handle anybody else.  It's full up!"
+                ="This event has reached maximum capacity."
           %hr
           %h4
             -unless @event.description.blank?
@@ -95,8 +95,12 @@
                   =@event.rsvps_needed
                 more needed to party
                 .progress
-                  .progress-bar.progress-bar-danger.progress-bar-striped.active{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
-                    =@event.percent_complete.round.to_s + "%"
+                  -if @event.status == Event::CONFIRMED
+                    .progress-bar.progress-bar-info{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
+                      =@event.percent_complete.round.to_s + "%"
+                  -else 
+                    .progress-bar.progress-bar-danger.progress-bar-striped.active{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
+                      =@event.percent_complete.round.to_s + "%"
                   
               %table.table.table-center.table-striped
                 %tr
