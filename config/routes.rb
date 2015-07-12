@@ -29,8 +29,9 @@ Rails.application.routes.draw do
   resources :rsvps do
     member do
       patch 'update'
-      get 'edit'
+      get   'edit'
       patch 'update_email_comments_setting'
+      get   'rsvp_reminder'
     end
   end
 

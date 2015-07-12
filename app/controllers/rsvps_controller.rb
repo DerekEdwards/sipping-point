@@ -33,4 +33,11 @@ class RsvpsController < ApplicationController
     hash = {email_setting: email_setting}
     render json: hash
   end
+
+  def rsvp_reminder
+    rsvp = Rsvp.find_by(hash_key: params[:id])
+    rsvp.send_rsvp_reminder_email
+    render json: {sent: true}
+  end
+    
 end
