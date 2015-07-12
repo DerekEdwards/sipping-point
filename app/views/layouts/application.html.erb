@@ -57,6 +57,12 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right">
                   <% if user_signed_in? %>
+                    <% if current_user.administrator? %>
+                      <li>
+                        <%= link_to 'Admin', admin_events_path, :class => 'page-scroll' %>
+                      </li>
+                    <% end %>  
+
                     <li>
                       <%= link_to events_user_path(current_user), :class => 'page-scroll' do %>
                         My Events <% if current_user.rsvps.upcoming.where(response: nil).count > 0
