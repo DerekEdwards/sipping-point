@@ -1,12 +1,12 @@
 %center
-  %h3{:style => "text-decoration:none; color:#58616c;"}
-    ="A reminder about your upcoming event"
   %h2{:style => "text-decoration:none; color:#58616c;"}
-    =@event.owner.display_name
+    ="A reminder about your upcoming event"
 %div.email-body{ :style => "border-radius: 25px; padding: 20px; border: 2px solid #58616c;" }
   %center
     %h1
       =link_to @event.name, event_url(@rsvp.event, rsvp:@rsvp.hash_key), only_path: false, :style => "text-decoration:none; color:#000000;"
+    %h3
+      ="Organized by " + @event.owner.display_name  
     %div{:style => "text-decoration:none; color:#000000;"}
       =@event.html_description.html_safe
     %hr{ :style => "border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));"}
