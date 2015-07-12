@@ -136,10 +136,14 @@
                           -elsif rsvp.response == 0
                             ="No"
                           -else
-                            %div
-                              %button.btn.btn-xs{:type => "submit"} Send Reminder
-                            %div{:style => "font-size: 10px;"}
-                              =rsvp.reminded_time_string
+                            -if current_user == @event.owner
+                              %div
+                                %button.btn.btn-xs.reminder_button{"data-id" => rsvp.hash_key }
+                                  Send Reminder
+                              %div{:id => (rsvp.hash_key + '_message'), :style => "font-size: 10px;"}
+                                =rsvp.reminded_time_string
+                            -else
+                              =""
 
       -if current_user == @event.owner and @event.rsvps.count == 0
         %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Let's invite some people!
@@ -208,6 +212,20 @@
       document.getElementById('checkbox_message').innerHTML = "You will no longer receive emails when new comments are made.";
     }
   }
+
+  // On click for a button
+  $(".reminder_button").click(function(){
+       // Get the id data attribute
+       var id = $(this).data("id");
+       $.ajax({
+        type: 'GET',
+        url: '#{root_url}' + 'rsvps/' + id + '/rsvp_reminder'
+       })
+       .done(function(data) {
+        console.log(data);
+        document.getElementById(id + '_message').innerHTML = data['message'];
+       });
+  });
        
 
 
