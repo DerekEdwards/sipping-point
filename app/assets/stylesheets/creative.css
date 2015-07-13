@@ -249,9 +249,7 @@ header .header-content .header-content-inner p {
 .static-header {
  
     color: #fff;
-    background-image: url(header4.jpg);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-color: #243139;
     text-align: center;
 }
 
