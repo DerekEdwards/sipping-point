@@ -36,7 +36,7 @@ class RsvpsController < ApplicationController
 
   def rsvp_reminder
     rsvp = Rsvp.find_by(hash_key: params[:id])
-    if rsvp.reminded > Time.now - 1.hours
+    if (rsvp.reminded  || rsvp.event.created_at) > Time.now - 1.hours
       message = "stop annoying people"
     else
       rsvp.send_rsvp_reminder_email
