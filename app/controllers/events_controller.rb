@@ -103,7 +103,7 @@ class EventsController < ApplicationController
       redirect_to root_url
     end 
     
-    @rsvps = @event.rsvps.said_yes
+    @rsvps = @event.rsvps.said_yes.where("user_id <> ?", @event.owner.id)
   end
 
   def update_report
