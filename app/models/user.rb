@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
   #Gmail doesn't like people with 1 name.  If a person has only
   #1 Name, set the from to the Sipping Point stead of the name
   def email_name
-    if self.name.split(' ').count == 1
+    if self.display_name.split(' ').count == 1
       return "Sipping Point"
     else
       return self.name
