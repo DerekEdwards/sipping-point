@@ -9,6 +9,9 @@ class RsvpsController < ApplicationController
 
     @rsvp = Rsvp.find_by(hash_key: params[:id])
     @rsvp.response = params[:response].to_i
+    if @rsvp.response == 0
+      @rsvp.wants_comments_emails = false
+    end
     @rsvp.save
     @rsvp.event.update_status(send_email=true)
 
