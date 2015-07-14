@@ -11,7 +11,7 @@ The following rake task should be scheduled to run at least once per hour.  Idea
 
 ### Check for new comments needs to run at least once per hour.
 
-  * rake sipping_point:send_new_comments_hourly
+  * rake sipping_point:send_new_comments_hourly (IMPORTANT! Make sure that events.comments_last_mailed gets set to the current time when v0.3.0 is first updated, otherwise a lot of old comments will be sent out.)
 
 ### Send Flake Emails
 
