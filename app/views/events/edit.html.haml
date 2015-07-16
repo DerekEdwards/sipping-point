@@ -5,23 +5,130 @@
       =@event.name
     %h3
       -if @event.status == Event::INITIALIZED
-        You have created your event.  It's time to invite some people and finalize it!       
-    = simple_form_for @event do |f|
-      .panel.translucent
-        .panel-body 
-          - if @event.status == Event::INITIALIZED
-            =f.input :name, :label => "Event Name", :placeholder => "Drinks at the Shack", :hint => "What are we doing?", :input_html => {:color => "black", :size => 40, :maxlength => 50}
-            =f.input :threshold, :label => "Sipping Point", :hint => "Any fewer people than this, and it's just not a party.", :collection => 1..20
-          =f.input :maximum_attendance, :label => "Maximum (optional)", :hint => "Any more people than this, and it's going to be too crowded.", :collection => 1..20, :prompt => "No Limit"
-          - if @event.status == Event::INITIALIZED
-            =f.input :time, as: :string, :label => "Event Date & Time", :hint => "When is this event happening?"
-            =f.input :deadline, as: :string, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they aren't going."
+        You have created your event.  It's time to invite some people and finalize it!     
 
-          = f.input :location, :input_html => {:color => "black", :size => 40, :style=> 'width: 50%'}
-          = f.input :description, :input_html => {:color => "black", :size => 40, :style=> 'width: 50%'}
-          = f.input :invitee_emails, as: :text, :hint => "Enter emails separated by a comma.", :placeholder => "stacy@example.com, john@example.com", label: "Invitation Emails", :input_html => {:color => "black", :size => 40, :style=> 'width: 50%'}
-    
+    =form_tag(event_path, method: "patch") do 
+      .panel.translucent
+        .panel-body
+          .alert-text
+            -if @event.errors.count > 0
+              =@event.errors.first.last  
+          .panel-text
+            %table.table-center{:style=>"border-collapse:separate; border-spacing:1em; width: 80%;"}
+              %tr
+                %td
+                  %strong{:style => "font-size:20px"}
+                    ="Event Name"
+                %td{:style => "font-size:20px"}
+                  %input{:type => "string", :name => 'event[name]', :value => @event.name, :maxlength => "100"}
+              
+              - if @event.status == Event::INITIALIZED
+                %tr
+                  %td
+                    %strong{:style => "font-size:20px"}
+                      ="Sipping Point"
+                  %td{:style => "font-size:20px"}
+                    %select{:name => "event[threshold]"}
+                      =(1..20).to_a.each do |sp|
+                        -if sp == @event.threshold
+                          %option{:value => sp, :selected => 1}
+                            =sp
+                        -else
+                          %option{:value => sp}
+                            =sp
+              %tr 
+                %td
+                  %strong{:style => "font-size:20px"}
+                    ="Maximum"
+                  %br
+                  (Optional)
+                %td{:style => "font-size:20px"}
+                  %select{:name => 'maximum_attendance'}
+                    %option{:value => -1, :selected => 1}
+                      ="No Limit"
+                    =(3..20).to_a.each do |sp|
+                      -if sp == @event.maximum_attendance
+                        %option{:value => sp, :selected => 1}
+                          =sp
+                      -else
+                        %option{:value => sp}
+                          =sp
+
+              - if @event.status == Event::INITIALIZED
+                %tr
+                  %td
+                    %strong{:style => "font-size:20px"}
+                      ="Event Date and Time"
+                  %td
+                    %input{:id => 'event_time', :type => "string", :name => 'event[time]', :value => @event.time, :maxlength => "500"}
+
+                %tr
+                  %td
+                    %strong{:style => "font-size:20px"}
+                      ="Deadline to RSVP"
+                  %td
+                    %input{:id => 'event_deadline', :type => "string", :name => 'event[deadline]', :value => @event.deadline, :maxlength => "500"}
+
+              %tr
+                %td
+                  %strong{:style => "font-size:20px"}
+                    ="Location"
+                %td{:style => "font-size:18px"}
+                  %textarea{:type => "text", :name => 'event[location]', :rows => 2, :cols => 40, :maxlength => "500" }
+                    =@event.location
+
+              %tr
+                %td
+                  %strong{:style => "font-size:20px"}
+                    ="Description"
+                %td{:style => "font-size:18px"}
+                  %textarea{:type => "text", :name => 'event[description]', :rows => 4, :cols => 40 , :maxlength => "500"}
+                    =@event.description
+
+              -if current_user.my_people.count > 0
+                %tr
+                  %td
+                    %strong{:style => "font-size:20px"}
+                      ="Invite Old Friends"
+                    %br  
+                    (Invite people again.)
+                  %td
+                    %table.table.table-center.table-striped
+                      %tr
+                        %th{:style => "text-align:center;"}
+                          Invite
+                        %th{:style => "text-align:center;"}
+                          Name
+                        %th{:style => "text-align:center;"}
+                          Email
+                        %th{:style => "text-align:center;"}
+                          Reliability
+                      -current_user.my_people.each do |person|
+                        %tr
+                          %td   
+                            %input{:type => "checkbox", :name => '!!!email' + person.id.to_s, :value => person.email}
+                          %td
+                            =person.email
+                          %td
+                            =person.name
+                          %td 
+                            -reliability_factor = person.reliability_factor
+                            -if reliability_factor
+                              =(reliability_factor * 100).round.to_s + "%"
+
+
+              %tr
+                %td
+                  %strong{:style => "font-size:20px"}
+                    Invite New Friends
+                  %br
+                  (Enter emails to invite new people.  I know typing emails is a huge pain, so we'll remember these emails in the future.)
+                %td{:style => "font-size:18px"}
+                  %textarea{:type => "text", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :cols => 40 , :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net,georgepburdell@example.com"}
+        
+ 
       %button.btn.btn-primary.btn-xl{:type => "submit"} Save and Send Invites!
+
 :javascript
 
   var startDate = new Date;

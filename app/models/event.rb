@@ -61,26 +61,6 @@ class Event < ActiveRecord::Base
     [(self.threshold - self.rsvps.said_yes.count), 0].max
   end
 
-  def invitee_emails=(value)
-
-    create_owner_rsvp
-
-    emails = value.split(',')
-    emails.each do |email|
-      unless email.blank?
-        user = User.find_or_create_by(email: email.strip.downcase) do |u|
-          u.password = u.password_confirmation =Devise.friendly_token.first(8)
-        end
-
-        rsvp = Rsvp.where(user: user, event: self).first_or_create
-        rsvp.emailed = false
-        rsvp.new_record?
-        rsvp.generate_hash_key
-        rsvp.save!
-      end
-    end 
-  end
-
   def generate_hash_key
 
     if self.hash_key
@@ -123,10 +103,6 @@ class Event < ActiveRecord::Base
     return self.status 
   end
 
-  def invitee_emails
-    nil
-  end
-
   def new_comments
     self.comment_threads.where("created_at > ?", self.comments_last_mailed || self.created_at).order('created_at')
   end
@@ -140,17 +116,55 @@ class Event < ActiveRecord::Base
     emails.each do |email|
       unless email.blank?
         unless valid_email(email.strip.downcase)
-          puts 'testing ' + email
           errors.add(:invitee_emails, email + " is not a valid email.")
           return false
         end
       end
-    end 
+    end
+
+    return true
+
   end
 
   def has_passed?
     return self.time < Time.now
   end 
+
+  ####### Custom Getters/Setters #####
+  def invitee_emails
+    nil
+  end
+
+  def invitee_emails=(value)
+
+    create_owner_rsvp
+
+    emails = value.split(',')
+    create_rsvps emails
+    
+  end
+
+  def create_rsvps emails
+    emails.each do |email|
+      unless email.blank?
+        user = User.find_or_create_by(email: email.strip.downcase) do |u|
+          u.password = u.password_confirmation =Devise.friendly_token.first(8)
+        end
+
+        rsvp = Rsvp.where(user: user, event: self).first_or_create
+        rsvp.emailed = false
+        rsvp.new_record?
+        rsvp.generate_hash_key
+        rsvp.save!
+      end
+    end 
+  end
+
+  def my_people_emails
+    self.owner.my_people
+  end
+  
+  ### End Custom Getters/Setters #####
 
   ########## String Generators #######
 

@@ -67,12 +67,26 @@ class EventsController < ApplicationController
 
   # PATCH/PUT /events/1
   def update
-    
+
+    puts params
+    puts params[:invitee_emails]
+ 
+    @event.errors.clear    
     confirm_owner
+
+    old_friends = params.select { |key, value| key.to_s.match(/^!!!email\d+/) }
+    old_friends = old_friends.values
 
     respond_to do |format|
       if @event.invitee_emails_are_valid params[:event][:invitee_emails] and @event.update(event_params)
         @event.description = (sanitize(simple_format(params[:event][:description]))).gsub("<p>","").gsub("</p>","")
+        @event.create_rsvps old_friends
+        if params['maximum_attendance'].to_i == -1
+          @event.maximum_attendance = nil
+        else
+          @event.maximum_attendance = params['maximum_attendance'].to_i
+        end
+        @event.save
         @event.send_rsvp_emails 
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }

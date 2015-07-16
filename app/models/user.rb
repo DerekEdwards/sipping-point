@@ -11,7 +11,31 @@ class User < ActiveRecord::Base
   #Validations
   validates_uniqueness_of :email
 
+  #people that you have invited in the past or that have invited you
+  def my_people
+    my_people = []
 
+    my_events = Event.where(owner: self)
+    my_events.each do |event|
+      rsvps = event.rsvps
+      rsvps.each do |rsvp|
+        unless rsvp.user.in? my_people or rsvp.user == self
+          my_people << rsvp.user
+        end
+      end
+    end
+
+    my_rsvps = Rsvp.where(user: self)
+    my_rsvps.each do |rsvp|
+      unless rsvp.event.owner.in? my_people
+        my_people << rsvp.event.owner
+      end
+    end
+
+    my_people.sort_by{|p| p[:email]}
+
+  end
+   
   def flake_factor 
     reports = self.rsvps.reported
     flakes = reports.flaked
@@ -44,6 +68,14 @@ class User < ActiveRecord::Base
 
   def to_s
     name || email
+  end
+
+  def reliability
+    if self.reliability_factor
+      return (reliability_factor * 100).round.to_s + "%"
+    else
+      return ""
+    end
   end
 
   #Gmail doesn't like people with 1 name.  If a person has only
