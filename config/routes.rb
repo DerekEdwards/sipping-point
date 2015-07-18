@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       get   'edit'
       patch 'update_email_comments_setting'
       get   'rsvp_reminder'
+      get   'turn_off_comments'
     end
   end
 

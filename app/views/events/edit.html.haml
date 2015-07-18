@@ -15,7 +15,7 @@
           =f.input :maximum_attendance, :label => "Maximum (optional)", :hint => "Any more people than this, and it's going to be too crowded.", :collection => 1..20, :prompt => "No Limit"
           - if @event.status == Event::INITIALIZED
             =f.input :time, as: :string, :label => "Event Date & Time", :hint => "When is this event happening?"
-            =f.input :deadline, as: :string, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they ain't going."
+            =f.input :deadline, as: :string, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they aren't going."
 
           = f.input :location, :input_html => {:color => "black", :size => 40, :style=> 'width: 50%'}
           = f.input :description, :input_html => {:color => "black", :size => 40, :style=> 'width: 50%'}

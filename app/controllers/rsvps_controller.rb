@@ -37,6 +37,12 @@ class RsvpsController < ApplicationController
     render json: hash
   end
 
+  def turn_off_comments
+    @rsvp = Rsvp.find_by(hash_key: params[:id])
+    @rsvp.wants_comments_emails = false
+    @rsvp.save
+  end
+
   def rsvp_reminder
     rsvp = Rsvp.find_by(hash_key: params[:id])
     if (rsvp.reminded  || rsvp.event.created_at) > Time.now - 1.hours
