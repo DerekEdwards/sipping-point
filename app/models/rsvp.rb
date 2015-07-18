@@ -29,6 +29,7 @@ class Rsvp < ActiveRecord::Base
   #Constants
   FLAKED = 0
   SHOWED = 1
+  NO_RESPONSE = -1
 
   #Methods 
   def to_param

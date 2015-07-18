@@ -9,17 +9,20 @@
       .panel.translucent
         .panel-body
           .panel-text 
-            %table.table-center{:style=>"border: 1px; width: 50%"}
+            %table.table-center{:style=>"border: 1px; width: 75%"}
               -@rsvps.each do |rsvp|
                 %tr
                   %td
                     %strong{:style => "font-size:20px"}
                       =rsvp.user.display_name
                   %td{:style => "font-size:20px"}
-                    %input{:type => "radio", name: rsvp.user.email, :value => 0, :checked => (rsvp.attendance_report.nil? ? false : (rsvp.attendance_report == 1 ? false : true))}
+                    %input{:type => "radio", name: rsvp.user.email, :value => Rsvp::FLAKED, :checked => rsvp.attendance_report == Rsvp::FLAKED}
                       Flaked
                   %td{:style => "font-size:20px"}
-                    %input{:type => "radio", name: rsvp.user.email, :value => 1, :checked => (rsvp.attendance_report.nil? ? true : (rsvp.attendance_report == 1 ? true : false))}
+                    %input{:type => "radio", name: rsvp.user.email, :value => Rsvp::SHOWED, :checked => rsvp.attendance_report == Rsvp::SHOWED}
                       Did Not Flake
+                  %td{:style => "font-size:20px"}
+                    %input{:type => "radio", name: rsvp.user.email, :value => Rsvp::NO_RESPONSE, :checked => rsvp.attendance_report.nil?}
+                      No Response
       %button.btn.btn-primary.btn-xl{:type => "submit"} Submit
             

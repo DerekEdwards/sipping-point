@@ -109,11 +109,17 @@ class EventsController < ApplicationController
   def update_report
 
     confirm_owner
-
+    puts params
     @rsvps = @event.rsvps.said_yes
     @rsvps.each do |rsvp|
-      rsvp.attendance_report = params[rsvp.user.email].to_i
-      rsvp.save
+      unless params[rsvp.user.email].nil?
+        if params[rsvp.user.email].to_i == Rsvp::NO_RESPONSE
+          rsvp.attendance_report = nil
+        else
+          rsvp.attendance_report = params[rsvp.user.email].to_i
+        end
+        rsvp.save
+      end
     end 
 
     respond_to do |format|
