@@ -1,0 +1,16 @@
+%section.static-header
+  %div.container
+    %h1.static-header-title
+      =@rsvp.event.name
+    
+    .panel.translucent
+      .panel-body
+        .panel-text
+          %h4
+            ="You will no longer receive comments about this event." 
+  
+    .panel.translucent
+      .panel-body
+        .panel-text
+          %h4
+            =link_to "View Event", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false
