@@ -5,7 +5,7 @@ class UserMailer < ActionMailer::Base
   	@user =  rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
-  	mail(to: @user.email, subject: "You're invited to " + @event.name, from: @event.owner.email_name)
+  	mail(to: @user.email, subject: @event.name, from: @event.owner.email_name)
   end
 
   #Reminder to attend
@@ -38,7 +38,11 @@ class UserMailer < ActionMailer::Base
     @rsvp = rsvp
     @event = rsvp.event
     @comments = comments
-    mail(to: @user.email, subject: "Someone left a comment on " + @event.name, from: @event.owner.email_name)
+    if @comments.count == 0
+      mail(to: @user.email, subject: "New comment on " + @event.name, from: @event.owner.email_name)
+    else
+      mail(to: @user.email, subject: "New comments on " + @event.name, from: @event.owner.email_name)
+    end
   end
 
   #Email sent to owner to report flakes
