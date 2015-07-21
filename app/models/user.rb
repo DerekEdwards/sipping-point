@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
       end
     end
 
-    my_people.sort_by{|p| p[:display_name]}
+    my_people.sort_by{|p| p[:email]}
 
   end
    
