@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
     my_events.each do |event|
       rsvps = event.rsvps
       rsvps.each do |rsvp|
-        unless rsvp.user.in? my_people or rsvp.user == self
+        unless rsvp.user.nil? or rsvp.user.in? my_people or rsvp.user == self
           my_people << rsvp.user
         end
       end
@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
 
     my_rsvps = Rsvp.where(user: self)
     my_rsvps.each do |rsvp|
-      unless rsvp.event.owner.in? my_people or rsvp.user == self
+      unless rsvp.user.nil? rsvp.event.owner.in? my_people or rsvp.user == self
         my_people << rsvp.event.owner
       end
     end
