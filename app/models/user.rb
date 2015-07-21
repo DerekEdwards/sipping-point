@@ -27,12 +27,12 @@ class User < ActiveRecord::Base
 
     my_rsvps = Rsvp.where(user: self)
     my_rsvps.each do |rsvp|
-      unless rsvp.user.nil? rsvp.event.owner.in? my_people or rsvp.user == self
+      unless rsvp.user.nil? or rsvp.event.owner.in? my_people or rsvp.user == self
         my_people << rsvp.event.owner
       end
     end
 
-    my_people.sort_by{|p| p[:email]}
+    my_people.sort_by{|p| p[:display_name]}
 
   end
    
