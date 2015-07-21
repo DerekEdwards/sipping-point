@@ -20,7 +20,7 @@
                   %strong{:style => "font-size:20px"}
                     ="Event Name"
                 %td{:style => "font-size:20px"}
-                  %input{:type => "string", :name => 'event[name]', :value => @event.name, :maxlength => "100"}
+                  %input{:type => "string", :name => 'event[name]', :value => @event.name, :maxlength => "100", :size => 30}
               
               - if @event.status == Event::INITIALIZED
                 %tr
