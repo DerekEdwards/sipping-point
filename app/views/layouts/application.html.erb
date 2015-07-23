@@ -61,7 +61,11 @@
                       <li>
                         <%= link_to 'Admin', admin_events_path, :class => 'page-scroll' %>
                       </li>
-                    <% end %>  
+                    <% end %> 
+                    <li>
+                      <%= link_to 'New Event', new_event_path, :class => 'page-scroll' %>
+                    </li>
+
 
                     <li>
                       <%= link_to events_user_path(current_user), :class => 'page-scroll' do %>
