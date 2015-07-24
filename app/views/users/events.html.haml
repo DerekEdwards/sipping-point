@@ -1,5 +1,4 @@
 %section.static-header
-
   -if @user.rsvps.count < 1
     %h1
       You have no events.  
@@ -134,4 +133,5 @@
                       =rsvp.event.rsvps.where(response: true).count
                     %td
                       =rsvp.event.short_description 
+%div.fill-footer
 

@@ -259,7 +259,12 @@ header .header-content .header-content-inner p {
     color: #fff;
     background-color: #243139;
     text-align: center;
-     height: 100%;
+
+}
+
+.fill-footer {
+    background-color: #243139;
+    height: 100%;
 }
 
 .static-header-title {
