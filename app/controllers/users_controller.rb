@@ -63,9 +63,10 @@ class UsersController < ApplicationController
 
   def events
     @my_upcoming_events = Event.where(owner: @user).upcoming.order('time')
-    @events_im_attending = Rsvp.upcoming.where(user: @user, response: true)
-    @my_prior_events = @user.rsvps.prior
-    @new_rsvps = Rsvp.upcoming.where(user: @user, response: nil)
+    @events_im_attending = @user.rsvps.upcoming.where(user: @user, response: true)
+    @events_i_declined = @user.rsvps.upcoming.where(user: @user, response: false)
+    @my_prior_events = @user.rsvps.prior.where(response: true)
+    @new_rsvps = @user.rsvps.upcoming.where(user: @user, response: nil)
     
     puts 'users go here'
     puts @user.id

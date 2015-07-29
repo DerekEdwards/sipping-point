@@ -96,6 +96,35 @@
                         =rsvp.event.display_deadline
                     %td 
                       =rsvp.event.short_description 
+
+    -if @events_i_declined.count > 0  
+      %h2
+        ="Events I'm Not Attending"
+      .panel.translucent
+        .panel-body
+          .panel-text
+            %table.table.table-center.table-striped
+              %tr
+                %th.text-center
+                  Name
+                %th.text-center
+                  Date
+                %th.text-center
+                  Deadline
+                %th.text-center
+                  Status
+                -@events_i_declined.each do |rsvp|
+                  %tr
+                    %td
+                      =link_to rsvp.event.name, event_path(rsvp.event)
+                    %td
+                      -if rsvp.event.time
+                        =rsvp.event.display_time
+                    %td
+                      -if rsvp.event.deadline
+                        =rsvp.event.display_deadline
+                    %td 
+                      =rsvp.event.short_description 
     
     -if @my_prior_events.count > 0
       %h2
