@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       get 'events'
+      get 'hidden_events'
     end
   end 
   
@@ -33,6 +34,8 @@ Rails.application.routes.draw do
       patch 'update_email_comments_setting'
       get   'rsvp_reminder'
       get   'turn_off_comments'
+      patch 'hide'
+      patch 'unhide'
     end
   end
 

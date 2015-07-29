@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :events]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :events, :hidden_events]
 
   # GET /users
   # GET /users.json
@@ -63,18 +63,28 @@ class UsersController < ApplicationController
 
   def events
     @my_upcoming_events = Event.where(owner: @user).upcoming.order('time')
-    @events_im_attending = @user.rsvps.upcoming.where(user: @user, response: true)
-    @events_i_declined = @user.rsvps.upcoming.where(user: @user, response: false)
-    @my_prior_events = @user.rsvps.prior.where(response: true)
-    @new_rsvps = @user.rsvps.upcoming.where(user: @user, response: nil)
+    @events_im_attending = @user.rsvps.not_hidden.upcoming.where(response: true)
+    @events_i_declined = @user.rsvps.not_hidden.upcoming.where(response: false)
+    @my_prior_events = @user.rsvps.not_hidden.prior.where(response: true)
+    @new_rsvps = @user.rsvps.not_hidden.upcoming.where(response: nil)
+    @hidden_rsvps = @user.rsvps.hidden
     
-    puts 'users go here'
-    puts @user.id
-    puts current_user.id
-
     if @user == current_user 
       respond_to do |format|
         format.html { render :events }
+      end
+    else 
+      redirect_to root_url
+    end 
+
+  end
+
+  def hidden_events
+    @rsvps = @user.rsvps.hidden
+    
+    if @user == current_user 
+      respond_to do |format|
+        format.html { render :hidden_events }
       end
     else 
       redirect_to root_url

@@ -1,0 +1,56 @@
+%section.static-header
+  -if @rsvps.count < 1
+    %h1
+      You have no hidden events.  
+  -else
+    %h1
+      ="Deleted Events"
+    .panel.translucent
+      .panel-body
+        .panel-text
+          %table.table.table-center.table-striped
+            %tr
+              %th.text-center
+                Name
+              %th.text-center
+                Date
+              %th.text-center
+                Deadline
+              %th.text-center
+                Status
+              %th.text-center
+                Un-Delete
+              -@rsvps.each do |rsvp|
+                %tr{ :id => rsvp.hash_key + '_row'}
+                  %td
+                    =link_to rsvp.event.name, event_path(rsvp.event)
+                  %td
+                    -if rsvp.event.time
+                      =rsvp.event.display_time
+                  %td
+                    -if rsvp.event.deadline
+                      =rsvp.event.display_deadline
+                  %td 
+                    =rsvp.event.short_description 
+                  %td.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
+                    %i.fa.fa-lg.fa-undo                   
+%center
+  %h4
+    = link_to 'Back to My Events', events_user_url(@user)    
+
+%div.fill-footer
+
+
+:javascript
+// On click for a button
+  $(".event_trash_button").click(function(){
+       // Get the id data attribute
+       var id = $(this).data("id");
+       var row = document.getElementById(id + '_row');
+       row.remove();
+       $.ajax({
+        type: 'PATCH',
+        url: '#{root_url}' + 'rsvps/' + id + '/unhide'
+       });
+  });
+

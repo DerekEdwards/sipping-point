@@ -85,7 +85,7 @@
                 %th.text-center
                   Status
                 -@events_im_attending.each do |rsvp|
-                  %tr
+                  %tr{:id => rsvp.hash_key + '_row'}
                     %td
                       =link_to rsvp.event.name, event_path(rsvp.event)
                     %td
@@ -113,8 +113,10 @@
                   Deadline
                 %th.text-center
                   Status
+                %th.text-center
+                  Delete
                 -@events_i_declined.each do |rsvp|
-                  %tr
+                  %tr{ :id => rsvp.hash_key + '_row'}
                     %td
                       =link_to rsvp.event.name, event_path(rsvp.event)
                     %td
@@ -125,6 +127,8 @@
                         =rsvp.event.display_deadline
                     %td 
                       =rsvp.event.short_description 
+                    %td.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
+                      %i.fa.fa-lg.fa-trash-o                   
     
     -if @my_prior_events.count > 0
       %h2
@@ -146,8 +150,10 @@
                   Confirmations
                 %th.text-center
                   Status
+                %th.text-center
+                  Delete
                 -@my_prior_events.each do |rsvp|
-                  %tr
+                  %tr{ :id => rsvp.hash_key + '_row'}
                     %td
                       =link_to rsvp.event.name, event_path(rsvp.event)
                     %td
@@ -162,5 +168,27 @@
                       =rsvp.event.rsvps.where(response: true).count
                     %td
                       =rsvp.event.short_description 
+                    %td.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
+                      %i.fa.fa-lg.fa-trash-o    
+
+%center
+  %h4{:id => 'link_to_deleted_events', :style => "display:" + (@hidden_rsvps.count > 0 ? 'normal' : 'none' ) + ';'}
+    = link_to 'My Deleted Events', hidden_events_user_url(@user)                       
 %div.fill-footer
+
+:javascript
+// On click for a button
+  $(".event_trash_button").click(function(){
+       // Get the id data attribute
+       var id = $(this).data("id");
+       var row = document.getElementById(id + '_row');
+       var delete_link = document.getElementById('link_to_deleted_events');
+       console.log(delete_link);
+       delete_link.style.display = 'block';
+       row.remove();
+       $.ajax({
+        type: 'PATCH',
+        url: '#{root_url}' + 'rsvps/' + id + '/hide'
+       });
+  });
 

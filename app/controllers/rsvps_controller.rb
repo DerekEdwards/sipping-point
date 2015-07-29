@@ -53,5 +53,19 @@ class RsvpsController < ApplicationController
     end
     render json: {message: message}
   end
+
+  def hide
+    rsvp = Rsvp.find_by(hash_key: params[:id])
+    rsvp.hidden = true
+    rsvp.save
+    render json: {hidden: true}
+  end
+
+  def unhide
+    rsvp = Rsvp.find_by(hash_key: params[:id])
+    rsvp.hidden = false
+    rsvp.save
+    render json: {hidden: false}
+  end
     
 end
