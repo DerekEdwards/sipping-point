@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :comments do
     member do
       patch 'create'
+      delete 'delete'
     end
   end
 

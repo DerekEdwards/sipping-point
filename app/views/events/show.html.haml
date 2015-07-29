@@ -164,7 +164,7 @@
         ="Be the first to leave a comment"
       -else
         -@comments.each do |comment|
-          .panel.translucent
+          .panel.translucent{id: 'global_comment_' + comment.id.to_s}
             .panel-body 
               %div
                 .col-md-6
@@ -173,11 +173,32 @@
                 .col-md-6
                   .message-time-text
                     =comment.created_at.strftime("%B %-d, %Y at %-I:%M%p")
-              %div
+              %div{id: 'comment_' + comment.id.to_s}
                 .col-md-12
                   .message-body-text
                     -unless comment.body.blank?
                       =comment.body.html_safe
+              -if comment.user == current_user
+                %div{id: 'comment_buttons_' + comment.id.to_s}
+                  .col-md-5
+                  .col-md-2.panel-text
+                    .message-header-text.edit_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
+                      %i.fa.fa-edit
+                      Edit
+                  .col-md-5
+                %div{id: 'edit_comment_buttons_' + comment.id.to_s, :style => "display:none;"}
+                  .col-md-2
+                  .col-md-4.panel-text
+                    .message-header-text.delete_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
+                      %i.fa.fa-close
+                      Delete
+                  .col-md-4.panel-text
+                    .message-header-text.update_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
+                      %i.fa.fa-check-square-o
+                      Update
+                  .col-md-2
+
+
       -unless @comment_as.nil?
         = simple_form_for @new_comment do |f|
           .panel.translucent
@@ -194,6 +215,8 @@
             Login to leave comments on this event.
 
 :javascript
+
+  // Turning comment alerts on and off
   document.getElementById('comments_email_checkbox').onclick = function() {
     var chkBox = document.getElementById('comments_email_checkbox');
     var is_checked = chkBox.checked;
@@ -213,7 +236,7 @@
     }
   }
 
-  // On click for a button
+  // Reminder Button 
   $(".reminder_button").click(function(){
        // Get the id data attribute
        var id = $(this).data("id");
@@ -224,6 +247,37 @@
        .done(function(data) {
         console.log(data);
         document.getElementById(id + '_message').innerHTML = data['message'];
+       });
+  });
+
+
+  //Go into Edit mode
+  $(".edit_comment_button").click(function(){
+       // Get the id data attribute
+       var id = $(this).data("id");
+
+       var button_div = document.getElementById('comment_buttons_' + id)
+       button_div.style.display = 'none';
+       
+       var edit_button_div = document.getElementById('edit_comment_buttons_' + id)
+       edit_button_div.style.display = 'block';
+       //$.ajax({
+       // type: 'PATCH',
+       // url: '#{root_url}' + 'rsvps/' + id + '/hide'
+       //});
+  });
+
+  //Delete a comment
+  $(".delete_comment_button").click(function(){
+       // Get the id data attribute
+       var id = $(this).data("id");
+
+       var global_div = document.getElementById('global_comment_' + id)
+       global_div.style.display = 'none';
+
+       $.ajax({
+        type: 'DELETE',
+        url: '#{root_url}' + 'comments/' + id + '/delete'
        });
   });
        

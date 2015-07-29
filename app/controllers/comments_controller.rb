@@ -20,12 +20,23 @@ class CommentsController < ApplicationController
     end
   end
   
+  def delete
+    comment = Comment.find(params[:id].to_i)
+    unless current_user == comment.user 
+      render json: {result: false}
+      return
+    end
+    comment.delete
+    render json: {result: true}
+  end
+
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def comment_params
     params.require(:comment).permit(:body, :commentable_id, :commentable_type, :user_id, :rsvp_hash_key)
   end
+
 end  
 
 

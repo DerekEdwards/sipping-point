@@ -183,7 +183,6 @@
        var id = $(this).data("id");
        var row = document.getElementById(id + '_row');
        var delete_link = document.getElementById('link_to_deleted_events');
-       console.log(delete_link);
        delete_link.style.display = 'block';
        row.remove();
        $.ajax({
