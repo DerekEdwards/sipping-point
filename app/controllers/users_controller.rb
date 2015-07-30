@@ -66,7 +66,7 @@ class UsersController < ApplicationController
     @events_im_attending = @user.rsvps.not_hidden.upcoming.where(response: true)
     @events_i_declined = @user.rsvps.not_hidden.upcoming.where(response: false)
     @my_prior_events = @user.rsvps.not_hidden.prior.where(response: true)
-    @new_rsvps = @user.rsvps.not_hidden.upcoming.where(response: nil)
+    @new_rsvps = @user.rsvps.not_hidden.upcoming.not_expired.where(response: nil)
     @hidden_rsvps = @user.rsvps.hidden
     
     if @user == current_user 

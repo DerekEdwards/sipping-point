@@ -27,6 +27,7 @@ class Rsvp < ActiveRecord::Base
   scope :needs_reminder_of_event_email, -> { joins(:event).where("time > ? and time < ? and status = ? and response = 1 and reminder_to_attend_sent = false", Time.now, Time.now + 24*3600, Event::CONFIRMED)}
   scope :not_hidden, -> {where(:hidden => false)}
   scope :hidden, -> {where(:hidden => true)}
+  scope :not_expired, -> { joins(:event).where("status <> ?", Event::EXPIRED)}
 
   #Constants
   FLAKED = 0
