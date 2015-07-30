@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     member do
       patch 'create'
       delete 'delete'
+      patch 'update'
     end
   end
 

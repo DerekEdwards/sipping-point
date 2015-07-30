@@ -1,0 +1,150 @@
+%h2  
+  Comments
+-if @rsvp
+  %div.checkbox
+    %label
+      %input{:id => 'comments_email_checkbox', :type => "checkbox", :value => "", :checked => @rsvp.wants_comments_emails}
+      ="Let me know when new comments are made on this event."
+  %div{:id => 'checkbox_message'}
+
+-if @comments.count == 0
+  ="Be the first to leave a comment"
+-else
+  -@comments.each do |comment|
+    .panel.translucent{id: 'global_comment_' + comment.id.to_s}
+      .panel-body 
+        %div
+          .col-md-6
+            .message-header-text
+              =comment.user.display_name
+          .col-md-6
+            .message-time-text
+              =comment.created_at.strftime("%B %-d, %Y at %-I:%M%p")
+        %div{id: 'comment_' + comment.id.to_s}
+          .col-md-12
+            .message-body-text
+              -unless comment.body.blank?
+                =comment.body.html_safe
+        %div{id: 'comment_field_' + comment.id.to_s, :style => "display:none;"}
+          = simple_form_for comment, :url => url_for(:action => 'update', :controller => 'comments'), :method => 'patch', html: { id: 'comment_form_' + comment.id.to_s}, :authenticity_token => true, :remote => true do |f| 
+            =f.input :body, label: false, :input_html => {:style => 'width: 100%', :value => comment.body.gsub("<p>","").gsub("</p>","")}
+            =f.hidden_field :id, value: comment.id
+            =f.hidden_field :rsvp_hash_key, value: @rsvp_hash_key
+
+        -if comment.user == @comment_as and not @comment_as.nil?
+          %div{id: 'comment_buttons_' + comment.id.to_s}
+            .col-md-5
+            .col-md-2.panel-text
+              .message-header-text.edit_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
+                %i.fa.fa-edit
+                Edit
+            .col-md-5
+          %div{id: 'edit_comment_buttons_' + comment.id.to_s, :style => "display:none;"}
+            .col-md-4.panel-text
+              .message-header-text.delete_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
+                %i.fa.fa-trash
+                Delete
+            .col-md-4.panel-text
+              .message-header-text.cancel_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
+                %i.fa.fa-close
+                Cancel
+            .col-md-4.panel-text
+              .message-header-text.update_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
+                %i.fa.fa-check-square-o
+                Update
+
+
+
+-unless @comment_as.nil?
+  = simple_form_for @new_comment do |f|
+    .panel.translucent
+      .panel-body 
+        =f.input :body, label: false, :input_html => {:style=> 'width: 100%'}
+        =f.hidden_field :commentable_id, value: @event.id
+        =f.hidden_field :commentable_type, value: "Event"
+        =f.hidden_field :user_id, value: @comment_as.id 
+        =f.hidden_field :rsvp_hash_key, value: @rsvp_hash_key
+        %button.btn.btn-primary{:type => "submit"} Comment
+-else
+  .panel.translucent
+    .panel-body.panel-text
+      Login to leave comments on this event.
+
+:javascript
+
+  // Turning comment alerts on and off
+  document.getElementById('comments_email_checkbox').onclick = function() {
+    var chkBox = document.getElementById('comments_email_checkbox');
+    var is_checked = chkBox.checked;
+      $.ajax({
+        type: 'PATCH',
+        url: '#{ update_email_comments_setting_rsvp_path(@rsvp || 1) }',
+        data: { email_setting: chkBox.checked},
+      });
+
+    if(is_checked)
+    {
+      document.getElementById('checkbox_message').innerHTML = "Awesome! We will email you when new comments are made.";
+    }  
+    else
+    {
+      document.getElementById('checkbox_message').innerHTML = "You will no longer receive emails when new comments are made.";
+    }
+  }
+
+  //Go into Edit mode
+  $(".edit_comment_button").click(function(){
+       // Get the id data attribute
+    var id = $(this).data("id");
+    var button_div = document.getElementById('comment_buttons_' + id);
+    button_div.style.display = 'none';
+
+    var comment_area = document.getElementById('comment_' + id);
+    comment_area.style.display = 'none';
+
+    var comment_field = document.getElementById('comment_field_' + id);
+    comment_field.style.display = 'block';
+     
+    var edit_button_div = document.getElementById('edit_comment_buttons_' + id);
+    edit_button_div.style.display = 'block';
+  });
+
+  //Delete a comment
+  $(".delete_comment_button").click(function(){
+       // Get the id data attribute
+    var id = $(this).data("id");
+
+    var global_div = document.getElementById('global_comment_' + id)
+    global_div.style.display = 'none';
+
+    $.ajax({
+      type: 'DELETE',
+      url: '#{root_url}' + 'comments/' + id + '/delete'
+    });
+  });
+
+  // Cancel editing a comment
+  $(".cancel_comment_button").click(function(){
+       // Get the id data attribute
+    var id = $(this).data("id");
+    var button_div = document.getElementById('comment_buttons_' + id);
+    button_div.style.display = 'block';
+
+    var comment_area = document.getElementById('comment_' + id);
+    comment_area.style.display = 'block';
+
+    var comment_field = document.getElementById('comment_field_' + id);
+    comment_field.style.display = 'none';
+     
+    var edit_button_div = document.getElementById('edit_comment_buttons_' + id);
+    edit_button_div.style.display = 'none';
+  });
+
+  // Update a comment
+  $(".update_comment_button").click(function(){
+    var id = $(this).data("id");
+    var comment_form = document.getElementById('comment_form_' + id);
+    comment_form.submit();
+  });
+
+  
