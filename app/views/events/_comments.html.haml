@@ -6,6 +6,8 @@
       %input{:id => 'comments_email_checkbox', :type => "checkbox", :value => "", :checked => @rsvp.wants_comments_emails}
       ="Let me know when new comments are made on this event."
   %div{:id => 'checkbox_message'}
+-else
+  %div{:id => 'comments_email_checkbox'}
 
 -if @comments.count == 0
   ="Be the first to leave a comment"
