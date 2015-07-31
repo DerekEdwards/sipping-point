@@ -35,7 +35,24 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+<style>
 
+.navbar-shrink {
+        background-color: #FFF !important;
+        border-color: #222;
+}
+
+.logo-shrink {
+  color: #222 !important;
+  opacity: 0.7;
+}
+
+.logo-shrink:hover {
+  opacity: 1;
+}
+
+
+</style>
 </head>
 
 <body id="page-top">
@@ -50,7 +67,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand page-scroll" href="/">The Sipping Point</a>
+              <a class="navbar-brand page-scroll my-scroll" href="/">The Sipping Point</a>
           </div>
 
           <!-- Collect the nav links, forms, and other content for toggling -->
@@ -59,16 +76,16 @@
                   <% if user_signed_in? %>
                     <% if current_user.administrator? %>
                       <li>
-                        <%= link_to 'Admin', admin_events_path, :class => 'page-scroll' %>
+                        <%= link_to 'Admin', admin_events_path, :class => 'page-scroll my-scroll' %>
                       </li>
                     <% end %> 
                     <li>
-                      <%= link_to 'New Event', new_event_path, :class => 'page-scroll' %>
+                      <%= link_to 'New Event', new_event_path, :class => 'page-scroll my-scroll' %>
                     </li>
 
 
                     <li>
-                      <%= link_to events_user_path(current_user), :class => 'page-scroll' do %>
+                      <%= link_to events_user_path(current_user), :class => 'page-scroll my-scroll' do %>
                         My Events <% if current_user.rsvps.not_expired.upcoming.where(response: nil).count > 0
  %><span class="badge"><%= current_user.rsvps.not_expired.upcoming.where(response: nil).count %>
 </span><% end %>
@@ -76,17 +93,17 @@
 
                     </li>                      
                     <li>
-                       <%= link_to 'Edit profile', edit_user_registration_path, :class => 'page-scroll' %>
+                       <%= link_to 'Edit profile', edit_user_registration_path, :class => 'page-scroll my-scroll' %>
                     </li>
                     <li>
-                       <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'page-scroll'  %>
+                       <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'page-scroll my-scroll'  %>
                     </li>
                   <% else %>
                     <li>
-                        <%= link_to "Sign up", new_user_registration_path, :class => 'page-scroll'  %> 
+                        <%= link_to "Sign up", new_user_registration_path, :class => 'page-scroll my-scroll'  %> 
                     </li>
                     <li>
-                        <%= link_to "Login", new_user_session_path, :class => 'page-scroll'  %>
+                        <%= link_to "Login", new_user_session_path, :class => 'page-scroll my-scroll'  %>
                     </li>
                   <% end %>  
               </ul>
@@ -100,6 +117,21 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="/assets/bootstrap.min.js"></script>
+<script>
+  $(function(){
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 100){
+            $('.navbar-default').addClass('navbar-shrink');
+            $('.my-scroll').addClass('logo-shrink');
+        }
+        else{
+            $('.navbar-default').removeClass('navbar-shrink');
+            $('.my-scroll').removeClass('logo-shrink');
+        }
+    });
+});
+</script>
 
 </body>
 </html>
+

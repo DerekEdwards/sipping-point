@@ -12166,7 +12166,7 @@ aside {
 /* line 113, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .navbar-default .nav > li.active > a,
 .navbar-default .nav > li.active > a:focus {
-  color: #58616c !important;
+  color: #58616c;
   background-color: transparent;
 }
 
@@ -12177,66 +12177,74 @@ aside {
 }
 
 @media (min-width: 768px) {
-  /* line 125, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 126, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  .navbar-shrink {
+    background-color: #FFF !important;
+    color: #222 !important;
+    border-color: #222;
+    font-size: 7px;
+  }
+
+  /* line 132, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .navbar-default {
     border-color: rgba(255, 255, 255, 0.3);
     background-color: transparent;
   }
 
-  /* line 130, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 137, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .navbar-default .navbar-header .navbar-brand {
     color: rgba(255, 255, 255, 0.7);
   }
 
-  /* line 134, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 141, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .navbar-default .navbar-header .navbar-brand:hover,
   .navbar-default .navbar-header .navbar-brand:focus {
     color: #fff;
   }
 
-  /* line 139, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 146, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .navbar-default .nav > li > a,
   .navbar-default .nav > li > a:focus {
     color: rgba(255, 255, 255, 0.7);
   }
 
-  /* line 144, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 151, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .navbar-default .nav > li > a:hover,
   .navbar-default .nav > li > a:focus:hover {
     color: #fff;
   }
 
-  /* line 149, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 156, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .navbar-default.affix {
     border-color: rgba(34, 34, 34, 0.05);
     background-color: #fff;
   }
 
-  /* line 154, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 161, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .navbar-default.affix .navbar-header .navbar-brand {
     font-size: 14px;
     color: #58616c;
   }
 
-  /* line 159, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 166, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .navbar-default.affix .navbar-header .navbar-brand:hover,
   .navbar-default.affix .navbar-header .navbar-brand:focus {
     color: #eb3812;
   }
 
-  /* line 164, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 171, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .navbar-default.affix .nav > li > a,
   .navbar-default.affix .nav > li > a:focus {
     color: #222;
   }
 
-  /* line 169, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 176, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .navbar-default.affix .nav > li > a:hover,
   .navbar-default.affix .nav > li > a:focus:hover {
     color: #58616c;
   }
 }
-/* line 175, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 184, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 header {
   position: relative;
   width: 100%;
@@ -12252,13 +12260,13 @@ header {
   opacity: 0.8;
 }
 
-/* line 191, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 200, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .attached {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
 
-/* line 196, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 205, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 header .header-content {
   position: relative;
   width: 100%;
@@ -12266,7 +12274,7 @@ header .header-content {
   text-align: center;
 }
 
-/* line 203, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 212, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .main-header h1 {
   margin-top: 0;
   margin-bottom: 0;
@@ -12275,7 +12283,7 @@ header .header-content {
   font-size: 100px;
 }
 
-/* line 210, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 219, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .header-content-inner h1 {
   margin-top: 0;
   margin-bottom: 0;
@@ -12284,12 +12292,12 @@ header .header-content {
   font-size: 60px;
 }
 
-/* line 218, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 227, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 header .header-content .header-content-inner hr {
   margin: 30px auto;
 }
 
-/* line 222, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 231, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 header .header-content .header-content-inner p {
   margin-bottom: 50px;
   font-size: 16px;
@@ -12298,12 +12306,12 @@ header .header-content .header-content-inner p {
 }
 
 @media (min-width: 768px) {
-  /* line 230, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 239, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   header {
     min-height: 100%;
   }
 
-  /* line 234, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 243, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   header .header-content {
     position: absolute;
     top: 50%;
@@ -12313,14 +12321,14 @@ header .header-content .header-content-inner p {
     transform: translateY(-50%);
   }
 
-  /* line 243, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 252, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   header .header-content .header-content-inner {
     margin-right: auto;
     margin-left: auto;
     max-width: 1000px;
   }
 
-  /* line 249, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 258, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   header .header-content .header-content-inner p {
     margin-right: auto;
     margin-left: auto;
@@ -12328,20 +12336,20 @@ header .header-content .header-content-inner p {
     font-size: 18px;
   }
 }
-/* line 257, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 266, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .static-header {
   color: #fff;
   background-color: #243139;
   text-align: center;
 }
 
-/* line 265, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 274, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .fill-footer {
   background-color: #243139;
   height: 100%;
 }
 
-/* line 270, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 279, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .static-header-title {
   margin: 30px auto;
   text-transform: uppercase;
@@ -12349,29 +12357,29 @@ header .header-content .header-content-inner p {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-/* line 277, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 286, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .section-heading {
   margin-top: 0;
 }
 
-/* line 281, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 290, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .service-box {
   margin: 50px auto 0;
   max-width: 400px;
 }
 
 @media (min-width: 992px) {
-  /* line 287, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 296, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .service-box {
     margin: 20px auto 0;
   }
 }
-/* line 292, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 301, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .service-box p {
   margin-bottom: 0;
 }
 
-/* line 296, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 305, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .portfolio-box {
   display: block;
   position: relative;
@@ -12379,7 +12387,7 @@ header .header-content .header-content-inner p {
   max-width: 650px;
 }
 
-/* line 303, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 312, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .portfolio-box .portfolio-box-caption {
   display: block;
   position: absolute;
@@ -12395,7 +12403,7 @@ header .header-content .header-content-inner p {
   transition: all .35s;
 }
 
-/* line 318, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 327, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .portfolio-box .portfolio-box-caption .portfolio-box-caption-content {
   position: absolute;
   top: 50%;
@@ -12404,58 +12412,58 @@ header .header-content .header-content-inner p {
   transform: translateY(-50%);
 }
 
-/* line 326, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 335, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .portfolio-box .portfolio-box-caption .portfolio-box-caption-content .project-category,
 .portfolio-box .portfolio-box-caption .portfolio-box-caption-content .project-name {
   padding: 0 15px;
   font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
 }
 
-/* line 332, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 341, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .portfolio-box .portfolio-box-caption .portfolio-box-caption-content .project-category {
   text-transform: uppercase;
   font-size: 14px;
   font-weight: 600;
 }
 
-/* line 338, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 347, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .portfolio-box .portfolio-box-caption .portfolio-box-caption-content .project-name {
   font-size: 18px;
 }
 
-/* line 342, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 351, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .portfolio-box:hover .portfolio-box-caption {
   opacity: 1;
 }
 
 @media (min-width: 768px) {
-  /* line 347, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 356, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .portfolio-box .portfolio-box-caption .portfolio-box-caption-content .project-category {
     font-size: 16px;
   }
 
-  /* line 351, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+  /* line 360, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
   .portfolio-box .portfolio-box-caption .portfolio-box-caption-content .project-name {
     font-size: 22px;
   }
 }
-/* line 356, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 365, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .call-to-action h2 {
   margin: 0 auto 20px;
 }
 
-/* line 360, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 369, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .text-primary {
   color: #58616c;
 }
 
-/* line 364, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 373, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .no-gutter > [class*=col-] {
   padding-right: 0;
   padding-left: 0;
 }
 
-/* line 369, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 378, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn-default {
   border-color: #fff;
   color: #222;
@@ -12465,7 +12473,7 @@ header .header-content .header-content-inner p {
   transition: all .35s;
 }
 
-/* line 378, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 387, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn-default:hover,
 .btn-default:focus,
 .btn-default.focus,
@@ -12477,14 +12485,14 @@ header .header-content .header-content-inner p {
   background-color: #f2f2f2;
 }
 
-/* line 389, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 398, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
   background-image: none;
 }
 
-/* line 395, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 404, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn-default.disabled,
 .btn-default[disabled],
 fieldset[disabled] .btn-default,
@@ -12507,13 +12515,13 @@ fieldset[disabled] .btn-default.active {
   background-color: #fff;
 }
 
-/* line 417, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 426, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn-default .badge {
   color: #fff;
   background-color: #222;
 }
 
-/* line 422, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 431, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn-primary {
   border-color: #58616c;
   color: #fff;
@@ -12523,7 +12531,7 @@ fieldset[disabled] .btn-default.active {
   transition: all .35s;
 }
 
-/* line 431, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 440, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary.focus,
@@ -12535,14 +12543,14 @@ fieldset[disabled] .btn-default.active {
   background-color: #ee4b28;
 }
 
-/* line 442, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 451, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
   background-image: none;
 }
 
-/* line 448, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 457, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn-primary.disabled,
 .btn-primary[disabled],
 fieldset[disabled] .btn-primary,
@@ -12565,13 +12573,13 @@ fieldset[disabled] .btn-primary.active {
   background-color: #58616c;
 }
 
-/* line 470, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 479, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn-primary .badge {
   color: #58616c;
   background-color: #fff;
 }
 
-/* line 475, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 484, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn {
   border: 0;
   border-radius: 300px;
@@ -12580,38 +12588,38 @@ fieldset[disabled] .btn-primary.active {
   font-weight: 700;
 }
 
-/* line 483, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 492, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 .btn-xl {
   padding: 15px 30px;
 }
 
-/* line 487, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 496, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 ::-moz-selection {
   text-shadow: none;
   color: #fff;
   background: #222;
 }
 
-/* line 493, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 502, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 ::selection {
   text-shadow: none;
   color: #fff;
   background: #222;
 }
 
-/* line 499, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 508, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 img::selection {
   color: #fff;
   background: 0 0;
 }
 
-/* line 504, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 513, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 img::-moz-selection {
   color: #fff;
   background: 0 0;
 }
 
-/* line 509, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
+/* line 518, /Users/dedwards/rails/bacchus/app/assets/stylesheets/creative.css */
 body {
   webkit-tap-highlight-color: #222;
 }

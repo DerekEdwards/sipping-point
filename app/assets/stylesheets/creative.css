@@ -112,7 +112,7 @@ aside {
 
 .navbar-default .nav > li.active>a,
 .navbar-default .nav>li.active>a:focus {
-    color: #58616c!important;
+    color: #58616c;
     background-color: transparent;
 }
 
@@ -122,6 +122,13 @@ aside {
 }
 
 @media(min-width:768px) {
+
+    .navbar-shrink {
+        background-color: #FFF !important;
+        color: #222 !important;
+        border-color: #222;
+        font-size: 7px;
+    }
     .navbar-default {
         border-color: rgba(255,255,255,.3);
         background-color: transparent;
@@ -170,6 +177,8 @@ aside {
     .navbar-default.affix .nav>li>a:focus:hover {
         color: #58616c;
     }
+
+
 }
 
 header {
