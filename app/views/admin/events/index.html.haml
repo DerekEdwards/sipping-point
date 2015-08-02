@@ -5,24 +5,26 @@
     .panel.translucent
       .panel-body
         .panel-text
-          %table.table.table-center.table-striped.table-responsive
-            %tr
-              %th.text-center
-                Organizer
-              %th.text-center
-                Name
-              %th.text-center
-                ID
-              %th.text-center
-                Date
-              %th.text-center
-                Sipping Point
-              %th.text-center
-                Deadline
-              %th.text-center
-                Confirmations
-              %th.text-center
-                Status
+          %table.table.table-center.table-striped.table-responsive{id: 'all-events'}
+            %thead
+              %tr
+                %th.text-center
+                  Organizer
+                %th.text-center
+                  Name
+                %th.text-center
+                  ID
+                %th.text-center
+                  Date
+                %th.text-center
+                  Sipping Point
+                %th.text-center
+                  Deadline
+                %th.text-center
+                  Confirmations
+                %th.text-center
+                  Status
+            %tbody
               -@events.each do |event|
                 %tr
                   %td
@@ -48,3 +50,7 @@
                     =event.short_description 
 
 %div.fill-footer
+:javascript
+  $(document).ready(function() {
+    $('#all-events').dataTable();
+  } );
