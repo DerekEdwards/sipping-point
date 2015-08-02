@@ -100,3 +100,14 @@
 .small-black-border {
    -webkit-text-stroke: 1px black;
 }
+
+.white-link {
+  color: #FFF;
+  opacity: .7;
+  text-decoration: none;
+}
+
+.white-link:hover {
+  opacity: 1;
+  text-decoration: none;
+}
