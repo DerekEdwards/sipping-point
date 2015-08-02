@@ -9,18 +9,20 @@
       .panel.translucent
         .panel-body
           .panel-text
-            %table.table.table-center.table-striped
-              %tr
-                %th.text-center
-                  Name
-                %th.text-center
-                  Date
-                %th.text-center
-                  Deadline
-                %th.text-center
-                  Status
-                %th.text-center
-                  Un-Delete
+            %table.table.table-center.table-striped{id: "deleted"}
+              %thead
+                %tr
+                  %th.text-center
+                    Name
+                  %th.text-center
+                    Date
+                  %th.text-center
+                    Deadline
+                  %th.text-center
+                    Status
+                  %th.text-center
+                    Un-Delete
+              %tbody
                 -@rsvps.each do |rsvp|
                   %tr{ :id => rsvp.hash_key + '_row'}
                     %td
@@ -54,4 +56,8 @@
         url: '#{root_url}' + 'rsvps/' + id + '/unhide'
        });
   });
+
+  $(document).ready(function() {
+    $('#deleted').dataTable();
+  } );
 
