@@ -200,22 +200,39 @@
   });
 
   $(document).ready(function() {
-    $('#new-events').dataTable({"bPaginate": false, "bFilter": false, "bInfo" : false});
+    $('#new-events').dataTable({
+      "bPaginate": false, "bFilter": false, "bInfo" : false,
+      "order": [[ 0, "asc" ]]
+    });
   } );
 
   $(document).ready(function() {
-    $('#hosting').dataTable({"bPaginate": false, "bFilter": false, "bInfo" : false});
+    $('#hosting').dataTable({
+      "bPaginate": false, "bFilter": false, "bInfo" : false,
+      "order": [[ 0, "asc" ]]
+    });
   } );
 
   $(document).ready(function() {
-    $('#attending').dataTable({"bPaginate": false, "bFilter": false, "bInfo" : false});
+    $('#attending').dataTable({
+      "bPaginate": false, "bFilter": false, "bInfo" : false,
+      "order": [[ 0, "asc" ]]
+    });
   } );
 
   $(document).ready(function() {
-    $('#not-attending').dataTable({"bPaginate": false, "bFilter": false, "bInfo" : false});
+    $('#not-attending').dataTable({
+      "bPaginate": false, "bFilter": false, "bInfo" : false,
+      'aoColumnDefs': [{'bSortable': false,'aTargets': [-1]}],
+      "order": [[ 0, "asc" ]]
+    });
   } );
 
   $(document).ready(function() {
-    $('#past-events').dataTable({"bPaginate": false,"bInfo" : false});
+    $('#past-events').dataTable({
+      "bPaginate": false,"bInfo" : false,
+      'aoColumnDefs': [{'bSortable': false,'aTargets': [-1]}],
+      "order": [[ 0, "asc" ]]
+    });
   } );
 

@@ -58,6 +58,10 @@
   });
 
   $(document).ready(function() {
-    $('#deleted').dataTable({"bPaginate": false,"bInfo" : false});
+    $('#deleted').dataTable({
+      "bPaginate": false,"bInfo" : false,    
+      'aoColumnDefs': [{'bSortable': false,'aTargets': [-1]}],
+      "order": [[ 0, "asc" ]]
+      });
   } );
 

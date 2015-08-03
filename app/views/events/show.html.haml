@@ -172,7 +172,10 @@
   });
 
   $(document).ready(function() {
-    $('#whos-coming').dataTable({"bPaginate": false, "bFilter": false, "bInfo" : false});
+    $('#whos-coming').dataTable({
+      "bPaginate": false, "bFilter": false, "bInfo" : false,
+      "order": [[ 2, "desc" ],[0, "asc"]]
+    });
   } );
 
 
