@@ -13,16 +13,18 @@
         .panel.translucent
           .panel-body
             .panel-text
-              %table.table.table-center.table-striped
-                %tr
-                  %th.text-center
-                    Name
-                  %th.text-center
-                    Date
-                  %th.text-center
-                    Deadline
-                  %th.text-center
-                    Respond
+              %table.table.table-center.table-striped{id: "new-events"}
+                %thead
+                  %tr
+                    %th.text-center
+                      Name
+                    %th.text-center
+                      Date
+                    %th.text-center
+                      Deadline
+                    %th.text-center
+                      Respond
+                %tbody
                   -@new_rsvps.each do |rsvp|
                     %tr
                       %td
@@ -42,18 +44,20 @@
         .panel.translucent
           .panel-body
             .panel-text
-              %table.table.table-center.table-striped
-                %tr
-                  %th.text-center
-                    Name
-                  %th.text-center
-                    Date
-                  %th.text-center
-                    Sipping Point
-                  %th.text-center
-                    Deadline
-                  %th.text-center
-                    Confirmations
+              %table.table.table-center.table-striped{id: "hosting"}
+                %thead
+                  %tr
+                    %th.text-center
+                      Name
+                    %th.text-center
+                      Date
+                    %th.text-center
+                      Sipping Point
+                    %th.text-center
+                      Deadline
+                    %th.text-center
+                      Confirmations
+                %tbody
                   -@my_upcoming_events.each do |event|
                     %tr
                       %td
@@ -75,16 +79,18 @@
         .panel.translucent
           .panel-body
             .panel-text
-              %table.table.table-center.table-striped
-                %tr
-                  %th.text-center
-                    Name
-                  %th.text-center
-                    Date
-                  %th.text-center
-                    Deadline
-                  %th.text-center
-                    Status
+              %table.table.table-center.table-striped{id: "attending"}
+                %thead
+                  %tr
+                    %th.text-center
+                      Name
+                    %th.text-center
+                      Date
+                    %th.text-center
+                      Deadline
+                    %th.text-center
+                      Status
+                %tbody
                   -@events_im_attending.each do |rsvp|
                     %tr{:id => rsvp.hash_key + '_row'}
                       %td
@@ -104,18 +110,20 @@
         .panel.translucent
           .panel-body
             .panel-text
-              %table.table.table-center.table-striped
-                %tr
-                  %th.text-center
-                    Name
-                  %th.text-center
-                    Date
-                  %th.text-center
-                    Deadline
-                  %th.text-center
-                    Status
-                  %th.text-center
-                    Delete
+              %table.table.table-center.table-striped{id: 'not-attending'}
+                %thead
+                  %tr
+                    %th.text-center
+                      Name
+                    %th.text-center
+                      Date
+                    %th.text-center
+                      Deadline
+                    %th.text-center
+                      Status
+                    %th.text-center
+                      Delete
+                %tbody
                   -@events_i_declined.each do |rsvp|
                     %tr{ :id => rsvp.hash_key + '_row'}
                       %td
@@ -137,22 +145,22 @@
         .panel.translucent
           .panel-body
             .panel-text
-              %table.table.table-center.table-striped
-                %tr
-                  %th.text-center
-                    Name
-                  %th.text-center
-                    Date
-                  %th.text-center
-                    Sipping Point
-                  %th.text-center
-                    Deadline
-                  %th.text-center
-                    Confirmations
-                  %th.text-center
-                    Status
-                  %th.text-center
-                    Delete
+              %table.table.table-center.table-striped{id: "past-events"}
+                %thead
+                  %tr
+                    %th.text-center
+                      Name
+                    %th.text-center
+                      Date
+                    %th.text-center
+                      Sipping Point
+                    %th.text-center
+                      Confirmations
+                    %th.text-center
+                      Status
+                    %th.text-center
+                      Delete
+                %tbody
                   -@my_prior_events.each do |rsvp|
                     %tr{ :id => rsvp.hash_key + '_row'}
                       %td
@@ -162,9 +170,6 @@
                           =rsvp.event.display_time
                       %td
                         =rsvp.event.threshold
-                      %td
-                        -if rsvp.event.deadline
-                          =rsvp.event.display_deadline
                       %td
                         =rsvp.event.rsvps.where(response: true).count
                       %td
@@ -193,4 +198,24 @@
         url: '#{root_url}' + 'rsvps/' + id + '/hide'
        });
   });
+
+  $(document).ready(function() {
+    $('#new-events').dataTable({"bPaginate": false, "bFilter": false, "bInfo" : false});
+  } );
+
+  $(document).ready(function() {
+    $('#hosting').dataTable({"bPaginate": false, "bFilter": false, "bInfo" : false});
+  } );
+
+  $(document).ready(function() {
+    $('#attending').dataTable({"bPaginate": false, "bFilter": false, "bInfo" : false});
+  } );
+
+  $(document).ready(function() {
+    $('#not-attending').dataTable({"bPaginate": false, "bFilter": false, "bInfo" : false});
+  } );
+
+  $(document).ready(function() {
+    $('#past-events').dataTable({"bPaginate": false,"bInfo" : false});
+  } );
 
