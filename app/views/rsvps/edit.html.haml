@@ -41,9 +41,20 @@
                     %td{:style => "font-size:20px"}
                       %input{:type => "radio", :name => :response, :value => 1, :checked => 1}
                         In
-                    %td{:style => "font-size:20px"}
+                    %td{:style => "font-size:16px"}
                       %input{:type => "radio", :name => :response, :value => 0}
-                        Out 
+                        Out
+                  %tr
+                    %td{:style => "font-size:16px"}
+                      ="(Optional) What is your name?"
+                    %td
+                    -if @rsvp.user.name.blank?
+                      %td
+                        %input{:type => "string", :name => :name, :placeholder => "Your Name"}
+                    -else 
+                      %td{:style => "font-size:16px"}
+                        %input{:type => "string", :name => :name, :value => @rsvp.user.name}
+
                 %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
       .panel.translucent
         .panel-body

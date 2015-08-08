@@ -12,6 +12,9 @@ class RsvpsController < ApplicationController
     if @rsvp.response == 0
       @rsvp.wants_comments_emails = false
     end
+    @user = @rsvp.user
+    @user.name = params[:name]
+    @user.save
     @rsvp.save
     @rsvp.event.update_status(send_email=true)
 
