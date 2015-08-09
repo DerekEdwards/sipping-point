@@ -102,7 +102,7 @@
                     .progress-bar.progress-bar-danger.progress-bar-striped.active{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
                       =@event.percent_complete.round.to_s + "%"
                   
-              %table.table.table-center.table-striped{id: 'whos-coming'}
+              %table.table.table-center.table-striped{id: 'whos-coming', :style => "display: table;"}
                 %thead
                   %tr
                     %th.text-center
@@ -117,7 +117,7 @@
                       %tr
                         %td
                           -if current_user == rsvp.user
-                            = rsvp.user.display_name || "" + " (Me)"
+                            = (rsvp.user.display_name || "") + " (Me)"
                           -else
                             = rsvp.user.display_name
                         %td
@@ -146,6 +146,48 @@
                                   =rsvp.reminded_time_string
                               -else
                                 =""
+              %table.table.table-center.table-striped{id: 'whos-coming-m', :style => "display: table;"}
+                %thead
+                  %tr
+                    %th.text-center
+                      Invitees
+                %tbody      
+                  - @event.rsvps.joins(:user).order('users.name ASC, users.email ASC').each do |rsvp|
+                    -unless rsvp.user.nil?
+                      %tr
+                        %td                          
+                          %div.col-md-12
+                            -if current_user == rsvp.user
+                              = (rsvp.user.display_name || "") + " (Me)"
+                            -else
+                              = rsvp.user.display_name
+
+                          %div.col-md-12
+                            -reliability_factor = rsvp.user.reliability_factor
+                            -if reliability_factor
+                              =(reliability_factor * 100).round.to_s + "%" + " reliability"
+                          %div.col-md-12
+                            -if current_user == rsvp.user or @comment_as == rsvp.user
+                              -if rsvp.response == 1
+                                = link_to 'Going', edit_rsvp_url(rsvp)
+                              -elsif rsvp.response == 0
+                                = link_to 'Not Going', edit_rsvp_url(rsvp)
+                              -else
+                                = link_to 'Click to Respond', edit_rsvp_url(rsvp)
+                            -else
+                              -if rsvp.response == 1
+                                ="Going"
+                              -elsif rsvp.response == 0
+                                ="Not Going"
+                              -else
+                                -if current_user == @event.owner and @event.time > Time.now - 2.hours
+                                  %div
+                                    %button.btn.btn-xs.reminder_button{"data-id" => rsvp.hash_key }
+                                      Send Reminder
+                                  %div{:id => (rsvp.hash_key + '_message'), :style => "font-size: 10px;"}
+                                    =rsvp.reminded_time_string
+                                -else
+                                  =""
 
       -if current_user == @event.owner and @event.rsvps.count == 0
         %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Let's invite some people!
@@ -157,6 +199,18 @@
 
 
 :javascript
+  //Set tables if screen gets too small
+  function respond(){
+    if (screen.width>=568) {
+      $('#whos-coming').show();
+      $('#whos-coming-m').hide();
+    }
+    else  {
+      $('#whos-coming').hide();
+      $('#whos-coming-m').show();
+    }
+  };
+
   // Reminder Button 
   $(".reminder_button").click(function(){
        // Get the id data attribute
@@ -176,7 +230,16 @@
       "bPaginate": false, "bFilter": false, "bInfo" : false,
       "order": [[ 2, "desc" ],[0, "asc"]]
     });
+
+    respond();
+
   } );
+
+  window.onresize = function() {
+    respond();
+  };
+
+
 
 
        

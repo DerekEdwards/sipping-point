@@ -216,6 +216,12 @@ header .header-content {
     font-weight: 700;
     font-size: 100px;
 }
+
+@media all and (max-width: 768px) {
+    .main-header h1 {
+        font-size: 60px;
+    }
+}
 .header-content-inner h1 {
     margin-top: 0;
     margin-bottom: 0;
