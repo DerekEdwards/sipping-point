@@ -152,7 +152,7 @@
                     %th.text-center
                       Invitees
                 %tbody      
-                  - @event.rsvps.joins(:user).order('users.name ASC, users.email ASC').each do |rsvp|
+                  - @event.rsvps.joins(:user).order('rsvps.response DESC NULLS LAST, users.name ASC, users.email ASC').each do |rsvp|
                     -unless rsvp.user.nil?
                       %tr
                         %td                          
@@ -184,7 +184,7 @@
                                   %div
                                     %button.btn.btn-xs.reminder_button{"data-id" => rsvp.hash_key }
                                       Send Reminder
-                                  %div{:id => (rsvp.hash_key + '_message'), :style => "font-size: 10px;"}
+                                  %div{:id => (rsvp.hash_key + '_m_message'), :style => "font-size: 10px;"}
                                     =rsvp.reminded_time_string
                                 -else
                                   =""
@@ -222,6 +222,7 @@
        .done(function(data) {
         console.log(data);
         document.getElementById(id + '_message').innerHTML = data['message'];
+        document.getElementById(id + '_m_message').innerHTML = data['message'];
        });
   });
 
