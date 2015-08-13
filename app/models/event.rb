@@ -13,6 +13,8 @@ class Event < ActiveRecord::Base
   validates :hash_key, uniqueness: true
   validates_presence_of :name
   validate :maximum_is_not_less_than_sipping_point
+  validate :event_time_not_in_past
+  validate :rsvp_deadline_not_in_past
   validate :rsvp_deadline_is_before_event
 
   #Constants
@@ -311,6 +313,18 @@ class Event < ActiveRecord::Base
   def maximum_is_not_less_than_sipping_point
     if maximum_attendance and maximum_attendance < threshold
       errors.add(:maximum_attendance, "Maximum can't be lower than the Sipping Point")
+    end
+  end
+
+  def event_time_not_in_past
+    if time and (Time.now + 1.minutes > time)
+      errors.add(:time, "Event has to be in the future.")
+    end
+  end
+
+  def rsvp_deadline_not_in_past
+    if deadline and (Time.now + 1.minutes > deadline)
+      errors.add(:deadline, "The deadline must be in the future.")
     end
   end
 
