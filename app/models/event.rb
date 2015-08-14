@@ -164,6 +164,20 @@ class Event < ActiveRecord::Base
     end 
   end
 
+  def create_rsvps_from_ids ids
+    ids.each do |id|
+      user = User.find(id)
+      unless id.blank?
+        user = User.find(id)
+        rsvp = Rsvp.where(user: user, event: self).first_or_create
+        rsvp.emailed = false
+        rsvp.new_record?
+        rsvp.generate_hash_key
+        rsvp.save!
+      end
+    end
+  end
+
   def my_people_emails
     self.owner.my_people
   end
