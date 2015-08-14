@@ -26,7 +26,7 @@
                       %th.text-center
                         Status
                       %th.text-center
-                        Respond
+                        REPLY
                   %tbody
                     -@new_rsvps.each do |rsvp|
                       %tr
@@ -41,7 +41,9 @@
                         %td
                           =rsvp.event.short_description
                         %td 
-                          =link_to 'Click to RSVP', edit_rsvp_path(rsvp)  
+                          =link_to edit_rsvp_path(rsvp) do 
+                            %i.fa.fa-lg.fa-send
+
         %div{id: 'new-events-section-m'}
           %h2
             -if @new_rsvps.count > 1
@@ -53,7 +55,7 @@
               .panel-text
                 %table.table.table-center.table-striped{id: "hosting-m"}
                   %tbody
-                    -@new_rsvps.each do |rsvp|
+                    -@new_rsvps.joins(:event).order('events.time DESC NULLS LAST').each do |rsvp|
                       %tr{ :id => rsvp.event.hash_key + '_row_m'}
                         %td
                           %div.row
@@ -68,7 +70,9 @@
                               ="Status: " + rsvp.event.short_description 
                           %div.row
                             %div.col-xs-12
-                              =link_to 'Click to RSVP', edit_rsvp_path(rsvp)        
+                              =link_to edit_rsvp_path(rsvp) do 
+                                %i.fa.fa-lg.fa-send
+                                REPLY      
       
       -if @my_upcoming_events.count > 0 
         %div{id: 'hosting-section'}
@@ -112,7 +116,7 @@
               .panel-text
                 %table.table.table-center.table-striped{id: "hosting-m"}
                   %tbody
-                    -@my_upcoming_events.each do |event|
+                    -@my_upcoming_events.order('time DESC NULLS LAST').each do |event|
                       %tr{ :id => event.hash_key + '_row_m'}
                         %td
                           %div.row
@@ -168,7 +172,7 @@
               .panel-text
                 %table.table.table-center.table-striped{id: "attending-m"}
                   %tbody
-                    -@events_im_attending.each do |rsvp|
+                    -@events_im_attending.joins(:event).order('events.time DESC NULLS LAST').each do |rsvp|
                       %tr{ :id => rsvp.hash_key + '_row_m'}
                         %td
                           %div.row
@@ -228,7 +232,7 @@
               .panel-text
                 %table.table.table-center.table-striped{id: "not-attending-m"}
                   %tbody
-                    -@events_i_declined.each do |rsvp|
+                    -@events_i_declined.joins(:event).order('events.time DESC NULLS LAST').each do |rsvp|
                       %tr{ :id => rsvp.hash_key + '_row_m'}
                         %td
                           %div.row
@@ -294,7 +298,7 @@
               .panel-text
                 %table.table.table-center.table-striped{id: "past-events-m"}
                   %tbody
-                    -@my_prior_events.each do |rsvp|
+                    -@my_prior_events.joins(:event).order('events.time ASC NULLS LAST').each do |rsvp|
                       %tr{ :id => rsvp.hash_key + '_row_m'}
                         %td
                           %div.row
@@ -382,29 +386,29 @@
   $(document).ready(function() {
     $('#new-events').dataTable({
       "bPaginate": false, "bFilter": false, "bInfo" : false,
-      "order": [[ 0, "asc" ]]
+      "order": [[ 1, "asc" ]]
     });
 
     $('#hosting').dataTable({
       "bPaginate": false, "bFilter": false, "bInfo" : false,
-      "order": [[ 0, "asc" ]]
+      "order": [[ 1, "asc" ]]
     });
 
     $('#attending').dataTable({
       "bPaginate": false, "bFilter": false, "bInfo" : false,
-      "order": [[ 0, "asc" ]]
+      "order": [[ 1, "asc" ]]
     });
 
     $('#not-attending').dataTable({
       "bPaginate": false, "bFilter": false, "bInfo" : false,
       'aoColumnDefs': [{'bSortable': false,'aTargets': [-1]}],
-      "order": [[ 0, "asc" ]]
+      "order": [[ 1, "asc" ]]
     });
 
     $('#past-events').dataTable({
       "bPaginate": false, "bFilter": false, "bInfo" : false,
       'aoColumnDefs': [{'bSortable': false,'aTargets': [-1]}],
-      "order": [[ 0, "asc" ]]
+      "order": [[ 1, "desc" ]]
     });
 
     respond();
