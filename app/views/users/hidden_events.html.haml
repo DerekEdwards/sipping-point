@@ -4,39 +4,70 @@
       %h1
         You have no hidden events.  
     -else
-      %h2
-        ="Deleted Events"
-      .panel.translucent
-        .panel-body
-          .panel-text
-            %table.table.table-center.table-striped{id: "deleted"}
-              %thead
-                %tr
-                  %th.text-center
-                    Name
-                  %th.text-center
-                    Date
-                  %th.text-center
-                    Deadline
-                  %th.text-center
-                    Status
-                  %th.text-center
-                    Un-Delete
-              %tbody
-                -@rsvps.each do |rsvp|
-                  %tr{ :id => rsvp.hash_key + '_row'}
-                    %td
-                      =link_to rsvp.event.name, event_path(rsvp.event)
-                    %td
-                      -if rsvp.event.time
-                        =rsvp.event.display_time
-                    %td
-                      -if rsvp.event.deadline
-                        =rsvp.event.display_deadline
-                    %td 
-                      =rsvp.event.short_description 
-                    %td.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
-                      %i.fa.fa-lg.fa-undo                   
+      %div{id: 'deleted-section'}
+        %h2
+          ="Deleted Events"
+        .panel.translucent
+          .panel-body
+            .panel-text
+              %table.table.table-center.table-striped{id: "deleted"}
+                %thead
+                  %tr
+                    %th.text-center
+                      Name
+                    %th.text-center
+                      Date
+                    %th.text-center
+                      Sipping Point
+                    %th.text-center
+                      Confirmed
+                    %th.text-center
+                      Status
+                    %th.text-center
+                      Un-Delete
+                %tbody
+                  -@rsvps.each do |rsvp|
+                    %tr{ :id => rsvp.hash_key + '_row'}
+                      %td
+                        =link_to rsvp.event.name, event_path(rsvp.event)
+                      %td
+                        -if rsvp.event.time
+                          =rsvp.event.display_time
+                      %td
+                        =rsvp.event.threshold
+                      %td
+                        =rsvp.event.rsvps.where(response: true).count
+                      %td
+                        =rsvp.event.short_description 
+                      %td.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
+                        %i.fa.fa-lg.fa-undo   
+
+      %div{id: 'deleted-section-m'}
+        %h2
+          ="Past Events"
+        .panel.translucent
+          .panel-body
+            .panel-text
+              %table.table.table-center.table-striped{id: "past-events-m"}
+                %tbody
+                  -@rsvps.joins(:event).order('events.time ASC NULLS LAST').each do |rsvp|
+                    %tr{ :id => rsvp.hash_key + '_row_m'}
+                      %td
+                        %div.row
+                          %h4.col-xs-12.strong
+                            =link_to rsvp.event.name, event_path(rsvp.event)
+                        %div.row  
+                          %div.col-xs-12
+                            -if rsvp.event.time
+                              =rsvp.event.display_time
+                        %div.row
+                          %div.col-xs-12
+                            ="Status: " + rsvp.event.short_description 
+                        %div.row
+                          %div.col-xs-12
+                            %div.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
+                              %i.fa.fa-lg.fa-undo
+                              Un-Delete                                  
   %center
     %h4
       = link_to 'Back to My Events', events_user_url(@user), :class => 'white-link'  
@@ -50,6 +81,8 @@
        // Get the id data attribute
        var id = $(this).data("id");
        var row = document.getElementById(id + '_row');
+       var rowm = document.getElementById(id + '_row_m')
+       rowm.remove();
        row.remove();
        $.ajax({
         type: 'PATCH',
@@ -57,11 +90,29 @@
        });
   });
 
+  //Handle Responsiveness
+  function respond(){
+    if (screen.width>=568) {
+      $('#deleted-section').show();
+      $('#deleted-section-m').hide();
+    }
+    else  {
+      $('#deleted-section').hide();
+      $('#deleted-section-m').show();
+    }
+  };
+
+  window.onresize = function() {
+    respond();
+  };
+
   $(document).ready(function() {
     $('#deleted').dataTable({
       "bPaginate": false,"bInfo" : false,    
       'aoColumnDefs': [{'bSortable': false,'aTargets': [-1]}],
-      "order": [[ 0, "asc" ]]
+      "order": [[ 1, "desc" ]]
       });
+
+    respond();
   } );
 
