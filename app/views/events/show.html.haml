@@ -59,7 +59,7 @@
                     =@event.display_deadline
           
           
-          = link_to "http://www.google.com/calendar/event?action=TEMPLATE&text=" + @event.name + "&dates=" + @event.time.strftime("%Y%m%dT%H%M%S") +"/" + (@event.time + 7200).strftime("%Y%m%dT%H%M%S") + "&details=" + @event.description.to_s + "&location=" + (@event.location || ""), :target => "blank" do  
+          = link_to  "http://www.google.com/calendar/event?action=TEMPLATE&text=" + CGI.escape(@event.name) + "&dates=" + @event.time.strftime("%Y%m%dT%H%M%S") +"/" + (@event.time + 7200).strftime("%Y%m%dT%H%M%S") + "&details=" + CGI.escape(@event.description.to_s) + "&location=" + (CGI.escape(@event.location) || ""), :target => "blank" do  
             %i.fa.fa-calendar.fa-stack-2x.panel-text
             %br
             %br
