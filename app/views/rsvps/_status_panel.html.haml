@@ -10,7 +10,7 @@
       ="You have been invited, but this event won't happen unless we can get at least "
       %strong
         =@rsvp.event.threshold.to_s + " #{"person".pluralize(@rsvp.event.threshold)}"
-      =" to come."  
+      =" to commit before the deadline." 
   - if @rsvp.event.has_max_attendance?
     %h3
       %div

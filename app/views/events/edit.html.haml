@@ -37,7 +37,7 @@
                     %div.col-md-4
                       %strong{:style => "font-size:20px"}
                         ="Sipping Point"
-                      %div{:style => "font-size:12px"}
+                      %div.hint-text
                         Set the minimum number of attendees.
                     %div.col-md-4
                       %select{:name => "event[threshold]"}
@@ -53,8 +53,8 @@
                   %div.col-md-4
                     %strong{:style => "font-size:20px"}
                       ="Maximum"
-                    %div{:style => "font-size:12px"}
-                      (Optional: Set a max number of attendees.)
+                    %div.hint-text
+                      Optional: Set a max number of attendees.
                   %div.col-md-4
                     %select{:name => 'maximum_attendance'}
                       %option{:value => -1, :selected => 1}
@@ -83,6 +83,8 @@
                     %div.col-md-10
                       %strong{:style => "font-size:20px"}
                         ="Deadline to RSVP"
+                      %div.hint-text
+                        The event will be canceled unless the Sipping Point is reached by this time.
                   %div.row
                     %div.col-md-1
                     %div.col-md-10 
@@ -116,8 +118,6 @@
                     %div.col-md-10
                       %strong{:style => "font-size:20px"}
                         ="Invite Old Friends"
-                      %div{:style => "font-size:12px"} 
-                        (Invite people again.)
                   %div.row
                     %div.col-md-1
                     %div.col-md-10
@@ -167,8 +167,8 @@
                     %div.col-md-10
                       %strong{:style => "font-size:20px"}
                         Invite New Friends
-                      %div{:style => "font-size:12px"}
-                        (Typing emails is a huge pain, so we'll remember these emails in the future.)
+                      %div.hint-text
+                        Typing emails is a huge pain, so we'll remember these emails in the future.
                   %div.row
                     %div.col-md-1
                     %div.col-md-10   

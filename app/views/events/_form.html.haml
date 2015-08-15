@@ -1,24 +1,54 @@
+=form_tag(events_path, method: "post") do 
+  %div.row
+    %div.col-md-2
+    %div.col-md-8
+      .panel
+        .panel-body
+          .alert-text
+            -if @event.errors.count > 0
+              =@event.errors.first.last  
+          .panel-text{:style => "text-align: left;"}
+            %div.row
+              %div.col-md-1
+              %div.col-md-5
+                %strong{:style => "font-size:20px"}
+                  ="Event Name"
+              %div.col-md-4   
+                %input{:type => "string", :name => 'event[name]', :value => @event.name, :style=>"width:100%;", :maxlength => "100"}
+            %div.row.spacer
+              %div.col-md-1
+              %div.col-md-5
+                %strong{:style => "font-size:20px"}
+                  ="Sipping Point"
+                %div.hint-text
+                  Set the minimum number of attendees.
+              %div.col-md-4
+                %select{:name => "event[threshold]"}
+                  =(1..20).to_a.each do |sp|
+                    -if sp == @event.threshold
+                      %option{:value => sp, :selected => 1}
+                        =sp
+                    -else
+                      %option{:value => sp}
+                        =sp
+            %div.row.spacer
+              %div.col-md-1
+              %div.col-md-5
+                %strong{:style => "font-size:20px"}
+                  ="Event Date and Time"
+              %div.col-md-4
+                %input{:id => 'event_time', :readonly => "true", :type => "string", :name => 'event[time]', :value => @event.time, :maxlength => "500"}
 
-
-= simple_form_for(@event,:html => {:class => 'form-vertical' }) do |f|
-
-  .panel.translucent
-    .panel-body 
-      - if @event.errors.any?
-        #error_explanation
-          %h2
-            =pluralize(@event.errors.count, "error").to_s + "prohibited this event from being saved:<"
-          %ul
-            - @event.errors.full_messages.each do |message| 
-              %li 
-                =message
-
-      =f.input :name, :label => "Event Name", :placeholder => "Drinks at the Shack", :hint => "What are we doing?", :input_html => {:color => "black", :size => 40, :maxlength => 50}
-      =f.input :threshold, :label => "Sipping Point", :hint => "Any fewer people than this, and it's just not a party.", :collection => 1..20, :selected => 4
-      %br
-      =f.input :time, as: :string, :label => "Event Date & Time", :hint => "When is this event happening?"
-      %br
-      =f.input :deadline, as: :string, :label => "Deadline to RSVP", :hint => "If people don't answer by now, just assume they aren't going."
+            %div.row.spacer
+              %div.col-md-1
+              %div.col-md-5
+                %strong{:style => "font-size:20px"}
+                  ="Deadline to RSVP"
+                %div.hint-text
+                  The event will be canceled unless the Sipping Point is reached by this time.
+              %div.col-md-4
+                %input{:id => 'event_deadline', :readonly => "true", :type => "string", :name => 'event[deadline]', :value => @event.deadline, :maxlength => "500"}
+          
 
   %button.btn.btn-primary.btn-xl{:type => "submit"} Create Event and Invite People
 :javascript
