@@ -453,3 +453,11 @@ table.dataTable td {
     margin-top: 0.5em;
   }
 }
+
+
+/* All below are custom for Sipping Point */
+table.dataTable thead .sorting, 
+table.dataTable thead .sorting_asc, 
+table.dataTable thead .sorting_desc {
+    background : none;
+}
