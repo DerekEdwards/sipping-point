@@ -2,53 +2,54 @@
   %div.container
     %h1.static-header-title
       =@rsvp.event.name
-    =form_tag(rsvp_path, method: "patch") do 
-      .panel.translucent
-        .panel-body
-          .panel-text
-            = render "status_panel"
-      
-            -unless @rsvp.event.status == Event::CONFIRMED or @rsvp.event.status == Event::EXPIRED
-              %h4
-                ="Sipping Point will let you know on or before " 
-                %strong
-                  =@rsvp.event.deadline.strftime("%A") + " " + @rsvp.event.deadline.to_date.to_formatted_s(:long_ordinal) + " at " + @rsvp.event.deadline.strftime("%l:%M %p")
-                ="if this event is confirmed."
+    %div.row
+      %div.col-md-2
+      %div.col-md-8  
+        =form_tag(rsvp_path, method: "patch") do 
+          .panel.translucent
+            .panel-body
+              .panel-text
+                = render "status_panel"
+                %hr
+                -if @rsvp.event.status == Event::EXPIRED
+                  %h3
+                    ="This event is expired.  The deadline passed before reaching the Sipping Point"
+                -elsif @rsvp.event.status == Event::CONFIRMED and @rsvp.response == 1
+                  %h3
+                    ="You are confirmed for this event."
+                -elsif @rsvp.event.is_full_up?
+                  %h3
+                    = "Sorry!  Too slow!  The event can't handle any more people!"      
+                -else
+                  %div
+                    %h3
+                      RSVP
+                  %div.row.spacer{:style => 'text-align:center;'}
+                    %div.col-xs-2
+                    %div.col-xs-8.panel-text
+                      %strong{:style => "font-size:20px;"}
+                        ="Are you in or out?"
+                  %div.row{:style => 'text-align:center;'}
+                    %div.col-xs-4   
+                    %div.col-xs-2{:style => "font-size:20px;"}
+                      %input{:type => "radio", :name => :response, :value => 1, :checked => 1}
+                        In
+                    %div.col-xs-2{:style => "font-size:20px;"}
+                      %input{:type => "radio", :name => :response, :value => 0}
+                        Out
+                  %div.row.spacer{:style => 'text-align:center;'}
+                    %div.col-xs-12
+                      %strong{:style => "font-size:20px;"}
+                        ="How do you want your name displayed?"
+                  %div.row{:style => 'text-align:center; font-size:20px;'}
+                    %div.col-xs-12
+                      -if @rsvp.user.name.blank?
+                        %input{:type => "string", :name => :name, :placeholder => "Your Name"}
+                      -else 
+                        %input{:type => "string", :name => :name, :value => @rsvp.user.name}
 
-            -if @rsvp.event.status == Event::EXPIRED
-              %h3
-                ="This event is expired.  The deadline passed before reaching the Sipping Point"
-            -elsif @rsvp.event.status == Event::CONFIRMED and @rsvp.response == 1
-              %h3
-                ="You are confirmed for this event."
-            -elsif @rsvp.event.is_full_up?
-              %h3
-                = "Sorry!  Too slow!  The event can't handle any more people!"      
-            -else
-            
-              %row
-                %div.col-xs-2
-                %div.col-xs-6.panel-text
-                  %strong{:style => "font-size:20px"}
-                    ="So are you in or out?"
-                %div.col-xs-1{:style => "font-size:20px"}
-                  %input{:type => "radio", :name => :response, :value => 1, :checked => 1}
-                    In
-                %div.col-xs-1{:style => "font-size:16px"}
-                  %input{:type => "radio", :name => :response, :value => 0}
-                    Out
-              %row
-                %div.col-xs-2
-                %div.col-xs-6{:style => "font-size:16px"}
-                  ="How do you want your name displayed?"
-                %div.col-xs-2
-                  -if @rsvp.user.name.blank?
-                    %input{:type => "string", :name => :name, :placeholder => "Your Name"}
-                  -else 
-                    %input{:type => "string", :name => :name, :value => @rsvp.user.name}
-
-      %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
-      %h4.white-link
-        =link_to "View Event Details", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false
+          %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
+          %h4
+            =link_to "View Event Details", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false, :class => 'white-link'
 
 %div.fill-footer

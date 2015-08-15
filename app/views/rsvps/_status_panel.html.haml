@@ -5,14 +5,14 @@
   %h3 
     This is event has reached the Sipping Point!
 -else
-  %h4  
+  %h3  
     %div
       ="You have been invited, but this event won't happen unless we can get at least "
       %strong
         =@rsvp.event.threshold.to_s + " #{"person".pluralize(@rsvp.event.threshold)}"
       =" to come."  
   - if @rsvp.event.has_max_attendance?
-    %h4
+    %h3
       %div
         ="Additionally, this event has a maximum of #{@rsvp.event.maximum_attendance} attendees, so RSVP as soon as possible!"
     %br
