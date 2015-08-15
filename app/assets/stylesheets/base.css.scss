@@ -80,6 +80,10 @@
   color: #000 !important;
 }
 
+.white-text {
+  color: #FFF !important;
+}
+
 .error_notification {
   color: #000 !important;
 }
@@ -102,7 +106,7 @@
 }
 
 .white-link {
-  color: #FFF;
+  color: #FFF !important;
   opacity: .7;
   text-decoration: none;
 }

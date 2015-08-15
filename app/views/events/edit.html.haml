@@ -1,14 +1,17 @@
 
 %section.static-header
   %div.container
-    %h1.static-header-title
-      =@event.name
-    %h3
+    %div.row
+      %h1.static-header-title
+        =@event.name
+
+    %div.row.h4
       -if @event.status == Event::INITIALIZED
-        You have created your event.  It's time to invite some people and finalize it!     
-
-    %row
-
+        %div.col-md-2
+        %div.col-md-8
+          Let's finalize your event and invite some people.
+        %div.col-md-2
+    %div.row  
       %div.col-md-2
       %div.col-md-8
         =form_tag(event_path, method: "patch") do 
@@ -170,9 +173,9 @@
                     %div.col-md-1
                     %div.col-md-10   
                       %textarea{:type => "text", :style=>"width:100%;", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net, georgepburdell@example.com"}
-            
-     
+
           %button.btn.btn-primary.btn-xl{:type => "submit"} Save and Send Invites!
+      %div.col-md-2   
 
 :javascript
 

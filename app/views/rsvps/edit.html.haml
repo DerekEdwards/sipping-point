@@ -1,27 +1,20 @@
-%header
-  .header-content
-    .header-content-inner
-      %h1
-        =@rsvp.event.name
-      = render "status_panel"
+%section.static-header
+  %div.container
+    %h1.static-header-title
+      =@rsvp.event.name
+    =form_tag(rsvp_path, method: "patch") do 
+      .panel.translucent
+        .panel-body
+          .panel-text
+            = render "status_panel"
       
-      -unless @rsvp.event.status == Event::CONFIRMED or @rsvp.event.status == Event::EXPIRED
-        %hr
-        .panel.translucent
-          .panel-body
-            .panel-text
-
+            -unless @rsvp.event.status == Event::CONFIRMED or @rsvp.event.status == Event::EXPIRED
               %h4
                 ="Sipping Point will let you know on or before " 
                 %strong
                   =@rsvp.event.deadline.strftime("%A") + " " + @rsvp.event.deadline.to_date.to_formatted_s(:long_ordinal) + " at " + @rsvp.event.deadline.strftime("%l:%M %p")
                 ="if this event is confirmed."
 
-      %hr        
-
-      .panel.translucent
-        .panel-body
-          .panel-text
             -if @rsvp.event.status == Event::EXPIRED
               %h3
                 ="This event is expired.  The deadline passed before reaching the Sipping Point"
@@ -32,32 +25,30 @@
               %h3
                 = "Sorry!  Too slow!  The event can't handle any more people!"      
             -else
-              =form_tag(rsvp_path, method: "patch") do 
-                %table.table-center{:style=>"border: 1px; width: 50%"}
-                  %tr
-                    %td
-                      %strong{:style => "font-size:20px"}
-                        ="So are you in or out?"
-                    %td{:style => "font-size:20px"}
-                      %input{:type => "radio", :name => :response, :value => 1, :checked => 1}
-                        In
-                    %td{:style => "font-size:16px"}
-                      %input{:type => "radio", :name => :response, :value => 0}
-                        Out
-                  %tr
-                    %td{:style => "font-size:16px"}
-                      ="(Optional) What is your name?"
-                    %td
-                    -if @rsvp.user.name.blank?
-                      %td
-                        %input{:type => "string", :name => :name, :placeholder => "Your Name"}
-                    -else 
-                      %td{:style => "font-size:16px"}
-                        %input{:type => "string", :name => :name, :value => @rsvp.user.name}
+            
+              %row
+                %div.col-xs-2
+                %div.col-xs-6.panel-text
+                  %strong{:style => "font-size:20px"}
+                    ="So are you in or out?"
+                %div.col-xs-1{:style => "font-size:20px"}
+                  %input{:type => "radio", :name => :response, :value => 1, :checked => 1}
+                    In
+                %div.col-xs-1{:style => "font-size:16px"}
+                  %input{:type => "radio", :name => :response, :value => 0}
+                    Out
+              %row
+                %div.col-xs-2
+                %div.col-xs-6{:style => "font-size:16px"}
+                  ="How do you want your name displayed?"
+                %div.col-xs-2
+                  -if @rsvp.user.name.blank?
+                    %input{:type => "string", :name => :name, :placeholder => "Your Name"}
+                  -else 
+                    %input{:type => "string", :name => :name, :value => @rsvp.user.name}
 
-                %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
-      .panel.translucent
-        .panel-body
-          .panel-text
-            %h4
-              =link_to "View Event Details", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false
+      %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
+      %h4.white-link
+        =link_to "View Event Details", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false
+
+%div.fill-footer
