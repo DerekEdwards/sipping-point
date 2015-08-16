@@ -2,7 +2,7 @@
   %div.container
     %h1.static-header-title
       ="Who Flaked Out on " + @event.name + "?"
-    %h3
+    %h4
       Nothing is worse than flaking out on an event.  Tell us who flaked and who came through.
 
     =form_tag(report_event_path, method: "patch") do

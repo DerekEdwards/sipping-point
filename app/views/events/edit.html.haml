@@ -22,8 +22,8 @@
                   =@event.errors.first.last  
               .panel-text{:style => "text-align: left;"}
                 %div.row
-                  %div.col-xs-1
-                  %div.col-xs-10
+                  %div.col-md-1
+                  %div.col-md-10
                     %strong{:style => "font-size:20px"}
                       ="Event Name"
                 %div.row
@@ -136,9 +136,9 @@
                             %td   
                               %input.checkbox-full{:id => 'old-friend-' + person.id.to_s, :type => "checkbox", :name => '!!!email' + person.id.to_s, :value => person.id}
                             %td
-                              =person.email
+                              =truncate(person.email, length: 30)
                             %td
-                              =person.name
+                              =truncate(person.name, length: 30)
                             %td 
                               -reliability_factor = person.reliability_factor
                               -if reliability_factor
@@ -154,12 +154,12 @@
                             %td   
                               %input.checkbox-m{:id=> 'old-friend-m-' + person.id.to_s, :type => "checkbox", :name => '!!!m-email' + person.id.to_s, :value => person.id}
                             %td
-                              %row
-                                =person.display_name
+                              %div.row
+                                =truncate(person.display_name, length: 24)
                               -reliability_factor = person.reliability_factor
                               -if reliability_factor
-                                %row
-                                  ="Reliability: " + (reliability_factor * 100).round.to_s + "%"
+                                %div.row
+                                  =(reliability_factor * 100).round.to_s + "% reliability"
                 %div.row.spacer
                   %div.col-md-1
                   %div.col-md-10
