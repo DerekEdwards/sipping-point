@@ -160,19 +160,17 @@
                               -if reliability_factor
                                 %row
                                   ="Reliability: " + (reliability_factor * 100).round.to_s + "%"
-
-
-                  %div.row.spacer
-                    %div.col-md-1
-                    %div.col-md-10
-                      %strong{:style => "font-size:20px"}
-                        Invite New Friends
-                      %div.hint-text
-                        Typing emails is a huge pain, so we'll remember these emails in the future.
-                  %div.row
-                    %div.col-md-1
-                    %div.col-md-10   
-                      %textarea{:type => "text", :style=>"width:100%;", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net, georgepburdell@example.com"}
+                %div.row.spacer
+                  %div.col-md-1
+                  %div.col-md-10
+                    %strong{:style => "font-size:20px"}
+                      Invite New Friends
+                    %div.hint-text
+                      Typing emails is a huge pain, so we'll remember these emails in the future.
+                %div.row
+                  %div.col-md-1
+                  %div.col-md-10   
+                    %textarea{:type => "text", :style=>"width:100%;", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net, georgepburdell@example.com"}
 
           %button.btn.btn-primary.btn-xl{:type => "submit"} Save and Send Invites!
       %div.col-md-2   

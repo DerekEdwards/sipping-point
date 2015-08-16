@@ -117,9 +117,9 @@
                       %tr
                         %td
                           -if current_user == rsvp.user
-                            = (truncate(rsvp.user.display_name, length: 24) || "") + " (Me)"
+                            = (truncate(rsvp.user.display_name, length: 35) || "") + " (Me)"
                           -else
-                            = truncate(rsvp.user.display_name, length: 24)
+                            = truncate(rsvp.user.display_name, length: 35)
                         %td
                           -reliability_factor = rsvp.user.reliability_factor
                           -if reliability_factor
@@ -158,9 +158,9 @@
                         %td                          
                           %div.col-md-12
                             -if current_user == rsvp.user
-                              = (truncate(rsvp.user.display_name, length: 24) || "") + " (Me)"
+                              = (truncate(rsvp.user.display_name, length: 35) || "") + " (Me)"
                             -else
-                              = truncate(rsvp.user.display_name, length: 24)
+                              = truncate(rsvp.user.display_name, length: 35)
 
                           %div.col-md-12
                             -reliability_factor = rsvp.user.reliability_factor
