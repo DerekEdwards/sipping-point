@@ -201,7 +201,7 @@
 :javascript
   //Set tables if screen gets too small
   function respond(){
-    if (screen.width>=568) {
+    if ((window.innerWidth>=568 && window.innerWidth<970) || (window.innerWidth>=1200)) {
       $('#whos-coming').show();
       $('#whos-coming-m').hide();
     }
