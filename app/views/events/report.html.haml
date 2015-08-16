@@ -1,30 +1,47 @@
 %section.static-header
   %div.container
-    %h1.static-header-title
-      ="Who Flaked Out on " + @event.name + "?"
-    %h4
-      Nothing is worse than flaking out on an event.  Tell us who flaked and who came through.
+    %div.row
+      %div.col-md-2
+      %div.col-md-8
+        %h1.static-header-title
+          ="Who Flaked Out on " + @event.name + "?"
+    %div.row
+      %div.col-md-2
+      %div.col-md-8
+        %h4
+          Nothing is worse than flaking out on an event.  Tell us who flaked and who came through.
+    %div.row
+      %div.col-md-2
+      %div.col-md-8
 
-    =form_tag(report_event_path, method: "patch") do
-      .panel.translucent
-        .panel-body
-          .panel-text 
-            %table.table-center{:style=>"border: 1px; width: 75%"}
-              -@rsvps.each do |rsvp|
-                %tr
-                  %td
-                    %strong{:style => "font-size:20px"}
-                      =rsvp.user.display_name
-                  %td{:style => "font-size:20px"}
-                    %input{:type => "radio", name: rsvp.user.email, :value => Rsvp::FLAKED, :checked => rsvp.attendance_report == Rsvp::FLAKED}
-                      Flaked
-                  %td{:style => "font-size:20px"}
-                    %input{:type => "radio", name: rsvp.user.email, :value => Rsvp::SHOWED, :checked => rsvp.attendance_report == Rsvp::SHOWED}
-                      Did Not Flake
-                  %td{:style => "font-size:20px"}
-                    %input{:type => "radio", name: rsvp.user.email, :value => Rsvp::NO_RESPONSE, :checked => rsvp.attendance_report.nil?}
-                      No Response
-      %button.btn.btn-primary.btn-xl{:type => "submit"} Submit
+        =form_tag(report_event_path, method: "patch") do
+          .panel.translucent
+            .panel-body
+              .panel-text 
+                -@rsvps.each do |rsvp|
+                  %div.row.well.well-sm
+                    %div.col-md-3
+                      %strong{:style => "font-size:16px, text-alight:left;"}
+                        =rsvp.user.display_name
+                    %div.col-md-3{:style => "font-size:14px"}
+                      %input{:type => "radio", name: rsvp.user.email, :value => Rsvp::FLAKED, :checked => rsvp.attendance_report == Rsvp::FLAKED}
+                        Flaked
+                    %div.col-md-3{:style => "font-size:14px"}
+                      %input{:type => "radio", name: rsvp.user.email, :value => Rsvp::SHOWED, :checked => rsvp.attendance_report == Rsvp::SHOWED}
+                        Did Not Flake
+                    %div.col-md-3{:style => "font-size:14px"}
+                      %input{:type => "radio", name: rsvp.user.email, :value => Rsvp::NO_RESPONSE, :checked => rsvp.attendance_report.nil?}
+                        No Response
+          %button.btn.btn-primary.btn-xl{:type => "submit"} Submit
 
 %div.fill-footer
+
+:javascript
+  $(document).ready(function() {
+    respond();
+  } );
+
+  window.onresize = function() {
+    respond();
+  };
             

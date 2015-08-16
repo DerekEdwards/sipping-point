@@ -125,3 +125,9 @@
   color: grey;
   font-style: italic;
 }
+
+table.xtra-padding {
+    border-collapse: separate;
+    border-spacing: 20px;
+    *border-collapse: expression('separate', cellSpacing = '10px');
+}
