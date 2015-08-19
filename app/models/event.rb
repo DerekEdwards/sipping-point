@@ -13,8 +13,9 @@ class Event < ActiveRecord::Base
   validates :hash_key, uniqueness: true
   validates_presence_of :name
   validate :maximum_is_not_less_than_sipping_point
-  validate :event_time_not_in_past
-  validate :rsvp_deadline_not_in_past
+  #Leave these two commented.  These validations prevent the event status from being updated on failure
+  #validate :event_time_not_in_past
+  #validate :rsvp_deadline_not_in_past
   validate :rsvp_deadline_is_before_event
 
   #Constants
