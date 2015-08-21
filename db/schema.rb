@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150729171930) do
+ActiveRecord::Schema.define(version: 20150822140239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,13 @@ ActiveRecord::Schema.define(version: 20150729171930) do
 
   add_index "rsvps", ["event_id"], name: "index_rsvps_on_event_id", using: :btree
   add_index "rsvps", ["user_id"], name: "index_rsvps_on_user_id", using: :btree
+
+  create_table "unfriendships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "unfriend_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email"

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get 'events'
       get 'hidden_events'
     end
+    resources :unfriendships
   end 
   
   resources :events 
