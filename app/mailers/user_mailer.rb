@@ -13,7 +13,7 @@ class UserMailer < ActionMailer::Base
     @user =  rsvp.user
     @rsvp = rsvp
     @event = rsvp.event
-    mail(to: @user.email, subject: "Reminder about " + @event.name, from: @event.owner.email_name)
+    mail(to: @user.email, subject: "Reminder about " + @event.name, from: "Sipping Point")
   end
 
   #Let people know the event is officially on
@@ -21,7 +21,7 @@ class UserMailer < ActionMailer::Base
   	@user = rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
-  	mail(to: @user.email, subject: @event.name + " is Happening!", from: @event.owner.email_name)
+  	mail(to: @user.email, subject: @event.name + " is Happening!", from: "Sipping Point")
   end 
 
   #Let people know the event failed
@@ -29,7 +29,7 @@ class UserMailer < ActionMailer::Base
   	@user = rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
-  	mail(to: @user.email, subject: @event.name + " is canceled", from: @event.owner.email_name)
+  	mail(to: @user.email, subject: @event.name + " is canceled", from: "Sipping Point")
   end
 
   #Notice that new comments have been made
@@ -39,16 +39,16 @@ class UserMailer < ActionMailer::Base
     @event = rsvp.event
     @comments = comments
     if @comments.count == 0
-      mail(to: @user.email, subject: "New comment on " + @event.name, from: @event.owner.email_name)
+      mail(to: @user.email, subject: "New comment on " + @event.name, from: "Sipping Point")
     else
-      mail(to: @user.email, subject: "New comments on " + @event.name, from: @event.owner.email_name)
+      mail(to: @user.email, subject: "New comments on " + @event.name, from: "Sipping Point")
     end
   end
 
   #Email sent to owner to report flakes
   def report_email(event)
     @event = event
-    mail(to: @event.owner.email, subject: "Who flaked on " + @event.name + "?", from: @event.owner.email_name)
+    mail(to: @event.owner.email, subject: "Who flaked on " + @event.name + "?", from: "Sipping Point")
   end
 
   #Reminder to RSVP
