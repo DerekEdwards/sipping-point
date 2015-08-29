@@ -179,7 +179,7 @@
                   %div.col-md-10   
                     %textarea{:type => "text", :style=>"width:100%;", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net, georgepburdell@example.com"}
 
-          %button.btn.btn-primary.btn-xl{:type => "submit"} Save and Send Invites!
+          %button.btn.btn-primary.btn-xl{ "data-loading-text" => "Saving Event", :id => 'save_and_send', :type => "submit"} Save and Send Invites!
       %div.col-md-2   
 
 :javascript
@@ -265,6 +265,12 @@
 
     respond();
   });
+
+   $('#save_and_send').on('click', function () {
+    var $btn = $(this).button('loading')
+    // business logic...
+    //$btn.button('reset')
+  })
 
 
 
