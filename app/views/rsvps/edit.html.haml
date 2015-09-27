@@ -29,24 +29,30 @@
                     %div.col-xs-8.panel-text
                       %strong{:style => "font-size:20px;"}
                         ="Are you in or out?"
+                  
                   %div.row{:style => 'text-align:center;'}
                     %div.col-xs-4   
                     %div.col-xs-2{:style => "font-size:20px;"}
-                      %input{:type => "radio", :name => :response, :value => 1, :checked => 1}
+                      %input{:type => "radio", :name => :response, :value => 1, :checked => 1, :id => 'radioYes'}
                         In
                     %div.col-xs-2{:style => "font-size:20px;"}
-                      %input{:type => "radio", :name => :response, :value => 0}
+                      %input{:type => "radio", :name => :response, :value => 0, :id => 'radioNo'}
                         Out
-                  %div.row{:style => 'text-align:center;'}  
-                    %div.col-xs-12
-                      ="Why the hell not?"
-                  %div.row{:style => 'text-align:center;'} 
-                    %div.col-xs-12
-                      %input{:type => "string", :excuse => :excuse, :placeholder => "Because I hate you."}   
+                  
+                  %div{id: 'excuse', :style => "display:none;"}
+                    %div.row.spacer{:style => 'text-align:center; font-size:20px;'}  
+                      %div.col-xs-12
+                        %strong{:style => "font-size:20px;"}
+                          ="Leave a Message (Optional)"
+                    %div.row{:style => 'text-align:center;'} 
+                      %div.col-xs-12
+                        %textarea{:type => "text", :name => :excuse, :rows => 4, :style => "width:60%", :max_length => 500, :placeholder => "It's ok to say no and not leave an excuse.  But if you insist, you can leave a note here for the event organizer."}  
+                  
                   %div.row.spacer{:style => 'text-align:center;'}
                     %div.col-xs-12
                       %strong{:style => "font-size:20px;"}
                         ="How do you want your name displayed?"
+                  
                   %div.row{:style => 'text-align:center; font-size:20px;'}
                     %div.col-xs-12
                       -if @rsvp.user.name.blank?
@@ -59,3 +65,12 @@
             =link_to "View Event Details", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false, :class => 'white-link'
 
 %div.fill-footer
+
+:javascript
+  $('#radioYes').change(function() {
+    $('#excuse').hide();
+  });
+
+  $('#radioNo').change(function() {
+    $('#excuse').show();
+  });
