@@ -4,7 +4,6 @@
     %div.row
       %h1.static-header-title
         =@event.name
-
     %div.row.h4
       -if @event.status == Event::INITIALIZED
         %div.col-md-2
@@ -131,8 +130,10 @@
                             Name
                           %th{:style => "text-align:center;"}
                             Reliability
+                          %th{:style => "text-align:center;"}
+                            Unfriend
                         -current_user.my_people.each do |person|
-                          %tr
+                          %tr{id: person.id.to_s + "_row"}
                             %td   
                               %input.checkbox-full{:id => 'old-friend-' + person.id.to_s, :type => "checkbox", :name => '!!!email' + person.id.to_s, :value => person.id}
                             %td
@@ -143,6 +144,8 @@
                               -reliability_factor = person.reliability_factor
                               -if reliability_factor
                                 =(reliability_factor * 100).round.to_s + "%"
+                            %td.panel-text.unfriend_button{"data-id" => person.id}
+                              %i.fa.fa-lg.fa-trash-o 
                       %table.table.table-center.table-striped{id: 'invite-old-m', :style => "display: none; text-align: center;"}
                         %tr
                           %th{:style => "text-align:center;"}
@@ -150,7 +153,7 @@
                           %th{:style => "text-align:center;"}
                             Old Friend
                         -current_user.my_people.each do |person|
-                          %tr
+                          %tr{id: person.id.to_s + "_row_m"}
                             %td   
                               %input.checkbox-m{:id=> 'old-friend-m-' + person.id.to_s, :type => "checkbox", :name => '!!!m-email' + person.id.to_s, :value => person.id}
                             %td
@@ -160,6 +163,10 @@
                               -if reliability_factor
                                 %div.row
                                   =(reliability_factor * 100).round.to_s + "% reliability"
+                              %div.row.panel-text.unfriend_button{"data-id" => person.id}
+                                %i.fa.fa-lg.fa-trash-o 
+                                Unfriend
+
                 %div.row.spacer
                   %div.col-md-1
                   %div.col-md-10
@@ -172,7 +179,7 @@
                   %div.col-md-10   
                     %textarea{:type => "text", :style=>"width:100%;", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net, georgepburdell@example.com"}
 
-          %button.btn.btn-primary.btn-xl{:type => "submit"} Save and Send Invites!
+          %button.btn.btn-primary.btn-xl{ "data-loading-text" => "Saving Event", :id => 'save_and_send', :type => "submit"} Save and Send Invites!
       %div.col-md-2   
 
 :javascript
@@ -192,12 +199,6 @@
   window.onresize = function() {
     respond();
   };
-
-  $(".checkbox").change(function() {
-    if(this.checked) {
-      alert('woot');
-    }
-  }); 
 
   $(".checkbox-full").change(function() {
     var value = this.value;
@@ -227,6 +228,28 @@
   deadline.setMinutes("#{@event.deadline.min}");
 
 
+  // Un-Friend Stuff
+  // On click for a button
+  $(".unfriend_button").click(function(){
+
+       // Get the id data attribute
+       var unfriend_id = $(this).data("id");
+       var row = document.getElementById(unfriend_id + '_row');
+       var rowm = document.getElementById(unfriend_id + '_row_m')
+       row.remove();
+       rowm.remove();
+
+       $.ajax({
+        type: 'POST',
+        url: '#{root_url}' + 'users/' + '#{@event.owner.id}' + '/unfriendships',
+        data: JSON.stringify({'unfriend_id': unfriend_id}),
+        contentType: "application/json"
+       })
+      .done(function(data) {
+        console.log(data);
+      });
+  });
+
   $(document).ready(function() {
     // Now create the actual pickers
     $("#event_time").datetimepicker({
@@ -242,3 +265,12 @@
 
     respond();
   });
+
+   $('#save_and_send').on('click', function () {
+    var $btn = $(this).button('loading')
+    // business logic...
+    //$btn.button('reset')
+  })
+
+
+

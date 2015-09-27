@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   #Relationships
   has_many :events
   has_many :rsvps
+  has_many :unfriendships
+  has_many :unfriends, through: :unfriendships
 
   #Validations
   validates_uniqueness_of :email
@@ -19,7 +21,7 @@ class User < ActiveRecord::Base
     my_events.each do |event|
       rsvps = event.rsvps
       rsvps.each do |rsvp|
-        unless rsvp.user.nil? or rsvp.user.in? my_people or rsvp.user == self
+        unless rsvp.user.nil? or rsvp.user.in? my_people or rsvp.user == self or rsvp.user.in? self.unfriends
           my_people << rsvp.user
         end
       end
@@ -27,7 +29,7 @@ class User < ActiveRecord::Base
 
     my_rsvps = Rsvp.where(user: self)
     my_rsvps.each do |rsvp|
-      unless rsvp.user.nil? or rsvp.event.owner.in? my_people or rsvp.user == self
+      unless rsvp.user.nil? or rsvp.event.owner.in? my_people or rsvp.user == self or rsvp.user.in? self.unfriends
         my_people << rsvp.event.owner
       end
     end

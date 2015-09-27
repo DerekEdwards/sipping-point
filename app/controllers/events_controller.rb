@@ -19,6 +19,7 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @comments = @event.comment_threads.order('created_at')
+    @excuses = @event.rsvps.said_no.left_excuse
     @rsvp_hash_key = params[:rsvp]
     @rsvp = Rsvp.find_by(hash_key: @rsvp_hash_key)
     

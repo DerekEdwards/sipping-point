@@ -153,8 +153,12 @@ class Event < ActiveRecord::Base
     emails.each do |email|
       unless email.blank?
         user = User.find_or_create_by(email: email.strip.downcase) do |u|
-          u.password = u.password_confirmation =Devise.friendly_token.first(8)
+          u.password = u.password_confirmation = Devise.friendly_token.first(8)
         end
+
+        #delete the unfriendship
+        unfriendships = Unfriendship.where(user: self.owner, unfriend: user)
+        unfriendships.destroy_all
 
         rsvp = Rsvp.where(user: user, event: self).first_or_create
         rsvp.emailed = false

@@ -1,6 +1,5 @@
 class RsvpsController < ApplicationController
  
- 
   def edit
     @rsvp = Rsvp.find_by(hash_key: params[:id])
   end
@@ -9,9 +8,16 @@ class RsvpsController < ApplicationController
 
     @rsvp = Rsvp.find_by(hash_key: params[:id])
     @rsvp.response = params[:response].to_i
-    if @rsvp.response == 0
+    if @rsvp.response == Rsvp::NO
       @rsvp.wants_comments_emails = false
+      @rsvp.excuse = params[:excuse]
+    else
+      @rsvp.excuse = ""  
     end
+
+    puts params.ai 
+
+
     @user = @rsvp.user
     @user.name = params[:name]
     @user.save

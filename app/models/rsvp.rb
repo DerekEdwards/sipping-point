@@ -28,11 +28,15 @@ class Rsvp < ActiveRecord::Base
   scope :not_hidden, -> {where(:hidden => false)}
   scope :hidden, -> {where(:hidden => true)}
   scope :not_expired, -> { joins(:event).where("status <> ?", Event::EXPIRED)}
+  scope :left_excuse, -> {where("excuse <> ''")}
 
   #Constants
   FLAKED = 0
   SHOWED = 1
   NO_RESPONSE = -1
+  NO = 0
+  YES = 1
+
 
   #Methods 
   def to_param
