@@ -1,0 +1,23 @@
+-if current_user == @event.owner and @excuses.count > 0
+
+  %h2  
+    Excuses
+  Only the event organizer sees excuses.  
+
+  -@excuses.each do |rsvp|
+    -unless rsvp.excuse.blank?
+      .panel.translucent
+        .panel-body 
+          %div
+            .col-md-12
+              .message-header-text
+                =rsvp.user.display_name
+          %div
+            .col-md-12
+              .message-body-text
+                =rsvp.excuse.html_safe
+
+
+
+
+  
