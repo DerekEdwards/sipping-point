@@ -9,8 +9,11 @@ class RsvpsController < ApplicationController
 
     @rsvp = Rsvp.find_by(hash_key: params[:id])
     @rsvp.response = params[:response].to_i
-    if @rsvp.response == 0
+    if @rsvp.response == Event::NO
       @rsvp.wants_comments_emails = false
+      @rsvp.excuse = ""
+    else
+      @rsvp.excuse = params[:excuse]
     end
     @user = @rsvp.user
     @user.name = params[:name]
