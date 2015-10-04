@@ -9,7 +9,28 @@
       %div.col-md-2
       %div.col-md-8
         %h4
-          Nothing is worse than flaking out on an event.  Tell us who flaked and who came through.
+          Congratulations on hosting your event. Now is your chance to report the people who didn't show up and reward those who did. 
+        %h4
+          %strong
+            Tell us who flaked and who showed up to your event.
+    %div.row
+      %div.col-md-3
+      %div.col-md-6
+        %h4   
+          %ul
+            %li
+              %strong
+                Flaked: 
+              This person did not show up. That's Lame.
+            %li.small-spacer
+              %strong
+                Showed Up: 
+              This person showed up. Awesome!
+            %li.small-spacer
+              %strong
+                N/A: 
+              Select this if you don't want to leave a response for this person.  No stats will be recorded.
+
     %div.row
       %div.col-md-2
       %div.col-md-8
@@ -28,10 +49,11 @@
                         Flaked
                     %div.col-md-3{:style => "font-size:14px"}
                       %input{:type => "radio", name: rsvp.user.email, :value => Rsvp::SHOWED, :checked => rsvp.attendance_report == Rsvp::SHOWED}
-                        Did Not Flake
+                        Showed Up
                     %div.col-md-3{:style => "font-size:14px"}
                       %input{:type => "radio", name: rsvp.user.email, :value => Rsvp::NO_RESPONSE, :checked => rsvp.attendance_report.nil?}
-                        No Response
+                        N/A
+                ="Your responses are used to calculate Reliability Ratings for each attendee."        
           %button.btn.btn-primary.btn-xl{:type => "submit"} Submit
 
 %div.fill-footer
