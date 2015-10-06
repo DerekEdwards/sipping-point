@@ -135,7 +135,7 @@
                         -current_user.my_people.each do |person|
                           %tr{id: person.id.to_s + "_row"}
                             %td   
-                              %input.checkbox-full{:id => 'old-friend-' + person.id.to_s, :type => "checkbox", :name => '!!!email' + person.id.to_s, :value => person.id}
+                              %input.old-friend-checkbox.checkbox-full{:id => 'old-friend-' + person.id.to_s, :type => "checkbox", :name => '!!!email' + person.id.to_s, :value => person.id}
                             %td
                               =truncate(person.email, length: 30)
                             %td
@@ -177,12 +177,15 @@
                 %div.row
                   %div.col-md-1
                   %div.col-md-10   
-                    %textarea{:type => "text", :style=>"width:100%;", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net, georgepburdell@example.com"}
+                    %textarea{:type => "text", :id => 'new_invitees', :style=>"width:100%;", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net, georgepburdell@example.com"}
 
-          %button.btn.btn-primary.btn-xl{ "data-loading-text" => "Saving Event", :id => 'save_and_send', :type => "submit"} Save and Send Invites!
+          %button.btn.btn-primary.btn-xl{ "data-loading-text" => "Saving Event", :id => 'save_and_send', :type => "submit"} 
+      
       %div.col-md-2   
 
 :javascript
+
+  var initial_button_text;
 
   //Responsive Stuff
   function respond(){
@@ -203,11 +206,13 @@
   $(".checkbox-full").change(function() {
     var value = this.value;
     $("#old-friend-m-" + value).prop('checked', this.checked);
+    updateButton();
   }); 
 
   $(".checkbox-m").change(function() {
     var value = this.value;
     $("#old-friend-" + value).prop('checked', this.checked);
+    updateButton();
   }); 
 
 
@@ -263,6 +268,13 @@
        minDate: 0
     });
 
+    if('#{@event.status == Event::INITIALIZED}' == 'true'){
+      initial_button_text = "Create Event";
+    }
+    else{
+      initial_button_text = "Update Event"; 
+    }
+    $('#save_and_send').text(initial_button_text); 
     respond();
   });
 
@@ -271,6 +283,20 @@
     // business logic...
     //$btn.button('reset')
   })
+
+  //Change the button to say Send Invites, if emails are set to be sent
+  $('#new_invitees').on('input propertychange paste', function() {
+    updateButton();
+  });
+
+  function updateButton(){
+    if($('#new_invitees').val() == '' && $('.old-friend-checkbox:checked').length == 0){
+      $('#save_and_send').text(initial_button_text);
+    }
+    else{
+      $('#save_and_send').text(initial_button_text + ' and Send Invites');
+    }
+  }
 
 
 

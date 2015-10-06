@@ -50,7 +50,12 @@
                 %input{:id => 'event_deadline', :readonly => "true", :type => "string", :name => 'event[deadline]', :value => @event.deadline, :maxlength => "500"}
           
 
-  %button.btn.btn-primary.btn-xl{:type => "submit"} Create Event and Invite People
+  %button.btn.btn-primary.btn-xl{:type => "submit"} 
+    -if @event.status == Event::INITIALIZED
+      Create Event
+    -else
+      Update Event
+      
 :javascript
   $(document).ready(function() {
     // light modification from http://codereview.stackexchange.com/questions/33527/find-next-occurring-friday-or-any-dayofweek
