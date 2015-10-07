@@ -52,7 +52,7 @@ p {
 }
 
 .bg-primary {
-    background-color: #58616c;
+    background-color: #363737;
 }
 
 .bg-dark {
@@ -187,7 +187,7 @@ header {
     min-height: auto;
     text-align: center;
     color: #fff;
-    background-image: url(Optimized-header4.jpg);
+    background-image: url(header5.jpg);
     background-position: center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -272,13 +272,13 @@ header .header-content .header-content-inner p {
 .static-header {
  
     color: #fff;
-    background-color: #243139;
+    background-color: #363737;
     text-align: center;
 
 }
 
 .fill-footer {
-    background-color: #243139;
+    background-color: #363737;
     height: 100%;
 }
 
@@ -286,7 +286,6 @@ header .header-content .header-content-inner p {
     margin: 30px auto;
     text-transform: uppercase;
     font-weight: 700;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .section-heading {
@@ -437,7 +436,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary {
     border-color: #58616c;
     color: #fff;
-    background-color: #58616c;
+    background-color: #ee4b28;
     -webkit-transition: all .35s;
     -moz-transition: all .35s;
     transition: all .35s;
@@ -451,7 +450,7 @@ fieldset[disabled] .btn-default.active {
 .open > .dropdown-toggle.btn-primary {
     border-color: #ed431f;
     color: #fff;
-    background-color: #ee4b28;
+    background-color: #FF9933;
 }
 
 .btn-primary:active,
@@ -508,7 +507,7 @@ fieldset[disabled] .btn-primary.active {
 ::selection {
     text-shadow: none;
     color: #fff;
-    background: #222;
+    
 }
 
 img::selection {
