@@ -10,10 +10,10 @@
             </div>
 
             <div class="form-inputs">
-              <%= f.input :email, required: true, autofocus: true, input_html: { maxlength: 50, size: 25 } %>
-              <%= f.input :name, required: true, input_html: { maxlength: 50, size: 25 } %>
-              <%= f.input :password, required: true, input_html: { maxlength: 50, size: 25 } %>
-              <%= f.input :password_confirmation, required: true, input_html: { maxlength: 50, size: 25 } %>
+              <%= f.input :email, required: true, autofocus: true, input_html: { maxlength: 50, size: 25, value: @email}, hint: @email_error %>
+              <%= f.input :name, required: true, input_html: { maxlength: 50, size: 25, value: (@name.blank? ? "" : @name) } %>
+              <%= f.input :password, required: true, input_html: { maxlength: 50, size: 25 }, hint: @password_error %>
+              <%= f.input :password_confirmation, required: true, input_html: { maxlength: 50, size: 25 }, hint: @password_confirmation_error %>
             </div>
 
           </div>

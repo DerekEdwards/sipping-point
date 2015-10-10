@@ -13,6 +13,9 @@ class User < ActiveRecord::Base
   #Validations
   validates_uniqueness_of :email
 
+  #Scopes
+  scope :confirmed, -> { where("confirmed = ?", true) }
+
   #people that you have invited in the past or that have invited you
   def my_people
     my_people = []

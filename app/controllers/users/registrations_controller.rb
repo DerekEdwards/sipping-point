@@ -4,7 +4,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
-    puts 'all up in new'
+    
+    #Check Session for errors, email, and name
+    @email_error = session[:email_error]
+    @password_error = session[:password_error]
+    @password_confirmation_error = session[:password_confirmation_error]
+    @email = session[:email]
+    @name = session[:name]
+    session[:email_error] = nil
+    session[:password_error] = nil
+    session[:password_confirmation_error] = nil 
+    session[:email] = nil
+    session[:name] = nil
+
     build_resource({})
     set_minimum_password_length
     yield resource if block_given?
@@ -13,7 +25,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    puts 'we in create'
     self.resource = User.find_by(email: sign_up_params[:email], confirmed: false)
 
     if resource.nil?
@@ -34,17 +45,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
         sign_up(resource_name, resource)
         respond_with resource, location: after_sign_up_path_for(resource)
       else
-        puts 3
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
         expire_data_after_sign_in!
         respond_with resource, location: after_inactive_sign_up_path_for(resource)
       end
     else
-      puts 4
       clean_up_passwords resource
       set_minimum_password_length
-      #respond_with resource, location: new_user_registration_path
-      puts resource.errors.ai
+
+      #Save old values and set errors
+      resource.errors.each do |key,value|
+        session[(key.to_s + "_error").to_sym] =  value
+      end
+      session[:email] =  sign_up_params[:email]
+      session[:name] = sign_up_params[:name]
+      
       redirect_to new_user_registration_path
     end
   
@@ -52,13 +67,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/edit
   def edit
-    puts 'we editing'
     super
   end
 
   # PUT /resource
   def update
-    puts 'we updating'
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 

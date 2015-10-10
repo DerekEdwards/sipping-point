@@ -69,9 +69,6 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1
   def update
 
-    puts params
-    puts params[:invitee_emails]
- 
     @event.errors.clear    
     confirm_owner
 
