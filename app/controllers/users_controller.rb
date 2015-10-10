@@ -1,9 +1,12 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :events, :hidden_events]
+  before_action :set_user, only: [:show, :edit, :index, :update, :destroy, :events, :hidden_events]
+  before_action :authenticate_user!
+  before_action :confirm_user, except: [:index]
 
   # GET /users
   # GET /users.json
   def index
+    if @user.admin
     @users = User.all
   end
 

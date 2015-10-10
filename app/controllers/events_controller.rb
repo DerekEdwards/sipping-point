@@ -121,7 +121,6 @@ class EventsController < ApplicationController
   def update_report
 
     confirm_owner
-    puts params
     @rsvps = @event.rsvps.said_yes
     @rsvps.each do |rsvp|
       unless params[rsvp.user.email].nil?
