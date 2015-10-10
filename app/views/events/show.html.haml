@@ -138,7 +138,7 @@
                             -elsif rsvp.response == 0
                               ="No"
                             -else
-                              -if current_user == @event.owner and @event.time > Time.now - 2.hours
+                              -if current_user == @event.owner and not @event.deadline_passed?
                                 %div
                                   %button.btn.btn-xs.reminder_button{"data-id" => rsvp.hash_key }
                                     Send Reminder
