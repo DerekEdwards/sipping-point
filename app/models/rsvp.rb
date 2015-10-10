@@ -54,6 +54,35 @@ class Rsvp < ActiveRecord::Base
     end 
   end
 
+  #retuns a boolean and a message
+  def editable?
+    
+    if self.event.deadline_passed?
+      return false, "The deadline to RSVP to this event has passed."
+    end
+
+    case self.event.status
+      when Event::OPEN
+        return true, ""
+      when Event::CONFIRMED
+        if self.response == Rsvp::YES
+          if self.event.is_over_threshold?
+            return true, "Do you still want to come?"
+          else
+            return false, "You cannot change your RSVP to No unless at least 1 more person joins the event. So go find someone to take your place and come back and try again."
+          end
+        else 
+          if self.event.has_spots_remaining?
+            return true, "We hope you can join us."
+          else
+            return false, "<h3>Sadly this event is full. Try to be a little quicker next time.</h3>"
+          end
+        end
+      else
+        return false, "The event is not accepting RSVPs"
+    end
+  end
+
   ########## String Generators #######
 
   def reminded_time_string

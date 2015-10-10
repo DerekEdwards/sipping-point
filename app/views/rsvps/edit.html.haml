@@ -9,18 +9,11 @@
           .panel.translucent
             .panel-body
               .panel-text
-                = render "status_panel"
-                %hr
-                -if @rsvp.event.status == Event::EXPIRED
-                  %h3
-                    ="This event is expired.  The deadline passed before reaching the Sipping Point"
-                -elsif @rsvp.event.status == Event::CONFIRMED and @rsvp.response == 1
-                  %h3
-                    ="You are confirmed for this event."
-                -elsif @rsvp.event.is_full_up?
-                  %h3
-                    = "Sorry!  Too slow!  The event can't handle any more people!"      
-                -else
+                %h3
+                  =@rsvp.event.wordy_html_status.html_safe
+                =@rsvp.editable?[1].html_safe 
+                -if @rsvp.editable?[0]  
+                  %hr
                   %div
                     %h3
                       RSVP
@@ -60,9 +53,10 @@
                       -else 
                         %input{:type => "string", :name => :name, :value => @rsvp.user.name}
 
-          %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
-          %h4
-            =link_to "View Event Details", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false, :class => 'white-link'
+          -if @rsvp.editable?[0]
+            %button.btn.btn-primary.btn-xl{:type => "submit"} Submit RSVP
+            %h4
+              =link_to "View Event Details", event_url(@rsvp.event, rsvp: @rsvp.hash_key), only_path: false, :class => 'white-link'
 
 %div.fill-footer
 

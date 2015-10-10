@@ -23,7 +23,6 @@ class Event < ActiveRecord::Base
   OPEN = 'open'
   EXPIRED = 'expired'
   CONFIRMED = 'confirmed'
-  FULL = 'max_attendance_reached'
 
   #Scopes
   scope :open, -> { where(status:Event::OPEN) }
@@ -56,6 +55,10 @@ class Event < ActiveRecord::Base
 
   def is_full_up?
     !has_spots_remaining?
+  end
+
+  def is_over_threshold? 
+    return self.rsvps.said_yes.count > self.threshold
   end
 
   def percent_complete
@@ -134,6 +137,10 @@ class Event < ActiveRecord::Base
   def has_passed?
     return self.time < Time.now
   end 
+
+  def deadline_passed?
+    return self.deadline < Time.now
+  end
 
   ####### Custom Getters/Setters #####
   def invitee_emails
@@ -250,6 +257,19 @@ class Event < ActiveRecord::Base
       return "Not Happening"
     when Event::CONFIRMED
       return "It's On!"
+    end
+  end
+
+  def wordy_html_status
+    case self.status
+    when Event::OPEN
+      return "You have been invited, but this event won't happen unless we can get at least <strong>" + self.threshold.to_s + " " + "person".pluralize(self.threshold) + "</strong> to commit before the deadline."
+    when Event::INITIALIZED
+      return "How did you get here?  Invitations haven't been sent yet."
+    when Event::EXPIRED
+      return "This event failed to reach the Sipping Point.  Don't both showing up because no one else is going to be there."
+    when Event::CONFIRMED
+      return "This event is officially happening!"
     end
   end
 
