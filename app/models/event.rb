@@ -267,7 +267,7 @@ class Event < ActiveRecord::Base
     when Event::INITIALIZED
       return "How did you get here?  Invitations haven't been sent yet."
     when Event::EXPIRED
-      return "This event failed to reach the Sipping Point.  Don't both showing up because no one else is going to be there."
+      return "This event failed to reach the Sipping Point.  Don't bother showing up because no one else is going to be there."
     when Event::CONFIRMED
       return "This event is officially happening!"
     end
