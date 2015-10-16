@@ -29,7 +29,7 @@ class UserMailer < ActionMailer::Base
   	@user = rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
-  	mail(to: @user.email, subject: @event.name + " is canceled", from: "Sipping Point")
+  	mail(to: @user.email, subject: @event.name + " Failed to Reach the Sipping Point", from: "Sipping Point")
   end
 
   #Notice that new comments have been made
