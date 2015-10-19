@@ -61,6 +61,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def is_invited_to? event
+    self.in? event.invitees
+  end 
+
+
   ########## String Generators #######
 
   def display_name

@@ -15,9 +15,6 @@ class RsvpsController < ApplicationController
       @rsvp.excuse = ""  
     end
 
-    puts params.ai 
-
-
     @user = @rsvp.user
     @user.name = params[:name]
     @user.save

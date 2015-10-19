@@ -51,10 +51,7 @@
           
 
   %button.btn.btn-primary.btn-xl{:type => "submit"} 
-    -if @event.status == Event::INITIALIZED
-      Create Event
-    -else
-      Update Event
+    Create Event
       
 :javascript
   $(document).ready(function() {

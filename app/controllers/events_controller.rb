@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   include ActionView::Helpers::SanitizeHelper
 
   before_action :set_event, only: [:show, :edit, :update, :destroy, :report, :update_report]
-  before_action :authenticate_user!, :except => [:show, :index]  
+  before_action :authenticate_user!, :except => [:show, :index, :update]  
   after_action  :update_status, only: [:create, :show, :update, :destroy]
 
   # GET /events
@@ -20,24 +20,16 @@ class EventsController < ApplicationController
   def show
     @comments = @event.comment_threads.order('created_at')
     @excuses = @event.rsvps.said_no.left_excuse
-    @rsvp_hash_key = params[:rsvp]
-    @rsvp = Rsvp.find_by(hash_key: @rsvp_hash_key)
-    
-    if current_user
-      @comment_as = current_user
-      @rsvp = Rsvp.find_by(event: @event, user: current_user)
-    elsif @rsvp_hash_key
-      @comment_as = @rsvp.user
-    else
-      @comment_as = nil
-    end
+
+    set_comment_as
 
     @new_comment = Comment.new()
 
   end 
 
   def edit
-    confirm_owner
+    set_comment_as
+    confirm_invitee
   end
 
   def new
@@ -70,7 +62,7 @@ class EventsController < ApplicationController
   def update
 
     @event.errors.clear    
-    confirm_owner
+    confirm_invitee
 
     old_friends = params.select { |key, value| key.to_s.match(/^!!!email\d+/) }
     old_friends = old_friends.values
@@ -154,7 +146,23 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:name, :owner_email, :threshold, :maximum_attendance, :name, :time, :description, :deadline, :invitee_emails, :location)
+      params.require(:event).permit(:name, :owner_email, :threshold, :maximum_attendance, :name, :time, :description, :deadline, :invitee_emails, :location, :open)
+    end
+
+    #Set Comment As
+    def set_comment_as
+      @rsvp_hash_key = params[:rsvp]
+      @rsvp = Rsvp.find_by(hash_key: @rsvp_hash_key)
+
+      if current_user
+        @comment_as = current_user
+        @rsvp = Rsvp.find_by(event: @event, user: current_user)
+      elsif @rsvp_hash_key
+        @comment_as = @rsvp.user
+      else
+        @comment_as = nil
+      end
+
     end
 
     def confirm_owner
@@ -163,6 +171,12 @@ class EventsController < ApplicationController
       end     
     end 
 
+    def confirm_invitee
+      unless current_user == @event.owner or (current_user and @event.open and current_user.is_invited_to? @event)
+        redirect_to root_url
+      end
+    end
+
     def send_rsvp_emails
       @event.send_rsvp_emails
     end
@@ -170,4 +184,8 @@ class EventsController < ApplicationController
     def update_status
       @event.update_status(true)
     end 
+
+    def confirm_editing_rights
+
+    end
 end

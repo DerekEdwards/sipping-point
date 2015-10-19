@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
   #Relationships
   belongs_to :owner, :class_name => "User"
   has_many   :rsvps
-  has_many   :invitees, through: :rsvps, :source => "User"
+  has_many   :invitees, through: :rsvps, :source => :user
 
   #Accessors
   attr_accessor :owner_email

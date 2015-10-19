@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003201719) do
+ActiveRecord::Schema.define(version: 20151019010057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20151003201719) do
     t.integer  "maximum_attendance"
     t.datetime "comments_last_mailed"
     t.boolean  "report_sent",          default: false
+    t.boolean  "open",                 default: false, null: false
   end
 
   create_table "rsvps", force: true do |t|

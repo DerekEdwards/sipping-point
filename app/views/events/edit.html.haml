@@ -20,98 +20,99 @@
                 -if @event.errors.count > 0
                   =@event.errors.first.last  
               .panel-text{:style => "text-align: left;"}
-                %div.row
-                  %div.col-md-1
-                  %div.col-md-10
-                    %strong{:style => "font-size:20px"}
-                      ="Event Name"
-                %div.row
-                  %div.col-md-1
-                  %div.col-md-5      
-                    %input{:type => "string", :name => 'event[name]', :value => @event.name, :style=>"width:100%;", :maxlength => "100"}
+                -if current_user == @event.owner
+                  %div.row
+                    %div.col-md-1
+                    %div.col-md-10
+                      %strong{:style => "font-size:20px"}
+                        ="Event Name"
+                  %div.row
+                    %div.col-md-1
+                    %div.col-md-5      
+                      %input{:type => "string", :name => 'event[name]', :value => @event.name, :style=>"width:100%;", :maxlength => "100"}
 
-                - if @event.status == Event::INITIALIZED
+                  - if @event.status == Event::INITIALIZED
+                    %div.row.spacer
+                      %div.col-md-1
+                      %div.col-md-4
+                        %strong{:style => "font-size:20px"}
+                          ="Sipping Point"
+                        %div.hint-text
+                          Set the minimum number of attendees.
+                      %div.col-md-4
+                        %select{:name => "event[threshold]"}
+                          =(1..20).to_a.each do |sp|
+                            -if sp == @event.threshold
+                              %option{:value => sp, :selected => 1}
+                                =sp
+                            -else
+                              %option{:value => sp}
+                                =sp
                   %div.row.spacer
                     %div.col-md-1
                     %div.col-md-4
                       %strong{:style => "font-size:20px"}
-                        ="Sipping Point"
+                        ="Maximum"
                       %div.hint-text
-                        Set the minimum number of attendees.
+                        Optional: Set a max number of attendees.
                     %div.col-md-4
-                      %select{:name => "event[threshold]"}
-                        =(1..20).to_a.each do |sp|
-                          -if sp == @event.threshold
+                      %select{:name => 'maximum_attendance'}
+                        %option{:value => -1, :selected => 1}
+                          ="No Limit"
+                        =(3..20).to_a.each do |sp|
+                          -if sp == @event.maximum_attendance
                             %option{:value => sp, :selected => 1}
                               =sp
                           -else
                             %option{:value => sp}
                               =sp
-                %div.row.spacer
-                  %div.col-md-1
-                  %div.col-md-4
-                    %strong{:style => "font-size:20px"}
-                      ="Maximum"
-                    %div.hint-text
-                      Optional: Set a max number of attendees.
-                  %div.col-md-4
-                    %select{:name => 'maximum_attendance'}
-                      %option{:value => -1, :selected => 1}
-                        ="No Limit"
-                      =(3..20).to_a.each do |sp|
-                        -if sp == @event.maximum_attendance
-                          %option{:value => sp, :selected => 1}
-                            =sp
-                        -else
-                          %option{:value => sp}
-                            =sp
 
-                - if @event.status == Event::INITIALIZED
-                  %div.row.spacer
-                    %div.col-md-1
-                    %div.col-md-10
-                      %strong{:style => "font-size:20px"}
-                        ="Event Date and Time"
-                  %div.row
-                    %div.col-md-1
-                    %div.col-md-10
-                      %input{:id => 'event_time', :readonly => "true", :type => "string", :name => 'event[time]', :value => @event.time, :maxlength => "500"}
+                  - if @event.status == Event::INITIALIZED
+                    %div.row.spacer
+                      %div.col-md-1
+                      %div.col-md-10
+                        %strong{:style => "font-size:20px"}
+                          ="Event Date and Time"
+                    %div.row
+                      %div.col-md-1
+                      %div.col-md-10
+                        %input{:id => 'event_time', :readonly => "true", :type => "string", :name => 'event[time]', :value => @event.time, :maxlength => "500"}
+
+                    %div.row.spacer
+                      %div.col-md-1
+                      %div.col-md-10
+                        %strong{:style => "font-size:20px"}
+                          ="Deadline to RSVP"
+                        %div.hint-text
+                          The event will be canceled unless the Sipping Point is reached by this time.
+                    %div.row
+                      %div.col-md-1
+                      %div.col-md-10 
+                        %input{:id => 'event_deadline', :readonly => "true", :type => "string", :name => 'event[deadline]', :value => @event.deadline, :maxlength => "500"}
 
                   %div.row.spacer
                     %div.col-md-1
                     %div.col-md-10
                       %strong{:style => "font-size:20px"}
-                        ="Deadline to RSVP"
-                      %div.hint-text
-                        The event will be canceled unless the Sipping Point is reached by this time.
+                        ="Location"
                   %div.row
                     %div.col-md-1
-                    %div.col-md-10 
-                      %input{:id => 'event_deadline', :readonly => "true", :type => "string", :name => 'event[deadline]', :value => @event.deadline, :maxlength => "500"}
+                    %div.col-md-10
+                      %textarea{:type => "text", :name => 'event[location]', :rows => 2, :style=>"width:100%;", :maxlength => "500", :placeholder =>"Tell us where this event will be: e.g., Sligo Pub in Davis Square" }
+                        =@event.location
 
-                %div.row.spacer
-                  %div.col-md-1
-                  %div.col-md-10
-                    %strong{:style => "font-size:20px"}
-                      ="Location"
-                %div.row
-                  %div.col-md-1
-                  %div.col-md-10
-                    %textarea{:type => "text", :name => 'event[location]', :rows => 2, :style=>"width:100%;", :maxlength => "500", :placeholder =>"Tell us where this event will be: e.g., Sligo Pub in Davis Square" }
-                      =@event.location
+                  %div.row.spacer
+                    %div.col-md-1
+                    %div.col-md-10
+                      %strong{:style => "font-size:20px"}
+                        ="Description"
+                  %div.row
+                    %div.col-md-1
+                    %div.col-md-10
+                      %textarea{:type => "text", :name => 'event[description]', :rows => 4, :style=>"width:100%;", :maxlength => "500", :placeholder => "Tell us about this event: e.g., Happy hour after work."}
+                        =@event.description
 
-                %div.row.spacer
-                  %div.col-md-1
-                  %div.col-md-10
-                    %strong{:style => "font-size:20px"}
-                      ="Description"
-                %div.row
-                  %div.col-md-1
-                  %div.col-md-10
-                    %textarea{:type => "text", :name => 'event[description]', :rows => 4, :style=>"width:100%;", :maxlength => "500", :placeholder => "Tell us about this event: e.g., Happy hour after work."}
-                      =@event.description
-
-                -if current_user.my_people.count > 0
+                -if current_user and current_user.my_people.count > 0
                   %div.row.spacer
                     %div.col-md-1
                     %div.col-md-10
@@ -178,6 +179,24 @@
                   %div.col-md-1
                   %div.col-md-10   
                     %textarea{:type => "text", :id => 'new_invitees', :style=>"width:100%;", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net, georgepburdell@example.com"}
+
+                -if current_user == @event.owner
+                  %div.row.spacer
+                    %div.col-md-1
+                    %div.col-md-4
+                      %strong{:style => "font-size:20px"}
+                        Open
+                      %div.hint-text
+                        Open events allows invitees to invite their own friends.
+
+                    %div.col-xs-2{:style => "font-size:20px;"}
+                      %input{:type => "radio", :name => 'event[open]', :value => 1, :checked => @event.open}
+                        Yes
+                    %div.col-xs-2{:style => "font-size:20px;"}
+                      %input{:type => "radio", :name => 'event[open]', :value => 0, :checked => !@event.open}
+                        No 
+
+
 
           %button.btn.btn-primary.btn-xl{ "data-loading-text" => "Saving Event", :id => 'save_and_send', :type => "submit"} 
       

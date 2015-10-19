@@ -192,7 +192,16 @@
       -if current_user == @event.owner and @event.rsvps.count == 0
         %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Let's invite some people!
       - if current_user == @event.owner and @event.rsvps.count > 0
-        %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Edit Details                    
+        %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Edit Details  
+      - elsif current_user and current_user.is_invited_to? @event and @event.open
+        %a.btn.btn-primary.btn-xl{:href => edit_event_path(@event)} Invite More People!
+      - elsif @event.open and @comment_as.is_invited_to? @event
+        ="Hey " + @comment_as.display_name + ","
+        %a{:href => new_user_session_path} Sign In
+        or 
+        %a{:href => new_user_registration_path} Sign Up 
+        to invite more people to this event.
+
 
     %div.col-md-6
       = render :partial => "comments"
