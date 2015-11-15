@@ -208,7 +208,17 @@ class Event < ActiveRecord::Base
   ########## String Generators #######
 
   def html_description #this method can be made obsolete by switching to auto_html
-    self.description.gsub("\n", "<br>")
+    if self.description_html
+      return self.description_html
+    elsif self.description
+      return self.description.gsub("\n", "<br>")
+    else 
+      return ""
+    end 
+  end
+
+  def email_description
+    return self.html_description.gsub("<img src", "<img style='max-width: 600px;' src")
   end
 
   def display_time

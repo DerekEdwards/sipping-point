@@ -48,6 +48,10 @@ class Comment < ActiveRecord::Base
     commentable_str.constantize.find(commentable_id)
   end
 
+  def email_body
+    return self.body_html.gsub("<img src", "<img style='max-width: 600px;' src")
+  end
+
   #from auto_html gem how-to
   auto_html_for :body do
     html_escape
