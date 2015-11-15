@@ -14,7 +14,7 @@
 -else
   -@comments.each do |comment|
     .panel.translucent{id: 'global_comment_' + comment.id.to_s}
-      .panel-body 
+      .panel-body.event-comment 
         %div
           .col-md-6
             .message-header-text
@@ -26,7 +26,7 @@
           .col-md-12
             .message-body-text
               -unless comment.body.blank?
-                =comment.body.html_safe
+                =comment.body_html || comment.body.html_safe
         %div{id: 'comment_field_' + comment.id.to_s, :style => "display:none;"}
           = simple_form_for comment, :url => url_for(:action => 'update', :controller => 'comments'), :method => 'patch', html: { id: 'comment_form_' + comment.id.to_s}, :authenticity_token => true, :remote => true do |f| 
             =f.input :body, label: false, :input_html => {:style => 'width: 100%', :value => comment.body.gsub("<p>","").gsub("</p>","")}

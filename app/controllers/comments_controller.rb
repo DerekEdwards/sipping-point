@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
   def create
     logger.info('Create Comment')
     @comment = Comment.new(comment_params)
-    @comment.body = sanitize(simple_format(comment_params[:body]))
+    @comment.body = comment_params[:body]
     @rsvp_hash_key = params[:comment][:rsvp_hash_key]
 
     respond_to do |format|
@@ -32,7 +32,7 @@ class CommentsController < ApplicationController
 
   def update 
     @comment = Comment.find(params[:comment][:id].to_i)
-    @comment.body = sanitize(simple_format(params[:comment][:body]))
+    @comment.body = params[:comment][:body]
     @rsvp_hash_key = params[:comment][:rsvp_hash_key]
 
     respond_to do |format|

@@ -135,3 +135,23 @@ table.xtra-padding {
     border-spacing: 20px;
     *border-collapse: expression('separate', cellSpacing = '10px');
 }
+
+.event-description img {
+  max-width: 100%;
+  max-height: 200px;
+}
+
+.event-description iframe {
+  max-width: 100%;
+  max-height: 200px;
+}
+
+.event-comment img {
+  max-width: 100%;
+  max-height: 800px;
+}
+
+.event-comment iframe {
+  max-width: 100%;
+  max-height: 800px;
+}

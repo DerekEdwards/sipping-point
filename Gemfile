@@ -53,6 +53,7 @@ gem 'acts_as_commentable_with_threading'
 
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.7.14'
+gem 'auto_html' #Detects img links, urls, and YouTube links in text and converts them to embedded html.  Used in comments.
 
 group :development  do
 	gem 'better_errors'

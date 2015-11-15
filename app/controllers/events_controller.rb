@@ -69,7 +69,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.invitee_emails_are_valid params[:event][:invitee_emails] and @event.update(event_params)
-        @event.description = (sanitize(simple_format(params[:event][:description]))).gsub("<p>","").gsub("</p>","")
+        @event.description = params[:event][:description]
         @event.create_rsvps_from_ids old_friends
         if params['maximum_attendance'].to_i == -1
           @event.maximum_attendance = nil

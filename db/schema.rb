@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151019010057) do
+ActiveRecord::Schema.define(version: 20151115150714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20151019010057) do
     t.integer  "rgt"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "body_html"
   end
 
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
@@ -49,6 +50,7 @@ ActiveRecord::Schema.define(version: 20151019010057) do
     t.datetime "comments_last_mailed"
     t.boolean  "report_sent",          default: false
     t.boolean  "open",                 default: false, null: false
+    t.text     "description_html"
   end
 
   create_table "rsvps", force: true do |t|

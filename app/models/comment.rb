@@ -47,4 +47,13 @@ class Comment < ActiveRecord::Base
   def self.find_commentable(commentable_str, commentable_id)
     commentable_str.constantize.find(commentable_id)
   end
+
+  #from auto_html gem how-to
+  auto_html_for :body do
+    html_escape
+    image
+    youtube(:width => 700, :autoplay => false)
+    link :target => "_blank", :rel => "nofollow"
+    simple_format
+  end
 end

@@ -193,12 +193,21 @@ class Event < ActiveRecord::Base
   def my_people_emails
     self.owner.my_people
   end
+
+  #from auto_html gem how-to
+  auto_html_for :description do
+    html_escape
+    image(:width => 50)
+    youtube(:width => 700, :autoplay => false)
+    link :target => "_blank", :rel => "nofollow"
+    simple_format
+  end
   
   ### End Custom Getters/Setters #####
 
   ########## String Generators #######
 
-  def html_description
+  def html_description #this method can be made obsolete by switching to auto_html
     self.description.gsub("\n", "<br>")
   end
 
