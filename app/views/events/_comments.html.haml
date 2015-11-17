@@ -61,7 +61,7 @@
   = simple_form_for @new_comment do |f|
     .panel.translucent
       .panel-body 
-        =f.input :body, label: false, :input_html => {:style=> 'width: 100%'}
+        =f.input :body, label: false, :placeholder => "Leave a comment. Include images by pasting the URL (jpg, png, gif).", :input_html => {:style=> 'width: 100%'}
         =f.hidden_field :commentable_id, value: @event.id
         =f.hidden_field :commentable_type, value: "Event"
         =f.hidden_field :user_id, value: @comment_as.id 
