@@ -109,7 +109,7 @@
                   %div.row
                     %div.col-md-1
                     %div.col-md-10
-                      %textarea{:type => "text", :name => 'event[description]', :rows => 4, :style=>"width:100%;", :maxlength => "500", :placeholder => "Tell us about this event: e.g., Happy hour after work. You can include images by pasting in the URL (jpg, png, gif)."}
+                      %textarea{:type => "text", :name => 'event[description]', :rows => 4, :style=>"width:100%;", :maxlength => "500", :placeholder => "Tell us about this event: e.g., Happy hour after work. You can include images by pasting the URL (jpg, png, gif)."}
                         =@event.description
 
                 -if current_user and current_user.my_people.count > 0
