@@ -112,9 +112,12 @@
 </span><% end %>
                       <% end %>
 
-                    </li>                      
+                    </li> 
                     <li>
-                       <%= link_to 'Edit profile', edit_user_registration_path, :class => 'page-scroll my-scroll' %>
+                       <%= link_to 'Profile', user_path(current_user), :class => 'page-scroll my-scroll' %>
+                    </li>                     
+                    <li>
+                       <%= link_to 'Account', edit_user_registration_path, :class => 'page-scroll my-scroll' %>
                     </li>
                     <li>
                        <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'page-scroll my-scroll'  %>
@@ -139,6 +142,7 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="/assets/bootstrap.min.js"></script>
 <scirpt src="assets/jquery.dataTables.min.js"></script>
+<scirpt src="assets/d3.min.js"></script>
 <script>
   $(function(){
     $(window).scroll(function(){

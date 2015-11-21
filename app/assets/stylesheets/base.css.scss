@@ -155,3 +155,31 @@ table.xtra-padding {
   max-width: 100%;
   max-height: 800px;
 }
+
+.rsvp_history_chart rect {
+  fill: #f16f53;
+}
+
+.rsvp_history_chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+#rsvp_history_stats {
+  text-align: right;
+}
+
+.reliability_chart rect {
+  fill: steelblue;
+}
+
+.reliability_chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+#reliability_stats {
+  text-align: right;
+}

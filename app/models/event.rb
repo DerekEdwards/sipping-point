@@ -26,6 +26,7 @@ class Event < ActiveRecord::Base
 
   #Scopes
   scope :open, -> { where(status:Event::OPEN) }
+  scope :confirmed, -> { where(status:Event::CONFIRMED) }
   scope :deadline_passed, -> { where("deadline < ?", DateTime.now) }
   scope :upcoming, -> { where("time >= ?", Time.now - 2*3600) }
   scope :ready_for_report, -> { where("time <= ? and report_sent = false and status = ?", Time.now - 6*3600, Event::CONFIRMED)}

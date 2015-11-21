@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :lockable, :validatable
  
   #Relationships
-  has_many :events
+  has_many :events, foreign_key: "owner_id", class_name: "Event"
   has_many :rsvps
   has_many :unfriendships
   has_many :unfriends, through: :unfriendships
@@ -64,6 +64,37 @@ class User < ActiveRecord::Base
   def is_invited_to? event
     self.in? event.invitees
   end 
+
+  ######### Statistics Methods #######
+  
+  #Average number of confirmed RSVPs for events that this user plans
+  def average_rsvp_yes_count
+    rsvp_count = 0
+    my_events = self.events.confirmed
+    my_events.each do |event|
+      rsvp_count += event.rsvps.said_yes.count 
+    end
+
+    rsvp_count.to_f/my_events.count.to_f
+  end
+
+  def percent_yes
+    total_rsvps = self.rsvps.count
+    said_yes = self.rsvps.said_yes.count
+    return (said_yes.to_f/total_rsvps.to_f)*100
+  end
+
+  def percent_no
+    total_rsvps = self.rsvps.count
+    said_no = self.rsvps.said_no.count
+    return (said_no.to_f/total_rsvps.to_f)*100
+  end
+
+  def percent_none
+    return 100 - percent_no - percent_yes
+  end
+
+  ######### End Statistics Methods ###
 
 
   ########## String Generators #######
