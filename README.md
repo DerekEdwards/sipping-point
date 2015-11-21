@@ -19,4 +19,8 @@ The following rake task should be scheduled to run at least once per hour.  Idea
 
   * rake sipping_point:send_reminders_to_everyone_who_said_yes
 
+### For 0.5.1, Update all existing rsvps to be 'viewed'
+
+  * Rsvp.update_all(viewed: true)
+
 
