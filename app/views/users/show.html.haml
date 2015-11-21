@@ -1,0 +1,66 @@
+%section.static-header
+  %div.container
+    %h1.static-header-title
+      =@user.display_name
+    %div.col-md-1
+    %div.col-md-10
+      .panel.translucent
+        .panel-body
+          .panel-text
+            %h3{:style => "text-align: center;"}
+              Some fun stats about
+              =@user.display_name
+
+            %div.well#reliability_well
+              -if @user.reliability_factor
+                %div.row
+                  %h4
+                    Reliability Rating: 
+                    =@user.reliability
+                  -if @user.reliability_factor >= 0.80
+                    %i.fa.fa-smile-o.fa-3x
+                  -elsif @user.reliability_factor >= 0.60
+                    %i.fa.fa-meh-o.fa-3x
+                  -else
+                    %i.fa.fa-frown-o.fa-3x
+                %div.row
+                  %h4
+                    =@user.display_name + " has flaked " + pluralize(@user.rsvps.flaked.count.to_s, "time") + "."
+              -else
+                %h4
+                  =@user.display_name + " does not have an attendance history yet."
+
+            %div.well
+              %h4
+                =@user.display_name + " has been invited to " + pluralize(@user.rsvps.count.to_s, "event") + "."
+              %div.row{:style => "text-align: center;"}
+                %div.col-md-4
+                  ="Answered YES " + pluralize(@user.rsvps.said_yes.count, "Time")
+                %div.col-md-4
+                  ="Answered NO " + pluralize(@user.rsvps.said_no.count, "Time")
+                %div.col-md-4
+                  =pluralize(@user.rsvps.unanswered.count, "RSVP") + " unanswered"
+
+              %div.row  
+                .progress
+                  .progress-bar.progress-bar-success{:style => "width: " + @user.percent_yes.to_s + "%"}
+                    =@user.percent_yes.round(0).to_s + "%"
+                  .progress-bar.progress-bar-danger{:style => "width: " + @user.percent_no.to_s + "%"}
+                    =@user.percent_no.round(0).to_s + "%"
+                  .progress-bar.progress-bar-warning{:style => "width: " + @user.percent_none.to_s + "%"}
+                    =@user.percent_none.round(0).to_s + "%"
+
+            %div.well#planning_well
+              %div.row
+                %h4
+                  =@user.display_name.to_s + " has planned " + pluralize(@user.events.confirmed.count, "successful event") + "."
+              -if @user.events.confirmed.count > 0
+                %div.row
+                  %h4
+                    ="On average, " + @user.average_rsvp_yes_count.round(1).to_s + " people respond YES to these events."
+
+
+
+
+
+  
