@@ -20,7 +20,7 @@ class Rsvp < ActiveRecord::Base
   scope :unanswered, -> { where(response: nil) }
   scope :upcoming, -> { joins(:event).where("time >= ?", Time.now - 2*3600) }
   scope :prior, -> { joins(:event).where("time < ?", Time.now - 2*3600) }
-  scope :wants_comments_emails, -> { where(wants_comments_emails: true)}
+  scope :wants_comments_emails, -> { where(wants_comments_emails: true, viewed: true)}
   scope :reported, -> { where.not(:attendance_report => nil) }
   scope :flaked, -> {where(:attendance_report => Rsvp::FLAKED)}
   scope :showed, -> {where(:attendance_report => Rsvp::SHOWED)}
@@ -29,6 +29,7 @@ class Rsvp < ActiveRecord::Base
   scope :hidden, -> {where(:hidden => true)}
   scope :not_expired, -> { joins(:event).where("status <> ?", Event::EXPIRED)}
   scope :left_excuse, -> {where("excuse <> ''")}
+  scope :viewed, -> {where("viewed = 1")}
 
   #Constants
   FLAKED = 0

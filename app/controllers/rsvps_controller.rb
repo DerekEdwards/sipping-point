@@ -2,11 +2,14 @@ class RsvpsController < ApplicationController
  
   def edit
     @rsvp = Rsvp.find_by(hash_key: params[:id])
+    @rsvp.viewed = true
+    @rsvp.save
   end
 
   def update
 
     @rsvp = Rsvp.find_by(hash_key: params[:id])
+    @rsvp.viewed = true
     @rsvp.response = params[:response].to_i
     if @rsvp.response == Rsvp::NO
       @rsvp.wants_comments_emails = false
