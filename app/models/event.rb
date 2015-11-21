@@ -70,7 +70,6 @@ class Event < ActiveRecord::Base
   end
 
   def generate_hash_key
-
     if self.hash_key
       return self.hash_key
     else
@@ -79,7 +78,6 @@ class Event < ActiveRecord::Base
       self.save
       return hash_key 
     end
-  
   end
 
   def update_status send_email=false

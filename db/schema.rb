@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151115150714) do
+ActiveRecord::Schema.define(version: 20151121041255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20151115150714) do
     t.boolean  "reminder_to_attend_sent", default: false
     t.boolean  "hidden",                  default: false
     t.text     "excuse"
+    t.boolean  "viewed",                  default: false, null: false
   end
 
   add_index "rsvps", ["event_id"], name: "index_rsvps_on_event_id", using: :btree

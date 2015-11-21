@@ -153,10 +153,18 @@ class EventsController < ApplicationController
     def set_comment_as
       @rsvp_hash_key = params[:rsvp]
       @rsvp = Rsvp.find_by(hash_key: @rsvp_hash_key)
+      if @rsvp
+        @rsvp.viewed = true
+        @rsvp.save 
+      end
 
       if current_user
         @comment_as = current_user
         @rsvp = Rsvp.find_by(event: @event, user: current_user)
+        if @rsvp
+          @rsvp.viewed = true
+          @rsvp.save
+        end
       elsif @rsvp_hash_key
         @comment_as = @rsvp.user
       else
