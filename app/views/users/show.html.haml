@@ -46,11 +46,11 @@
               %div.col-md-10  
                 .progress
                   .progress-bar.progress-bar-success{:style => "width: " + @user.percent_yes.to_s + "%"}
-                    =@user.percent_yes.round(0).to_s + "%"
+                    =@user.percent_yes.round(0).to_s + "% Yes"
                   .progress-bar.progress-bar-danger{:style => "width: " + @user.percent_no.to_s + "%"}
-                    =@user.percent_no.round(0).to_s + "%"
+                    =@user.percent_no.round(0).to_s + "% No"
                   .progress-bar.progress-bar-warning{:style => "width: " + @user.percent_none.to_s + "%"}
-                    =@user.percent_none.round(0).to_s + "%"
+                    =@user.percent_none.round(0).to_s + "% Ignored"
 
       .panel.translucent
         .panel-body
