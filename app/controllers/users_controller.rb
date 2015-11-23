@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :events, :hidden_events]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show]
   before_action :confirm_user, except: [:index, :show]
   before_action :admin_only, only: [:index]
 
