@@ -59,7 +59,8 @@
                   %h4
                     ="On average, " + @user.average_rsvp_yes_count.round(1).to_s + " people respond YES to these events."
               -else
-                =@user.display_name + " has not planned any events yet."
+                %h4
+                  =@user.display_name + " has not planned any events yet."
 
 
 
