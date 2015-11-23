@@ -118,7 +118,7 @@ class Event < ActiveRecord::Base
     if emails.blank?
       return true
     end 
-    emails = emails.split(',')
+    emails = emails.split(/[,\n]/)
     emails.each do |email|
       unless email.blank?
         unless valid_email(email.strip.downcase)
@@ -149,7 +149,7 @@ class Event < ActiveRecord::Base
 
     create_owner_rsvp
 
-    emails = value.split(',')
+    emails = value.split(/[\n,]/).map(&:strip).reject(&:blank?)
     create_rsvps emails
     
   end
