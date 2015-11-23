@@ -51,13 +51,15 @@
                     =@user.percent_none.round(0).to_s + "%"
 
             %div.well#planning_well
-              %div.row
-                %h4
-                  =@user.display_name.to_s + " has planned " + pluralize(@user.events.confirmed.count, "successful event") + "."
               -if @user.events.confirmed.count > 0
                 %div.row
                   %h4
+                    =@user.display_name.to_s + " has planned " + pluralize(@user.events.confirmed.count, "successful event") + "."
+                %div.row
+                  %h4
                     ="On average, " + @user.average_rsvp_yes_count.round(1).to_s + " people respond YES to these events."
+              -else
+                =@user.display_name + " has not planned any events yet."
 
 
 
