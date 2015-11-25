@@ -15,8 +15,8 @@ class Rsvp < ActiveRecord::Base
   validates :hash_key, uniqueness: true
 
   #Scopes
-  scope :said_yes, -> { where(response: 1) }
-  scope :said_no, -> { where(response: 0) }
+  scope :said_yes, -> { where(response: Rsvp::YES) }
+  scope :said_no, -> { where(response: Rsvp::NO) }
   scope :unanswered, -> { where(response: nil) }
   scope :upcoming, -> { joins(:event).where("time >= ?", Time.now - 2*3600) }
   scope :prior, -> { joins(:event).where("time < ?", Time.now - 2*3600) }
@@ -29,7 +29,7 @@ class Rsvp < ActiveRecord::Base
   scope :hidden, -> {where(:hidden => true)}
   scope :not_expired, -> { joins(:event).where("status <> ?", Event::EXPIRED)}
   scope :left_excuse, -> {where("excuse <> ''")}
-  scope :viewed, -> {where("viewed = 1")}
+  scope :viewed, -> {where(viewed: true)}
 
   #Constants
   FLAKED = 0
