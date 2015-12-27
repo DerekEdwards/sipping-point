@@ -116,6 +116,11 @@ class EventsController < ApplicationController
     @rsvps = @event.rsvps.said_yes
     @rsvps.each do |rsvp|
       unless params[rsvp.user.email].nil?
+        # the contents of params[rsvp.user.email] will be based on flake report
+        #   Showed Up   =>  1
+        #   Flaked      =>  0
+        #   No Response => -1
+        # NB: No Response attendance reports will be stripped
         if params[rsvp.user.email].to_i == Rsvp::NO_RESPONSE
           rsvp.attendance_report = nil
         else

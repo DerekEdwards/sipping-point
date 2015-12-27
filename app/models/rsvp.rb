@@ -11,6 +11,9 @@ class Rsvp < ActiveRecord::Base
   belongs_to :user
   belongs_to :event
 
+  # If somebody changes their response, ensure the parent event knows
+  after_save :update_parent_event
+
   #Validations
   validates :hash_key, uniqueness: true
 
@@ -35,9 +38,9 @@ class Rsvp < ActiveRecord::Base
   FLAKED = 0
   SHOWED = 1
   NO_RESPONSE = -1
+  
   NO = 0
   YES = 1
-
 
   #Methods 
   def to_param
@@ -53,6 +56,18 @@ class Rsvp < ActiveRecord::Base
       self.save
       return hash_key
     end 
+  end
+
+  # Users accrue points simply for responding, whether yes or no
+  def sipping_points
+    SippingPoints::Rsvp::RESPONDED    
+  end
+
+  # Points From this user's attendance reports
+  # Note: this will be prettier if AttendanceReport can be extracted to its
+  # own resource.  Also better Normal Form for the DB...
+  def attendance_points
+    SippingPoints::Attendance::REPORT[attendance_report]
   end
 
   #retuns a boolean and a message
@@ -130,6 +145,10 @@ class Rsvp < ActiveRecord::Base
   
   ########### End Emails ##########
 
+  private
 
+  def update_parent_event
+    event.update_is_tipped
+  end
 
 end

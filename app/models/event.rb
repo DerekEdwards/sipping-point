@@ -2,6 +2,9 @@ class Event < ActiveRecord::Base
 
   #Relationships
   belongs_to :owner, :class_name => "User"
+  has_many   :coming_rsvps, -> {where(response: Rsvp::YES)}, class_name: 'Rsvp',
+                after_add: :update_is_tipped,
+                before_remove: :update_is_tipped
   has_many   :rsvps
   has_many   :invitees, through: :rsvps, :source => :user
 
@@ -33,6 +36,7 @@ class Event < ActiveRecord::Base
   scope :happening_within_24hrs, -> { where("time >= ? and time < ?", Time.now, Time.now + 24*3600)}
   scope :deadline_not_passed, -> { where("deadline >= ?", Time.now) }
   scope :not_expired, -> { where("status <> ?", Event::EXPIRED)}
+  scope :tipped, -> { where(is_tipped: true)}
 
   #Commentable
   acts_as_commentable
@@ -59,7 +63,7 @@ class Event < ActiveRecord::Base
   end
 
   def is_over_threshold? 
-    return self.rsvps.said_yes.count > self.threshold
+    return coming_rsvps.count > threshold
   end
 
   def percent_complete
@@ -201,7 +205,12 @@ class Event < ActiveRecord::Base
     link :target => "_blank", :rel => "nofollow"
     simple_format
   end
-  
+
+  def sipping_points
+    SippingPoints::Event::TIPPED[is_over_threshold?] +
+    coming_rsvps.count * SippingPoints::Event::ATTENDEE
+  end
+
   ### End Custom Getters/Setters #####
 
   ########## String Generators #######
@@ -357,6 +366,10 @@ class Event < ActiveRecord::Base
   end
 
   ########### End Emails ##############
+
+  def update_is_tipped
+    update!(is_tipped: is_over_threshold?)
+  end
 
   private
 

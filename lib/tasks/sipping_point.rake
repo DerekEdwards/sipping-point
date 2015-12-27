@@ -54,4 +54,11 @@ namespace :sipping_point do
     end
   end
 
+  desc "Update events with their number of yes's"
+  task update_event_tipped_column: :environment do
+    Event.all.each do |e|
+      e.update_is_tipped
+    end
+  end
+
 end
