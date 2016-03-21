@@ -94,6 +94,22 @@ class User < ActiveRecord::Base
     return 100 - percent_no - percent_yes
   end
 
+  # Watch out for n+1 queries here (and in sub-methods)
+  # 
+  # @note If you change this math, make sure you update the tests in
+  # test/models/user_test also
+  def sipping_points
+    # An ActiveRecord::Relation to scope to only tipped events
+    tipped_event_rsvps = rsvps.joins(:event).merge(Event.tipped)
+
+    # Points from this user's Events
+    events.tipped.to_a.sum(&:sipping_points) +
+    # Points from this user's RSVPs (earned by responding to invites)
+    tipped_event_rsvps.to_a.sum(&:sipping_points) +
+    # Points from this user's attendance reports (earned by attending events)
+    tipped_event_rsvps.reported.to_a.sum(&:attendance_points)
+  end
+
   ######### End Statistics Methods ###
 
 

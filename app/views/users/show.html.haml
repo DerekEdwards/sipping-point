@@ -5,8 +5,10 @@
     %h3{:style => "text-align: center;"}
       Some fun stats about
       =@user.display_name
-    %div.col-md-1
-    %div.col-md-10
+      %span.badge{title: "#{@user.sipping_points} Sipping Points", data: {:placement => "right"}}
+        %i.fa.fa-trophy.fa-2
+          = @user.sipping_points
+    %div.col-md-10.col-md-offset-1
       .panel.translucent
         .panel-body
           .panel-text
@@ -66,8 +68,7 @@
               %h4
                 =@user.display_name + " has not planned any events yet."
 
-
-
-
-
-  
+:javascript
+  $(function () {
+    $(".badge").tooltip()
+  })

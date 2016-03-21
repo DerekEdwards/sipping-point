@@ -11,12 +11,15 @@ class Rsvp < ActiveRecord::Base
   belongs_to :user
   belongs_to :event
 
+  # If somebody changes their response, ensure the parent event knows
+  after_save :update_parent_event
+
   #Validations
   validates :hash_key, uniqueness: true
 
   #Scopes
-  scope :said_yes, -> { where(response: 1) }
-  scope :said_no, -> { where(response: 0) }
+  scope :said_yes, -> { where(response: Rsvp::YES) }
+  scope :said_no, -> { where(response: Rsvp::NO) }
   scope :unanswered, -> { where(response: nil) }
   scope :upcoming, -> { joins(:event).where("time >= ?", Time.now - 2*3600) }
   scope :prior, -> { joins(:event).where("time < ?", Time.now - 2*3600) }
@@ -29,15 +32,15 @@ class Rsvp < ActiveRecord::Base
   scope :hidden, -> {where(:hidden => true)}
   scope :not_expired, -> { joins(:event).where("status <> ?", Event::EXPIRED)}
   scope :left_excuse, -> {where("excuse <> ''")}
-  scope :viewed, -> {where("viewed = 1")}
+  scope :viewed, -> {where(viewed: true)}
 
   #Constants
   FLAKED = 0
   SHOWED = 1
   NO_RESPONSE = -1
+  
   NO = 0
   YES = 1
-
 
   #Methods 
   def to_param
@@ -53,6 +56,18 @@ class Rsvp < ActiveRecord::Base
       self.save
       return hash_key
     end 
+  end
+
+  # Users accrue points simply for responding, whether yes or no
+  def sipping_points
+    SippingPoints::Rsvp::RESPONDED    
+  end
+
+  # Points From this user's attendance reports
+  # Note: this will be prettier if AttendanceReport can be extracted to its
+  # own resource.  Also better Normal Form for the DB...
+  def attendance_points
+    SippingPoints::Attendance::REPORT[attendance_report]
   end
 
   #retuns a boolean and a message
@@ -130,6 +145,10 @@ class Rsvp < ActiveRecord::Base
   
   ########### End Emails ##########
 
+  private
 
+  def update_parent_event
+    event.update_is_tipped
+  end
 
 end

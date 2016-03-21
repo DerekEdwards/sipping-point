@@ -1,0 +1,22 @@
+bob_event_one:
+  user: bob
+  event: bobs_party
+  response: <%= Rsvp::YES %>
+  attendance_report: <%= Rsvp::SHOWED %>
+
+jim_event_one:
+  user: jim
+  event: bobs_party
+  response: <%= Rsvp::YES %>
+  attendance_report: <%= Rsvp::SHOWED %>
+
+terry_goes_to_terrys_event:
+  user: lonely_terry
+  event: terrys_failure
+  response: <%= Rsvp::YES %>
+  attendance_report: <%= Rsvp::SHOWED %>
+
+frenemies_bail_on_terry:
+  user: terrys_frenemy
+  event: terrys_failure
+  response: <%= Rsvp::NO %>

@@ -1,7 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
+bobs_party:
+  name: Bob's Party
+  description: A party bob throws
+  owner: bob
+  threshold: 1
+  is_tipped: true
 
-two:
-  name: MyString
+terrys_failure:
+  name: A Party Everybody Ignores
+  description: A party that fails to tip
+  owner: lonely_terry
+  threshold: 2
+  is_tipped: false
