@@ -62,8 +62,12 @@ class Event < ActiveRecord::Base
     !has_spots_remaining?
   end
 
-  def is_over_threshold? 
-    return coming_rsvps.count > threshold
+  def is_over_threshold?
+    if threshold 
+      return coming_rsvps.count > threshold
+    else
+      return false
+    end
   end
 
   def percent_complete
