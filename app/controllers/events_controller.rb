@@ -66,6 +66,12 @@ class EventsController < ApplicationController
     @event.errors.clear    
     confirm_invitee
 
+    #Pull out the allowed event_params
+    event_params = event_params() 
+
+    #Update Timezone
+    event_params = update_time_params(event_params)
+
     old_friends = params.select { |key, value| key.to_s.match(/^!!!email\d+/) }
     old_friends = old_friends.values
 
@@ -153,7 +159,7 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:name, :owner_email, :threshold, :maximum_attendance, :name, :time, :description, :deadline, :invitee_emails, :location, :open)
+      params.require(:event).permit(:name, :owner_email, :threshold, :maximum_attendance, :name, :time, :description, :deadline, :invitee_emails, :location, :open, :timezone)
     end
 
     #Set Comment As
@@ -208,13 +214,13 @@ class EventsController < ApplicationController
       #The input from the new even form retuns the time and time zone as two separate fields
       #This functions creates the time with the correct time zone and then throws away the timeezone field
 
-      Time.zone = params['timezone']
-      new_time = Time.zone.parse(params['time'])
-      new_deadline = Time.zone.parse(params['deadline'])
-
-      params['time'] = new_time
-      params['deadline'] =  new_deadline
-      params.delete('timezone')
+      unless params['time'].nil?
+        Time.zone = params['timezone']
+        new_time = Time.zone.parse(params['time']) 
+        new_deadline = Time.zone.parse(params['deadline'])
+        params['time'] = new_time
+        params['deadline'] =  new_deadline
+      end
 
       return params
     end

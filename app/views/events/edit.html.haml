@@ -90,6 +90,11 @@
                       %div.col-md-10 
                         %input{:id => 'event_deadline', :readonly => "true", :type => "string", :name => 'event[deadline]', :value => @event.deadline, :maxlength => "500"}
 
+                    %div.row.spacer.hidden
+                      %div.col-md-1
+                      %div.col-md-10
+                        %input{:id => 'event_timezone', :readonly => "true", :type => "string", :name => 'event[timezone]', :value => "timezone_goes_here", :maxlength => "500"}
+
                   %div.row.spacer
                     %div.col-md-1
                     %div.col-md-10
@@ -277,6 +282,10 @@
   });
 
   $(document).ready(function() {
+    // Setup TimeZone
+    var timezone = jstz.determine();
+    $('#event_timezone').attr('value', timezone.name());
+
     // Now create the actual pickers
     $("#event_time").datetimepicker({
        format: 'D, M d g:i A',
