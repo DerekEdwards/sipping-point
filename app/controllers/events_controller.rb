@@ -41,8 +41,10 @@ class EventsController < ApplicationController
   def create
 
     logger.info('Create Event')
-    @event = Event.new(event_params)
-    
+
+    params = update_time_params(event_params)
+    @event = Event.new(params)
+
     @event.owner = current_user
     @event.generate_hash_key
     @event.update_status
@@ -201,4 +203,20 @@ class EventsController < ApplicationController
     def confirm_editing_rights
 
     end
+
+    def update_time_params params
+      #The input from the new even form retuns the time and time zone as two separate fields
+      #This functions creates the time with the correct time zone and then throws away the timeezone field
+
+      Time.zone = params['timezone']
+      new_time = Time.zone.parse(params['time'])
+      new_deadline = Time.zone.parse(params['deadline'])
+
+      params['time'] = new_time
+      params['deadline'] =  new_deadline
+      params.delete('timezone')
+
+      return params
+    end
+
 end
