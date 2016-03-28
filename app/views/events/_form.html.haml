@@ -48,6 +48,14 @@
                   The event will be canceled unless the Sipping Point is reached by this time.
               %div.col-md-4
                 %input{:id => 'event_deadline', :readonly => "true", :type => "string", :name => 'event[deadline]', :value => @event.deadline, :maxlength => "500"}
+
+            %div.row.spacer.hidden
+              %div.col-md-1
+              %div.col-md-5
+                %strong{:style => "font-size:20px"}
+                  ="Hidden Field to Save Time Zone"
+              %div.col-md-4
+                %input{:id => 'event_timezone', :readonly => "true", :type => "string", :name => 'event[timezone]', :value => "timezone_goes_here", :maxlength => "500"}
           
 
   %button.btn.btn-primary.btn-xl{:type => "submit"} 
@@ -69,15 +77,16 @@
       return resultDate;
     };
 
+    var timezone = jstz.determine();
     var startDate = nextFridayAtEight();
     startDate.setHours(20);
     startDate.setMinutes(0);
     var startValue = startDate.getTime()
     var deadlineDate   = new Date(startDate.getTime());
     deadlineDate.setDate(startDate.getDate() - 1);
-    console.log(startDate);
-    console.log("#{@event.time}");
-
+    
+    $('#event_timezone').attr('value', timezone.name());
+    
     // Now create the actual pickers
     $("#event_time").datetimepicker({
        format: 'D, M d g:i A',
