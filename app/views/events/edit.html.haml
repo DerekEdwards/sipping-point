@@ -95,11 +95,6 @@
                       %div.col-md-10
                         %input{:id => 'event_timezone', :readonly => "true", :type => "string", :name => 'event[timezone]', :value => "timezone_goes_here", :maxlength => "500"}
 
-                    %div.row.spacer.hidden
-                      %div.col-md-1
-                      %div.col-md-10
-                        %input{:id => 'event_timezone', :readonly => "true", :type => "string", :name => 'event[timezone]', :value => "timezone_goes_here", :maxlength => "500"}
-
                   %div.row.spacer
                     %div.col-md-1
                     %div.col-md-10
@@ -110,6 +105,24 @@
                     %div.col-md-10
                       %textarea{:type => "text", :name => 'event[location]', :rows => 2, :style=>"width:100%;", :maxlength => "500", :placeholder =>"Tell us where this event will be: e.g., Sligo Pub in Davis Square" }
                         =@event.location
+
+                  %div.row.spacer
+                    %div.col-md-1
+                    %div.col-md-10
+                      %strong{:style => "font-size:20px"}
+                        ="Cover Photo"
+                      %div.hint-text
+                        Optional: Add a cover photo for your event.
+                  %div.row
+                    %div.col-md-1
+                    %div.col-md-5      
+                      %input{:id => "cover-photo", :type => "string", :name => 'event[cover_photo_url]', :value => @event.cover_photo_url, :style=>"width:100%;", :maxlength => "100", :placeholder => "http://myphoto.png"}
+
+                  %div.row.event-cover.text-center.spacer#cover-photo-preview
+                    -if @event.cover_photo_url
+                      %img{src: @event.cover_photo_url}
+                      %div.row.hint-text
+                        Cover Photo Preview
 
                   %div.row.spacer
                     %div.col-md-1
@@ -332,6 +345,12 @@
       $('#save_and_send').text(initial_button_text + ' and Send Invites');
     }
   }
+
+  // Handle Cover Photo Preview
+  $( "#cover-photo" ).focusout(function() { 
+    var url = $('#cover-photo').val();
+    $('#cover-photo-preview').html("<img src=" + url + "><div class='row hint-text'>Cover Photo Preview</div>");
+  })
 
 
 

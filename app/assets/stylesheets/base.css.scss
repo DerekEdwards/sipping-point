@@ -136,6 +136,10 @@ table.xtra-padding {
     *border-collapse: expression('separate', cellSpacing = '10px');
 }
 
+.event-cover img {
+  max-width: 100%;
+  max-height: 250px;
+}
 .event-description img {
   max-width: 100%;
   max-height: 400px;

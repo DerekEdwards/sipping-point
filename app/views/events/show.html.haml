@@ -6,6 +6,9 @@
       .panel-body
         .panel-text
           %h3
+            -if @event.cover_photo_url
+              .div.event-cover
+                %img{src: @event.cover_photo_url}
             -if @event.status == Event::INITIALIZED
               ="This event has been created, but no one has been invited yet."
             -elsif @event.status == Event::OPEN
