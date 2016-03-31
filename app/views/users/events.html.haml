@@ -18,11 +18,19 @@
                             %img{src: rsvp.event.cover_photo_url}
                           -else
                             %img{src: '/assets/sp_logo.png'}
-                        =rsvp.event.name
+                        .sp-font.future-grid-title
+                          =rsvp.event.name
+                        .progress
+                          -if rsvp.event.status == Event::CONFIRMED
+                            .progress-bar.progress-bar-info{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
+                              ="Confirmed!"
+                          -else 
+                            .progress-bar.progress-bar-danger.progress-bar-striped.active{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
+                              =rsvp.event.percent_complete.round.to_s + "%"
 
 
 
-      %h2
+      %h2.sp-font
         Past Events                 
       -@my_prior_events.in_groups_of(4).each do |row|
         %div.row

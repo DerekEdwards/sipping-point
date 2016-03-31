@@ -9,6 +9,8 @@
     src:url(../assets/noticia-text.ttf) format("truetype");
 }
 
+
+
 html,
 
 body {
@@ -533,4 +535,8 @@ img::-moz-selection {
 
 body {
     webkit-tap-highlight-color: #222;
+}
+
+.sp-font {
+    font-family: "sp-font";
 }
