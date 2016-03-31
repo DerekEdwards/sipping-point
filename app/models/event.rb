@@ -149,6 +149,10 @@ class Event < ActiveRecord::Base
     return self.deadline < Time.now
   end
 
+  def expired?
+    return self.status == Event::EXPIRED
+  end
+
   ####### Custom Getters/Setters #####
   def invitee_emails
     nil

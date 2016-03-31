@@ -134,6 +134,21 @@ class Rsvp < ActiveRecord::Base
     return ""
   end
 
+  def simple_status_string
+    if self.event.expired?
+      return 'Event Failed'
+    end
+
+    case self.response
+    when Rsvp::YES
+      return 'Going'
+    when Rsvp::NO
+      return 'Not Going'
+    else
+      return 'RSVP Needed'
+    end
+  end
+
   ####### End String Generators ###
 
   ########### Emails ##############
