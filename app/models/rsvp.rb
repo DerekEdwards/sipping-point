@@ -48,6 +48,14 @@ class Rsvp < ActiveRecord::Base
     self.hash_key
   end 
 
+  def yes?
+    return self.response == Rsvp::YES
+  end
+
+  def no?
+    return self.response == Rsvp::NO
+  end
+
   def generate_hash_key
     if self.hash_key
       return self.hash_key

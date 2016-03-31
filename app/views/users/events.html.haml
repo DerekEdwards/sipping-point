@@ -9,9 +9,9 @@
           -row.each do |rsvp|
             %div.col-md-4
               -if rsvp
-                %a{href: event_path(rsvp.event)}
-                  .panel.translucent
-                    .panel-body
+                .panel.translucent{id: rsvp.hash_key.to_s + '_block'}
+                  .panel-body
+                    %a{href: event_path(rsvp.event)}
                       .panel-text
                         .grid-cover-photo
                           -if rsvp.event.cover_photo_url
@@ -22,13 +22,27 @@
                             =rsvp.simple_status_string
                         .sp-font.future-grid-title
                           =rsvp.event.name
-                        .progress
-                          -if rsvp.event.status == Event::CONFIRMED
-                            .progress-bar.progress-bar-info{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
+                        .div.row.small-text
+                          %div.col-md-6
+                            %i.fa.fa-calendar.panel-text
+                            =rsvp.event.display_time
+                          %div.col-md-6
+                            =rsvp.event.yes_count_phrase
+                        
+                        -if rsvp.event.status == Event::CONFIRMED
+                          .progress.zero-margin-below
+                            .progress-bar.progress-bar-info.zero-margin-below{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
                               ="Confirmed!"
-                          -else 
-                            .progress-bar.progress-bar-danger.progress-bar-striped.active{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
+                        -else 
+                          .progress.zero-margin-below
+                            .progress-bar.progress-bar-danger.progress-bar-striped.active.zero-margin-below{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
                               =rsvp.event.percent_complete.round.to_s + "%"
+                          %div.row.small-text
+                            ="Deadline to RSVP: " + rsvp.event.display_deadline
+                    -if rsvp.event.expired? or rsvp.no?
+                      %div.row.spacer.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
+                        %i.fa.fa-trash.panel-text
+                        Delete Invitation     
 
 
 
@@ -64,12 +78,10 @@
   $(".event_trash_button").click(function(){
        // Get the id data attribute
        var id = $(this).data("id");
-       var row = document.getElementById(id + '_row');
-       var rowm = document.getElementById(id + '_row_m')
+       var block = document.getElementById(id + '_block');
        var delete_link = document.getElementById('link_to_deleted_events');
        delete_link.style.display = 'block';
-       row.remove();
-       rowm.remove();
+       block.remove();
        $.ajax({
         type: 'PATCH',
         url: '#{root_url}' + 'rsvps/' + id + '/hide'
