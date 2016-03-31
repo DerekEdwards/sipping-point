@@ -4,318 +4,42 @@
       %h1
         You have no events.  
     -else
-      -if @new_rsvps.count > 0
-        %div{id: 'new-events-section'}
-          %h2
-            -if @new_rsvps.count > 1
-              =@new_rsvps.count.to_s + " New Invitations"
-            -else
-              =@new_rsvps.count.to_s + " New Invitation"
-          .panel.translucent
-            .panel-body
-              .panel-text
-                %table.table.table-center.table-striped{id: "new-events"}
-                  %thead
-                    %tr
-                      %th.text-center
-                        Name
-                      %th.text-center
-                        Date
-                      %th.text-center
-                        Deadline
-                      %th.text-center
-                        Status
-                      %th.text-center
-                        REPLY
-                  %tbody
-                    -@new_rsvps.each do |rsvp|
-                      %tr
-                        %td
-                          =link_to rsvp.event.name, event_path(rsvp.event)
-                        %td
-                          -if rsvp.event.time
-                            =rsvp.event.display_time
-                        %td
-                          -if rsvp.event.deadline
-                            =rsvp.event.display_deadline
-                        %td
-                          =rsvp.event.short_description
-                        %td 
-                          =link_to edit_rsvp_path(rsvp) do 
-                            %i.fa.fa-lg.fa-send
+      -@my_future_events.in_groups_of(3).each do |row|
+        %div.row
+          -row.each do |rsvp|
+            %div.col-md-4
+              -if rsvp
+                %a{href: event_path(rsvp.event)}
+                  .panel.translucent
+                    .panel-body
+                      .panel-text
+                        .grid-cover-photo
+                          -if rsvp.event.cover_photo_url
+                            %img{src: rsvp.event.cover_photo_url}
+                          -else
+                            %img{src: '/assets/sp_logo.png'}
+                        =rsvp.event.name
 
-        %div{id: 'new-events-section-m'}
-          %h2
-            -if @new_rsvps.count > 1
-              =@new_rsvps.count.to_s + " New Invitations"
-            -else
-              =@new_rsvps.count.to_s + " New Invitation"
-          .panel.translucent
-            .panel-body
-              .panel-text
-                %table.table.table-center.table-striped{id: "hosting-m"}
-                  %tbody
-                    -@new_rsvps.joins(:event).order('events.time DESC NULLS LAST').each do |rsvp|
-                      %tr{ :id => rsvp.event.hash_key + '_row_m'}
-                        %td
-                          %div.row
-                            %h4.col-xs-12.strong
-                              =link_to rsvp.event.name, event_path(rsvp.event)
-                          %div.row  
-                            %div.col-xs-12
-                              -if rsvp.event.time
-                                =rsvp.event.display_time
-                          %div.row
-                            %div.col-xs-12
-                              ="Status: " + rsvp.event.short_description 
-                          %div.row
-                            %div.col-xs-12
-                              =link_to edit_rsvp_path(rsvp) do 
-                                %i.fa.fa-lg.fa-send
-                                REPLY      
-      
-      -if @my_upcoming_events.count > 0 
-        %div{id: 'hosting-section'}
-          %h2
-            ="Events I'm Hosting"
-          .panel.translucent
-            .panel-body
-              .panel-text
-                %table.table.table-center.table-striped{id: "hosting"}
-                  %thead
-                    %tr
-                      %th.text-center
-                        Name
-                      %th.text-center
-                        Date
-                      %th.text-center
-                        Sipping Point
-                      %th.text-center
-                        Confirmed
-                      %th.text-center
-                        Status
-                  %tbody
-                    -@my_upcoming_events.each do |event|
-                      %tr
-                        %td
-                          =link_to event.name, event_path(event)
-                        %td
-                          -if event.time
-                            =event.display_time
-                        %td
-                          =event.threshold
-                        %td
-                          =event.rsvps.where(response: true).count
-                        %td
-                          =event.short_description
-        %div{id: 'hosting-section-m'}
-          %h2
-            ="Events I'm Hosting"
-          .panel.translucent
-            .panel-body
-              .panel-text
-                %table.table.table-center.table-striped{id: "hosting-m"}
-                  %tbody
-                    -@my_upcoming_events.order('time DESC NULLS LAST').each do |event|
-                      %tr{ :id => event.hash_key + '_row_m'}
-                        %td
-                          %div.row
-                            %h4.col-xs-12.strong
-                              =link_to event.name, event_path(event)
-                          %div.row  
-                            %div.col-xs-12
-                              -if event.time
-                                =event.display_time
-                          %div.row
-                            %div.col-xs-12
-                              ="Status: " + event.short_description 
-      
-      -if @events_im_attending.count > 0  
-        %div{id: 'attending-section'}
-          %h2
-            ="Events I'm Attending"
-          .panel.translucent
-            .panel-body
-              .panel-text
-                %table.table.table-center.table-striped{id: "attending"}
-                  %thead
-                    %tr
-                      %th.text-center
-                        Name
-                      %th.text-center
-                        Date
-                      %th.text-center
-                        Sipping Point
-                      %th.text-center
-                        Confirmed
-                      %th.text-center
-                        Status
-                  %tbody
-                    -@events_im_attending.each do |rsvp|
-                      %tr{:id => rsvp.hash_key + '_row'}
-                        %td
-                          =link_to rsvp.event.name, event_path(rsvp.event)
-                        %td
-                          -if rsvp.event.time
-                            =rsvp.event.display_time
-                        %td
-                          =rsvp.event.threshold
-                        %td
-                          =rsvp.event.rsvps.where(response: true).count
-                        %td
-                          =rsvp.event.short_description 
-        %div{id: 'attending-section-m'}
-          %h2
-            ="Events I'm Attending"
-          .panel.translucent
-            .panel-body
-              .panel-text
-                %table.table.table-center.table-striped{id: "attending-m"}
-                  %tbody
-                    -@events_im_attending.joins(:event).order('events.time DESC NULLS LAST').each do |rsvp|
-                      %tr{ :id => rsvp.hash_key + '_row_m'}
-                        %td
-                          %div.row
-                            %h4.col-xs-12.strong
-                              =link_to rsvp.event.name, event_path(rsvp.event)
-                          %div.row  
-                            %div.col-xs-12
-                              -if rsvp.event.time
-                                =rsvp.event.display_time
-                          %div.row
-                            %div.col-xs-12
-                              ="Status: " + rsvp.event.short_description 
 
-      -if @events_i_declined.count > 0  
-        %div{id: 'not-attending-section'}
-          %h2
-            ="Events I'm Not Attending"
-          .panel.translucent
-            .panel-body
-              .panel-text
-                %table.table.table-center.table-striped{id: 'not-attending'}
-                  %thead
-                    %tr
-                      %th.text-center
-                        Name
-                      %th.text-center
-                        Date
-                      %th.text-center
-                        Sipping Point
-                      %th.text-center
-                        Confirmed
-                      %th.text-center
-                        Status
-                      %th.text-center
-                        Delete
-                  %tbody
-                    -@events_i_declined.each do |rsvp|
-                      %tr{ :id => rsvp.hash_key + '_row'}
-                        %td
-                          =link_to rsvp.event.name, event_path(rsvp.event)
-                        %td
-                          -if rsvp.event.time
-                            =rsvp.event.display_time
-                        %td
-                          =rsvp.event.threshold
-                        %td
-                          =rsvp.event.rsvps.where(response: true).count
-                        %td 
-                          =rsvp.event.short_description 
-                        %td.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
-                          %i.fa.fa-lg.fa-trash-o     
-        %div{id: 'not-attending-section-m'}
-          %h2
-            ="Events I'm Not Attending"
-          .panel.translucent
-            .panel-body
-              .panel-text
-                %table.table.table-center.table-striped{id: "not-attending-m"}
-                  %tbody
-                    -@events_i_declined.joins(:event).order('events.time DESC NULLS LAST').each do |rsvp|
-                      %tr{ :id => rsvp.hash_key + '_row_m'}
-                        %td
-                          %div.row
-                            %h4.col-xs-12.strong
-                              =link_to rsvp.event.name, event_path(rsvp.event)
-                          %div.row  
-                            %div.col-xs-12
-                              -if rsvp.event.time
-                                =rsvp.event.display_time
-                          %div.row
-                            %div.col-xs-12
-                              ="Status: " + rsvp.event.short_description 
-                          %div.row
-                            %div.col-xs-12
-                              %div.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
-                                %i.fa.fa-lg.fa-trash-o
-                                Delete                    
-      
-      -if @my_prior_events.count > 0
-        %div{id: 'past-events-section'}
-          %h2
-            ="Past Events"
-          .panel.translucent
-            .panel-body
-              .panel-text
-                %table.table.table-center.table-striped{id: "past-events"}
-                  %thead
-                    %tr
-                      %th.text-center
-                        Name
-                      %th.text-center
-                        Date
-                      %th.text-center
-                        Sipping Point
-                      %th.text-center
-                        Confirmed
-                      %th.text-center
-                        Status
-                      %th.text-center
-                        Delete
-                  %tbody
-                    -@my_prior_events.each do |rsvp|
-                      %tr{ :id => rsvp.hash_key + '_row'}
-                        %td
-                          =link_to rsvp.event.name, event_path(rsvp.event)
-                        %td
-                          -if rsvp.event.time
-                            =rsvp.event.display_time
-                        %td
-                          =rsvp.event.threshold
-                        %td
-                          =rsvp.event.rsvps.where(response: true).count
-                        %td
-                          =rsvp.event.short_description 
-                        %td.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
-                          %i.fa.fa-lg.fa-trash-o
-        
-        %div{id: 'past-events-section-m'}
-          %h2
-            ="Past Events"
-          .panel.translucent
-            .panel-body
-              .panel-text
-                %table.table.table-center.table-striped{id: "past-events-m"}
-                  %tbody
-                    -@my_prior_events.joins(:event).order('events.time ASC NULLS LAST').each do |rsvp|
-                      %tr{ :id => rsvp.hash_key + '_row_m'}
-                        %td
-                          %div.row
-                            %h4.col-xs-12.strong
-                              =link_to rsvp.event.name, event_path(rsvp.event)
-                          %div.row  
-                            %div.col-xs-12
-                              -if rsvp.event.time
-                                =rsvp.event.display_time
-                          %div.row
-                            %div.col-xs-12
-                              ="Status: " + rsvp.event.short_description 
-                          %div.row
-                            %div.col-xs-12
-                              %div.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
-                                %i.fa.fa-lg.fa-trash-o
-                                Delete
+
+      %h2
+        Past Events                 
+      -@my_prior_events.in_groups_of(4).each do |row|
+        %div.row
+          -row.each do |rsvp|
+            %div.col-md-3
+              -if rsvp
+                %a{href: event_path(rsvp.event)}
+                  .panel.translucent
+                    .panel-body
+                      .panel-text
+                        .grid-cover-photo
+                          -if rsvp.event.cover_photo_url
+                            %img{src: rsvp.event.cover_photo_url}
+                          -else
+                            %img{src: '/assets/sp_logo.png'}
+                        =rsvp.event.name
+       
 
 
   %center
@@ -342,76 +66,6 @@
        });
   });
 
-  //Handle Responsiveness
-  function respond(){
-    if (screen.width>=568) {
-      $('#past-events-section').show();
-      $('#past-events-section-m').hide();
-
-      $('#not-attending-section').show();
-      $('#not-attending-section-m').hide();
-
-      $('#attending-section').show();
-      $('#attending-section-m').hide();
-
-      $('#hosting-section').show();
-      $('#hosting-section-m').hide();
-
-      $('#new-events-section').show();
-      $('#new-events-section-m').hide();
-    }
-    else  {
-      $('#past-events-section').hide();
-      $('#past-events-section-m').show();
-
-      $('#not-attending-section').hide();
-      $('#not-attending-section-m').show();
-
-      $('#attending-section').hide();
-      $('#attending-section-m').show();
-
-      $('#hosting-section').hide();
-      $('#hosting-section-m').show();
-
-      $('#new-events-section').hide();
-      $('#new-events-section-m').show();
-    }
-  };
-
-  window.onresize = function() {
-    respond();
-  };
-
-  //Setup Datatables
-  $(document).ready(function() {
-    $('#new-events').dataTable({
-      "bPaginate": false, "bFilter": false, "bInfo" : false,
-      "order": [[ 1, "asc" ]]
-    });
-
-    $('#hosting').dataTable({
-      "bPaginate": false, "bFilter": false, "bInfo" : false,
-      "order": [[ 1, "asc" ]]
-    });
-
-    $('#attending').dataTable({
-      "bPaginate": false, "bFilter": false, "bInfo" : false,
-      "order": [[ 1, "asc" ]]
-    });
-
-    $('#not-attending').dataTable({
-      "bPaginate": false, "bFilter": false, "bInfo" : false,
-      'aoColumnDefs': [{'bSortable': false,'aTargets': [-1]}],
-      "order": [[ 1, "asc" ]]
-    });
-
-    $('#past-events').dataTable({
-      "bPaginate": false, "bFilter": false, "bInfo" : false,
-      'aoColumnDefs': [{'bSortable': false,'aTargets': [-1]}],
-      "order": [[ 1, "desc" ]]
-    });
-
-    respond();
-  } );
+  
 
 

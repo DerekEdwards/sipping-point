@@ -33,6 +33,7 @@ class Rsvp < ActiveRecord::Base
   scope :not_expired, -> { joins(:event).where("status <> ?", Event::EXPIRED)}
   scope :left_excuse, -> {where("excuse <> ''")}
   scope :viewed, -> {where(viewed: true)}
+  scope :sorted_by_earliest, -> { joins(:event).order('events.time ASC') }
 
   #Constants
   FLAKED = 0
