@@ -195,5 +195,20 @@ table.xtra-padding {
 
 .future-grid-title {
   font-size: 25px;
+  position: relative; 
+}
+
+.overlay-text {
+  position: absolute; 
+  top: 5px; 
+  left: 20px; 
+  width: 40%; 
+}
+
+.overlay-text { 
+   color: white; 
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(0, 0, 0, 0.7);
+   padding: 10px; 
 }
 

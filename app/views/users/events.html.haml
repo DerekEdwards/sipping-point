@@ -18,10 +18,10 @@
                             %img{src: rsvp.event.cover_photo_url}
                           -else
                             %img{src: '/assets/sp_logo.png'}
+                          %span.overlay-text
+                            =rsvp.simple_status_string
                         .sp-font.future-grid-title
                           =rsvp.event.name
-                        %div.row
-                          =rsvp.simple_status_string
                         .progress
                           -if rsvp.event.status == Event::CONFIRMED
                             .progress-bar.progress-bar-info{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
