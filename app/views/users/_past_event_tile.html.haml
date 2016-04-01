@@ -11,12 +11,10 @@
       .sp-font.future-grid-title
         =rsvp.event.name
       .div.row.small-text
-        %div.col-md-6
+        %div.col-md-12
           %i.fa.fa-calendar.panel-text
           =rsvp.event.display_time
-        %div.col-md-6
-          =rsvp.event.past_yes_count_phrase
       
-  %div.row.spacer.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
+  %button.spacer.btn.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
     %i.fa.fa-trash.panel-text
     Delete Invitation  

@@ -34,6 +34,7 @@ class Rsvp < ActiveRecord::Base
   scope :left_excuse, -> {where("excuse <> ''")}
   scope :viewed, -> {where(viewed: true)}
   scope :sorted_by_earliest, -> { joins(:event).order('events.time ASC') }
+  scope :sorted_by_latest, -> { joins(:event).order('events.time DESC') }
 
   #Constants
   FLAKED = 0

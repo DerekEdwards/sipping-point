@@ -214,6 +214,7 @@ table.xtra-padding {
 
 .small-text {
   font-size: 12px;
+  text-decoration: none;
 }
 
 .zero-margin-below {
@@ -225,3 +226,10 @@ table.xtra-padding {
   filter: alpha(opacity=40);
 }
 
+.no-dec {
+    text-decoration: none;
+}
+
+.no-dec hover{
+    text-decoration: none !important;
+}

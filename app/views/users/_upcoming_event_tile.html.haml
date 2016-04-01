@@ -9,7 +9,7 @@
           %img{src: '/assets/sp_logo.png'}
         %span.overlay-text
           =rsvp.simple_status_string
-      .sp-font.future-grid-title
+      .sp-font.future-grid-title.no-dec
         =rsvp.event.name
       .div.row.small-text
         %div.col-md-6
@@ -29,6 +29,6 @@
         %div.row.small-text
           ="Deadline to RSVP: " + rsvp.event.display_deadline
   -if rsvp.event.expired? or rsvp.no?
-    %div.row.spacer.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
+    %button.spacer.btn.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
       %i.fa.fa-trash.panel-text
       Delete Invitation  

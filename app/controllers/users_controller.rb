@@ -66,8 +66,8 @@ class UsersController < ApplicationController
 
   def events
 
-    @my_future_events = @user.rsvps.upcoming.not_hidden
-    @my_prior_events = @user.rsvps.prior.not_hidden
+    @my_future_events = @user.rsvps.upcoming.not_hidden.sorted_by_earliest
+    @my_prior_events = @user.rsvps.prior.not_hidden.sorted_by_latest
     @hidden_rsvps = @user.rsvps.hidden
     
     if @user == current_user 

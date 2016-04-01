@@ -47,6 +47,10 @@ a:focus {
 h1{     
     font-family: "sp-font";
 }
+
+h1 a:hover{
+  font-family: "sp-font";
+}
 h2,
 h3,
 h4,
@@ -539,4 +543,9 @@ body {
 
 .sp-font {
     font-family: "sp-font";
+    text-decoration: none;
+}
+
+.sp-font a:hover{
+    text-decoration: none;
 }
