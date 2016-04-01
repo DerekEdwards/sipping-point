@@ -116,7 +116,7 @@
                   %div.row
                     %div.col-md-1
                     %div.col-md-5      
-                      %input{:id => "cover-photo", :type => "string", :name => 'event[cover_photo_url]', :value => @event.cover_photo_url, :style=>"width:100%;", :maxlength => "100", :placeholder => "http://myphoto.png"}
+                      %input{:id => "cover-photo", :type => "string", :name => 'event[cover_photo_url]', :value => @event.cover_photo_url, :style=>"width:100%;", :maxlength => "255", :placeholder => "http://myphoto.png"}
 
                   %div.row.event-cover.text-center.spacer#cover-photo-preview
                     -if @event.cover_photo_url
