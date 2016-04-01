@@ -278,7 +278,18 @@ class Event < ActiveRecord::Base
     else
       return yes_count.to_s + " people attending"
     end
+  end  
+
+  def past_yes_count_phrase
+    yes_count = self.rsvps.said_yes.count
+    if yes_count == 1
+      return "1 person said Yes"
+    else
+      return yes_count.to_s + " people said Yes"
+    end
   end
+
+
 
   def short_description
     case self.status

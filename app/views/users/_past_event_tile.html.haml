@@ -1,0 +1,22 @@
+.panel-body
+  %a{href: event_path(rsvp.event)}
+    .panel-text
+      .grid-cover-photo
+        -unless rsvp.event.cover_photo_url.blank?
+          %img{src: rsvp.event.cover_photo_url}
+        -else
+          %img{src: '/assets/sp_logo.png'}
+        %span.overlay-text
+          =rsvp.past_simple_status_string
+      .sp-font.future-grid-title
+        =rsvp.event.name
+      .div.row.small-text
+        %div.col-md-6
+          %i.fa.fa-calendar.panel-text
+          =rsvp.event.display_time
+        %div.col-md-6
+          =rsvp.event.past_yes_count_phrase
+      
+  %div.row.spacer.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
+    %i.fa.fa-trash.panel-text
+    Delete Invitation  

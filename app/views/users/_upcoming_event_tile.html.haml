@@ -1,0 +1,34 @@
+
+.panel-body.translucent
+  %a{href: event_path(rsvp.event)}
+    .panel-text
+      .grid-cover-photo
+        -unless rsvp.event.cover_photo_url.blank?
+          %img{src: rsvp.event.cover_photo_url}
+        -else
+          %img{src: '/assets/sp_logo.png'}
+        %span.overlay-text
+          =rsvp.simple_status_string
+      .sp-font.future-grid-title
+        =rsvp.event.name
+      .div.row.small-text
+        %div.col-md-6
+          %i.fa.fa-calendar.panel-text
+          =rsvp.event.display_time
+        %div.col-md-6
+          =rsvp.event.yes_count_phrase
+      
+      -if rsvp.event.status == Event::CONFIRMED
+        .progress.zero-margin-below
+          .progress-bar.progress-bar-info.zero-margin-below{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
+            ="Confirmed!"
+      -else 
+        .progress.zero-margin-below
+          .progress-bar.progress-bar-danger.progress-bar-striped.active.zero-margin-below{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
+            =rsvp.event.percent_complete.round.to_s + "%"
+        %div.row.small-text
+          ="Deadline to RSVP: " + rsvp.event.display_deadline
+  -if rsvp.event.expired? or rsvp.no?
+    %div.row.spacer.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
+      %i.fa.fa-trash.panel-text
+      Delete Invitation  

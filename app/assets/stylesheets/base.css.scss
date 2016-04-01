@@ -220,3 +220,8 @@ table.xtra-padding {
   margin-bottom: 0px !important;
 }
 
+.dim img {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+
