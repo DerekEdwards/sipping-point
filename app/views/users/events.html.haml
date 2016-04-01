@@ -9,7 +9,7 @@
           -row.each do |rsvp|
             %div.col-md-4
               -if rsvp
-                -if rsvp.no?
+                -if rsvp.no? or rsvp.event.expired?
                   .panel.dim{id: rsvp.hash_key.to_s + '_block'}
                     = render :partial => "upcoming_event_tile", :locals => {rsvp: rsvp}   
                 -else
@@ -25,7 +25,7 @@
           -row.each do |rsvp|
             %div.col-md-3
               -if rsvp
-                -if rsvp.no?
+                -if rsvp.no? or rsvp.event.expired?
                   .panel.dim{id: rsvp.hash_key.to_s + '_block'}
                     = render :partial => "past_event_tile", :locals => {rsvp: rsvp}   
                 -else

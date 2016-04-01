@@ -102,6 +102,9 @@
                   -if @event.status == Event::CONFIRMED
                     .progress-bar.progress-bar-info{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
                       =@event.percent_complete.round.to_s + "%"
+                  -elsif @event.status == Event::EXPIRED
+                    .progress-bar.progress-bar-danger{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
+                      =@event.percent_complete.round.to_s + "%"
                   -else 
                     .progress-bar.progress-bar-danger.progress-bar-striped.active{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
                       =@event.percent_complete.round.to_s + "%"

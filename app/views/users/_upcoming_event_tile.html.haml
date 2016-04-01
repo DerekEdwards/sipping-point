@@ -21,7 +21,13 @@
       -if rsvp.event.status == Event::CONFIRMED
         .progress.zero-margin-below
           .progress-bar.progress-bar-info.zero-margin-below{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
-            ="Confirmed!"
+            ="It's on!"
+      -elsif rsvp.event.expired?
+        .progress.zero-margin-below
+          .progress-bar.progress-bar-danger.zero-margin-below{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
+            =rsvp.event.percent_complete.round.to_s + "%"
+        %div.row.small-text
+          ="Deadline to RSVP: " + rsvp.event.display_deadline
       -else 
         .progress.zero-margin-below
           .progress-bar.progress-bar-danger.progress-bar-striped.active.zero-margin-below{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
