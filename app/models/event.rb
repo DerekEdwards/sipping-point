@@ -101,7 +101,7 @@ class Event < ActiveRecord::Base
       # otherwise, set up the status appropriately
       if self.rsvps.count == 0 # The event has been created
         self.status = Event::INITIALIZED
-      elsif self.rsvps.said_yes.count >= self.threshold  # The event is on!
+      elsif tipped?  # The event is on!
         send_confirmation_emails if (self.status != Event::CONFIRMED and send_email)
         self.status = Event::CONFIRMED
       else # The event is awaiting RSVPs
