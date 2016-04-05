@@ -62,8 +62,8 @@ class Event < ActiveRecord::Base
     !has_spots_remaining?
   end
 
-  def is_over_threshold? 
-    return coming_rsvps.count > threshold
+  def tipped? 
+    return coming_rsvps.count >= threshold
   end
 
   def percent_complete
@@ -207,7 +207,7 @@ class Event < ActiveRecord::Base
   end
 
   def sipping_points
-    SippingPoints::Event::TIPPED[is_over_threshold?] +
+    SippingPoints::Event::TIPPED[tipped?] +
     coming_rsvps.count * SippingPoints::Event::ATTENDEE
   end
 
@@ -368,7 +368,7 @@ class Event < ActiveRecord::Base
   ########### End Emails ##############
 
   def update_is_tipped
-    update!(is_tipped: is_over_threshold?)
+    update!(is_tipped: tipped?)
   end
 
   private
