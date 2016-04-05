@@ -92,7 +92,7 @@ class Rsvp < ActiveRecord::Base
         return true, ""
       when Event::CONFIRMED
         if self.response == Rsvp::YES
-          if self.event.is_over_threshold?
+          if self.event.tipped?
             return true, "Do you still want to come?"
           else
             return false, "You cannot change your RSVP to No unless at least 1 more person joins the event. So go find someone to take your place and come back and try again."
