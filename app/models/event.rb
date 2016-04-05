@@ -145,6 +145,10 @@ class Event < ActiveRecord::Base
     return self.deadline < Time.now
   end
 
+  def expired?
+    return self.status == Event::EXPIRED
+  end
+
   ####### Custom Getters/Setters #####
   def invitee_emails
     nil
@@ -247,32 +251,41 @@ class Event < ActiveRecord::Base
 
   def display time
     #If time is not this year AND the month is more than 90 days away from now
-    if(time.year - Time.now.year).abs > 0 and (time - Time.now).abs > 3*30*24*3600
-      time.strftime("%a, %b %-d, %Y %l:%M %p").gsub("  ", " ")
+    if(time.in_time_zone(timezone).year - Time.now.in_time_zone(timezone).year).abs > 0 and (time.in_time_zone(timezone) - Time.now.in_time_zone(timezone)).abs > 3*30*24*3600
+      time.in_time_zone(timezone).strftime("%a, %b %-d, %Y %l:%M %p").gsub("  ", " ")
     else
-     time.strftime("%a, %b %-d, %l:%M %p").gsub("  ", " ")
+     time.in_time_zone(timezone).strftime("%a, %b %-d, %l:%M %p").gsub("  ", " ")
     end
   end 
 
   def display_wordy time
     #If time is not this year AND the month is more than 90 days away from now
-    if(time.year - Time.now.year).abs > 0 and (time - Time.now).abs > 3*30*24*3600
-      time.strftime("%A, %B %-d, %Y at %l:%M %p").gsub("  ", " ")
+    if(time.in_time_zone(timezone).year - Time.now.in_time_zone(timezone).year).abs > 0 and (time.in_time_zone(timezone) - Time.now.in_time_zone(timezone)).abs > 3*30*24*3600
+      time.in_time_zone(timezone).strftime("%A, %B %-d, %Y at %l:%M %p").gsub("  ", " ")
     else
-     time.strftime("%A, %B %-d at %l:%M %p").gsub("  ", " ")
+     time.in_time_zone(timezone).strftime("%A, %B %-d at %l:%M %p").gsub("  ", " ")
     end
   end
 
   def yes_count_phrase
     yes_count = self.rsvps.said_yes.count
-    if yes_count == 0
-      return "no one has"
-    elsif yes_count == 1
-      return "1 person has"
+    if yes_count == 1
+      return "1 person attending"
     else
-      return yes_count.to_s + " people have"
+      return yes_count.to_s + " people attending"
+    end
+  end  
+
+  def past_yes_count_phrase
+    yes_count = self.rsvps.said_yes.count
+    if yes_count == 1
+      return "1 person said Yes"
+    else
+      return yes_count.to_s + " people said Yes"
     end
   end
+
+
 
   def short_description
     case self.status

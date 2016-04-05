@@ -65,11 +65,9 @@ class UsersController < ApplicationController
   end
 
   def events
-    @my_upcoming_events = Event.where(owner: @user).upcoming.order('time')
-    @events_im_attending = @user.rsvps.not_hidden.upcoming.where(response: true)
-    @events_i_declined = @user.rsvps.not_hidden.upcoming.where(response: false)
-    @my_prior_events = @user.rsvps.not_hidden.prior.where(response: true)
-    @new_rsvps = @user.rsvps.not_hidden.upcoming.not_expired.where(response: nil)
+
+    @my_future_events = @user.rsvps.upcoming.not_hidden.sorted_by_earliest
+    @my_prior_events = @user.rsvps.prior.not_hidden.sorted_by_latest
     @hidden_rsvps = @user.rsvps.hidden
     
     if @user == current_user 

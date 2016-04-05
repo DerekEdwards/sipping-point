@@ -6,6 +6,9 @@
       .panel-body
         .panel-text
           %h3
+            -if @event.cover_photo_url
+              .div.event-cover
+                %img{src: @event.cover_photo_url}
             -if @event.status == Event::INITIALIZED
               ="This event has been created, but no one has been invited yet."
             -elsif @event.status == Event::OPEN
@@ -98,6 +101,9 @@
                 .progress
                   -if @event.status == Event::CONFIRMED
                     .progress-bar.progress-bar-info{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
+                      =@event.percent_complete.round.to_s + "%"
+                  -elsif @event.status == Event::EXPIRED
+                    .progress-bar.progress-bar-danger{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
                       =@event.percent_complete.round.to_s + "%"
                   -else 
                     .progress-bar.progress-bar-danger.progress-bar-striped.active{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}

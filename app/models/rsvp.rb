@@ -33,6 +33,8 @@ class Rsvp < ActiveRecord::Base
   scope :not_expired, -> { joins(:event).where("status <> ?", Event::EXPIRED)}
   scope :left_excuse, -> {where("excuse <> ''")}
   scope :viewed, -> {where(viewed: true)}
+  scope :sorted_by_earliest, -> { joins(:event).order('events.time ASC') }
+  scope :sorted_by_latest, -> { joins(:event).order('events.time DESC') }
 
   #Constants
   FLAKED = 0
@@ -46,6 +48,14 @@ class Rsvp < ActiveRecord::Base
   def to_param
     self.hash_key
   end 
+
+  def yes?
+    return self.response == Rsvp::YES
+  end
+
+  def no?
+    return self.response == Rsvp::NO
+  end
 
   def generate_hash_key
     if self.hash_key
@@ -131,6 +141,36 @@ class Rsvp < ActiveRecord::Base
       end
     end
     return ""
+  end
+
+  def simple_status_string
+    if self.event.expired?
+      return 'Event Failed'
+    end
+
+    case self.response
+    when Rsvp::YES
+      return 'Going'
+    when Rsvp::NO
+      return 'Not Going'
+    else
+      return 'RSVP Needed'
+    end
+  end
+
+  def past_simple_status_string
+    if self.event.expired?
+      return 'Event Failed'
+    end
+
+    case self.response
+    when Rsvp::YES
+      return 'Said Yes'
+    when Rsvp::NO
+      return 'Said No'
+    else
+      return 'Did not RSVP'
+    end
   end
 
   ####### End String Generators ###

@@ -2,12 +2,13 @@
   %div.container
     %h1.static-header-title
       =@user.display_name
+      %div.row
+        %span.badge{title: "#{@user.display_name} has earned #{@user.sipping_points} Sipping Points.  Be the first to earn 1,000,000 Sipping Points to claim a free Spiderman Pez Dispenser. *Conditions subject to change without notice.", data: {:placement => "right"}}
+          %i.fa.fa-trophy
+            = @user.sipping_points
     %h3{:style => "text-align: center;"}
       Some fun stats about
       =@user.display_name
-      %span.badge{title: "#{@user.sipping_points} Sipping Points", data: {:placement => "right"}}
-        %i.fa.fa-trophy.fa-2
-          = @user.sipping_points
     %div.col-md-10.col-md-offset-1
       .panel.translucent
         .panel-body

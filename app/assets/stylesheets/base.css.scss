@@ -136,6 +136,10 @@ table.xtra-padding {
     *border-collapse: expression('separate', cellSpacing = '10px');
 }
 
+.event-cover img {
+  max-width: 100%;
+  max-height: 250px;
+}
 .event-description img {
   max-width: 100%;
   max-height: 400px;
@@ -182,4 +186,50 @@ table.xtra-padding {
 
 #reliability_stats {
   text-align: right;
+}
+
+.grid-cover-photo img {
+  max-width: 100%;
+  max-height: 300px;
+}
+
+.future-grid-title {
+  font-size: 25px;
+  position: relative; 
+}
+
+.overlay-text {
+  position: absolute; 
+  top: 5px; 
+  left: 20px; 
+  width: 40%; 
+}
+
+.overlay-text { 
+   color: white; 
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(0, 0, 0, 0.7);
+   padding: 10px; 
+}
+
+.small-text {
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.zero-margin-below {
+  margin-bottom: 0px !important;
+}
+
+.dim img {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+
+.no-dec {
+    text-decoration: none;
+}
+
+.no-dec hover{
+    text-decoration: none !important;
 }

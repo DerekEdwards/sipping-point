@@ -9,6 +9,8 @@
     src:url(../assets/noticia-text.ttf) format("truetype");
 }
 
+
+
 html,
 
 body {
@@ -44,6 +46,10 @@ a:focus {
 
 h1{     
     font-family: "sp-font";
+}
+
+h1 a:hover{
+  font-family: "sp-font";
 }
 h2,
 h3,
@@ -533,4 +539,13 @@ img::-moz-selection {
 
 body {
     webkit-tap-highlight-color: #222;
+}
+
+.sp-font {
+    font-family: "sp-font";
+    text-decoration: none;
+}
+
+.sp-font a:hover{
+    text-decoration: none;
 }

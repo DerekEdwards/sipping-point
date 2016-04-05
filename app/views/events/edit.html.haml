@@ -41,9 +41,9 @@
                           Set the minimum number of attendees.
                       %div.col-md-4
                         %select{:name => "event[threshold]"}
-                          =(1..20).to_a.each do |sp|
+                          =(2..20).to_a.each do |sp|
                             -if sp == @event.threshold
-                              %option{:value => sp, :selected => 1}
+                              %option{:value => sp, :selected => 2}
                                 =sp
                             -else
                               %option{:value => sp}
@@ -76,7 +76,7 @@
                     %div.row
                       %div.col-md-1
                       %div.col-md-10
-                        %input{:id => 'event_time', :readonly => "true", :type => "string", :name => 'event[time]', :value => @event.time, :maxlength => "500"}
+                        %input{:id => 'event_time', :readonly => "true", :type => "string", :name => 'event[time]', :value => @event.time.in_time_zone(@event.timezone), :maxlength => "500"}
 
                     %div.row.spacer
                       %div.col-md-1
@@ -88,7 +88,12 @@
                     %div.row
                       %div.col-md-1
                       %div.col-md-10 
-                        %input{:id => 'event_deadline', :readonly => "true", :type => "string", :name => 'event[deadline]', :value => @event.deadline, :maxlength => "500"}
+                        %input{:id => 'event_deadline', :readonly => "true", :type => "string", :name => 'event[deadline]', :value => @event.deadline.in_time_zone(@event.timezone), :maxlength => "500"}
+
+                    %div.row.spacer.hidden
+                      %div.col-md-1
+                      %div.col-md-10
+                        %input{:id => 'event_timezone', :readonly => "true", :type => "string", :name => 'event[timezone]', :value => "timezone_goes_here", :maxlength => "500"}
 
                   %div.row.spacer
                     %div.col-md-1
@@ -100,6 +105,24 @@
                     %div.col-md-10
                       %textarea{:type => "text", :name => 'event[location]', :rows => 2, :style=>"width:100%;", :maxlength => "500", :placeholder =>"Tell us where this event will be: e.g., Sligo Pub in Davis Square" }
                         =@event.location
+
+                  %div.row.spacer
+                    %div.col-md-1
+                    %div.col-md-10
+                      %strong{:style => "font-size:20px"}
+                        ="Cover Photo"
+                      %div.hint-text
+                        Optional: Add a cover photo for your event.
+                  %div.row
+                    %div.col-md-1
+                    %div.col-md-5      
+                      %input{:id => "cover-photo", :type => "string", :name => 'event[cover_photo_url]', :value => @event.cover_photo_url, :style=>"width:100%;", :maxlength => "255", :placeholder => "http://myphoto.png"}
+
+                  %div.row.event-cover.text-center.spacer#cover-photo-preview
+                    -if @event.cover_photo_url
+                      %img{src: @event.cover_photo_url}
+                      %div.row.hint-text
+                        Cover Photo Preview
 
                   %div.row.spacer
                     %div.col-md-1
@@ -241,17 +264,17 @@
   var startDate = new Date;
   var deadline = new Date;
 
-  startDate.setDate("#{@event.time.day}");
-  startDate.setMonth("#{@event.time.month}" - 1);
-  startDate.setYear("#{@event.time.year}");
-  startDate.setHours("#{@event.time.hour}");
-  startDate.setMinutes("#{@event.time.min}");
+  startDate.setDate("#{@event.time.in_time_zone(@event.timezone).day}");
+  startDate.setMonth("#{@event.time.in_time_zone(@event.timezone).month}" - 1);
+  startDate.setYear("#{@event.time.in_time_zone(@event.timezone).year}");
+  startDate.setHours("#{@event.time.in_time_zone(@event.timezone).hour}");
+  startDate.setMinutes("#{@event.time.in_time_zone(@event.timezone).min}");
 
-  deadline.setDate("#{@event.deadline.day}");
-  deadline.setMonth("#{@event.deadline.month}" - 1);
-  deadline.setYear("#{@event.deadline.year}");
-  deadline.setHours("#{@event.deadline.hour}");
-  deadline.setMinutes("#{@event.deadline.min}");
+  deadline.setDate("#{@event.deadline.in_time_zone(@event.timezone).day}");
+  deadline.setMonth("#{@event.deadline.in_time_zone(@event.timezone).month}" - 1);
+  deadline.setYear("#{@event.deadline.in_time_zone(@event.timezone).year}");
+  deadline.setHours("#{@event.deadline.in_time_zone(@event.timezone).hour}");
+  deadline.setMinutes("#{@event.deadline.in_time_zone(@event.timezone).min}");
 
 
   // Un-Friend Stuff
@@ -277,6 +300,10 @@
   });
 
   $(document).ready(function() {
+    // Setup TimeZone
+    var timezone = jstz.determine();
+    $('#event_timezone').attr('value', timezone.name());
+
     // Now create the actual pickers
     $("#event_time").datetimepicker({
        format: 'D, M d g:i A',
@@ -318,6 +345,12 @@
       $('#save_and_send').text(initial_button_text + ' and Send Invites');
     }
   }
+
+  // Handle Cover Photo Preview
+  $( "#cover-photo" ).focusout(function() { 
+    var url = $('#cover-photo').val();
+    $('#cover-photo-preview').html("<img src=" + url + "><div class='row hint-text'>Cover Photo Preview</div>");
+  })
 
 
 
