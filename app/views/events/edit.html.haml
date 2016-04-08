@@ -59,7 +59,7 @@
                       %select{:name => 'maximum_attendance'}
                         %option{:value => -1, :selected => 1}
                           ="No Limit"
-                        =(3..20).to_a.each do |sp|
+                        =(2..20).to_a.each do |sp|
                           -if sp == @event.maximum_attendance
                             %option{:value => sp, :selected => 1}
                               =sp
