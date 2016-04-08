@@ -22,5 +22,9 @@ The following rake task should be scheduled to run at least once per hour.  Idea
 ### For 0.5.1, Update all existing rsvps to be 'viewed'
 
   * Rsvp.update_all(viewed: true)
+ 
+### For 0.6.0, Udpate is_tipped for all existing events.
+
+  * rake sipping_point:update_event_tipped_column
 
 
