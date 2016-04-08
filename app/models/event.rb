@@ -332,6 +332,7 @@ class Event < ActiveRecord::Base
   def create_owner_rsvp
     Rsvp.where(user: self.owner, event: self).first_or_create do |rsvp|
       rsvp.generate_hash_key
+      rsvp.response = Rsvp::YES
       rsvp.save!
     end
   end
