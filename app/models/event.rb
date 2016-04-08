@@ -63,7 +63,19 @@ class Event < ActiveRecord::Base
   end
 
   def tipped? 
-    return coming_rsvps.count >= threshold
+    if threshold
+      return coming_rsvps.count >= threshold
+    else
+      return false
+    end
+  end
+
+  def is_over_threshold?
+    if threshold 
+      return coming_rsvps.count > threshold
+    else
+      return false
+    end   
   end
 
   def percent_complete
