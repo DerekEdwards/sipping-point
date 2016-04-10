@@ -134,76 +134,76 @@
                     %div.col-md-10
                       %textarea{:type => "text", :name => 'event[description]', :rows => 4, :style=>"width:100%;", :maxlength => "500", :placeholder => "Tell us about this event: e.g., Happy hour after work. You can include images by pasting the URL (jpg, png, gif)."}
                         =@event.description
+                -unless @event.deadline_passed?       
+                  -if current_user and current_user.my_people.count > 0
+                    %div.row.spacer
+                      %div.col-md-1
+                      %div.col-md-10
+                        %strong{:style => "font-size:20px"}
+                          ="Invite Old Friends"
+                    %div.row
+                      %div.col-md-1
+                      %div.col-md-10
+                        %table.table.table-center.table-striped{id: 'invite-old', :style => "display: table; text-align: center;"}
+                          %tr
+                            %th{:style => "text-align:center;"}
+                              Invite
+                            %th{:style => "text-align:center;"}
+                              Email
+                            %th{:style => "text-align:center;"}
+                              Name
+                            %th{:style => "text-align:center;"}
+                              Reliability
+                            %th{:style => "text-align:center;"}
+                              Unfriend
+                          -current_user.my_people.each do |person|
+                            %tr{id: person.id.to_s + "_row"}
+                              %td   
+                                %input.old-friend-checkbox.checkbox-full{:id => 'old-friend-' + person.id.to_s, :type => "checkbox", :name => '!!!email' + person.id.to_s, :value => person.id}
+                              %td
+                                =truncate(person.email, length: 30)
+                              %td
+                                =truncate(person.name, length: 30)
+                              %td 
+                                -reliability_factor = person.reliability_factor
+                                -if reliability_factor
+                                  =(reliability_factor * 100).round.to_s + "%"
+                              %td.panel-text.unfriend_button{"data-id" => person.id}
+                                %i.fa.fa-lg.fa-trash-o 
+                        %table.table.table-center.table-striped{id: 'invite-old-m', :style => "display: none; text-align: center;"}
+                          %tr
+                            %th{:style => "text-align:center;"}
+                              Invite
+                            %th{:style => "text-align:center;"}
+                              Old Friend
+                          -current_user.my_people.each do |person|
+                            %tr{id: person.id.to_s + "_row_m"}
+                              %td   
+                                %input.checkbox-m{:id=> 'old-friend-m-' + person.id.to_s, :type => "checkbox", :name => '!!!m-email' + person.id.to_s, :value => person.id}
+                              %td
+                                %div.row
+                                  =truncate(person.display_name, length: 24)
+                                -reliability_factor = person.reliability_factor
+                                -if reliability_factor
+                                  %div.row
+                                    =(reliability_factor * 100).round.to_s + "% reliability"
+                                %div.row.panel-text.unfriend_button{"data-id" => person.id}
+                                  %i.fa.fa-lg.fa-trash-o 
+                                  Unfriend
 
-                -if current_user and current_user.my_people.count > 0
                   %div.row.spacer
                     %div.col-md-1
                     %div.col-md-10
                       %strong{:style => "font-size:20px"}
-                        ="Invite Old Friends"
+                        Invite New Friends
+                      %div.hint-text
+                        Typing emails is a huge pain, so we'll remember these emails in the future.
+                      %div.hint-text
+                        (Add as many as you want, separated by commas)
                   %div.row
                     %div.col-md-1
-                    %div.col-md-10
-                      %table.table.table-center.table-striped{id: 'invite-old', :style => "display: table; text-align: center;"}
-                        %tr
-                          %th{:style => "text-align:center;"}
-                            Invite
-                          %th{:style => "text-align:center;"}
-                            Email
-                          %th{:style => "text-align:center;"}
-                            Name
-                          %th{:style => "text-align:center;"}
-                            Reliability
-                          %th{:style => "text-align:center;"}
-                            Unfriend
-                        -current_user.my_people.each do |person|
-                          %tr{id: person.id.to_s + "_row"}
-                            %td   
-                              %input.old-friend-checkbox.checkbox-full{:id => 'old-friend-' + person.id.to_s, :type => "checkbox", :name => '!!!email' + person.id.to_s, :value => person.id}
-                            %td
-                              =truncate(person.email, length: 30)
-                            %td
-                              =truncate(person.name, length: 30)
-                            %td 
-                              -reliability_factor = person.reliability_factor
-                              -if reliability_factor
-                                =(reliability_factor * 100).round.to_s + "%"
-                            %td.panel-text.unfriend_button{"data-id" => person.id}
-                              %i.fa.fa-lg.fa-trash-o 
-                      %table.table.table-center.table-striped{id: 'invite-old-m', :style => "display: none; text-align: center;"}
-                        %tr
-                          %th{:style => "text-align:center;"}
-                            Invite
-                          %th{:style => "text-align:center;"}
-                            Old Friend
-                        -current_user.my_people.each do |person|
-                          %tr{id: person.id.to_s + "_row_m"}
-                            %td   
-                              %input.checkbox-m{:id=> 'old-friend-m-' + person.id.to_s, :type => "checkbox", :name => '!!!m-email' + person.id.to_s, :value => person.id}
-                            %td
-                              %div.row
-                                =truncate(person.display_name, length: 24)
-                              -reliability_factor = person.reliability_factor
-                              -if reliability_factor
-                                %div.row
-                                  =(reliability_factor * 100).round.to_s + "% reliability"
-                              %div.row.panel-text.unfriend_button{"data-id" => person.id}
-                                %i.fa.fa-lg.fa-trash-o 
-                                Unfriend
-
-                %div.row.spacer
-                  %div.col-md-1
-                  %div.col-md-10
-                    %strong{:style => "font-size:20px"}
-                      Invite New Friends
-                    %div.hint-text
-                      Typing emails is a huge pain, so we'll remember these emails in the future.
-                    %div.hint-text
-                      (Add as many as you want, separated by commas)
-                %div.row
-                  %div.col-md-1
-                  %div.col-md-10   
-                    %textarea{:type => "text", :id => 'new_invitees', :style=>"width:100%;", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net, georgepburdell@example.com"}
+                    %div.col-md-10   
+                      %textarea{:type => "text", :id => 'new_invitees', :style=>"width:100%;", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net, georgepburdell@example.com"} 
 
                 -if current_user == @event.owner
                   %div.row.spacer
