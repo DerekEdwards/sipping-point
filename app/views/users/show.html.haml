@@ -34,26 +34,30 @@
       .panel.translucent
         .panel-body
           .panel-text
-            %h4
-              =@user.display_name + " has been invited to " + pluralize(@user.rsvps.count.to_s, "event") + "."
-            %div.row{:style => "text-align: center;"}
-              %div.col-md-4
-                ="Answered YES " + pluralize(@user.rsvps.said_yes.count, "Time")
-              %div.col-md-4
-                ="Answered NO " + pluralize(@user.rsvps.said_no.count, "Time")
-              %div.col-md-4
-                =pluralize(@user.rsvps.unanswered.count, "RSVP") + " unanswered"
+            -if @user.rsvps.count > 0
+              %h4
+                =@user.display_name + " has been invited to " + pluralize(@user.rsvps.count.to_s, "event") + "."
+              %div.row{:style => "text-align: center;"}
+                %div.col-md-4
+                  ="Answered YES " + pluralize(@user.rsvps.said_yes.count, "Time")
+                %div.col-md-4
+                  ="Answered NO " + pluralize(@user.rsvps.said_no.count, "Time")
+                %div.col-md-4
+                  =pluralize(@user.rsvps.unanswered.count, "RSVP") + " unanswered"
 
-            %div.row
-              %div.col-md-1  
-              %div.col-md-10  
-                .progress
-                  .progress-bar.progress-bar-success{:style => "width: " + @user.percent_yes.to_s + "%"}
-                    =@user.percent_yes.round(0).to_s + "% Yes"
-                  .progress-bar.progress-bar-danger{:style => "width: " + @user.percent_no.to_s + "%"}
-                    =@user.percent_no.round(0).to_s + "% No"
-                  .progress-bar.progress-bar-warning{:style => "width: " + @user.percent_none.to_s + "%"}
-                    =@user.percent_none.round(0).to_s + "% Ignored"
+              %div.row
+                %div.col-md-1  
+                %div.col-md-10  
+                  .progress
+                    .progress-bar.progress-bar-success{:style => "width: " + @user.percent_yes.to_s + "%"}
+                      =@user.percent_yes.round(0).to_s + "% Yes"
+                    .progress-bar.progress-bar-danger{:style => "width: " + @user.percent_no.to_s + "%"}
+                      =@user.percent_no.round(0).to_s + "% No"
+                    .progress-bar.progress-bar-warning{:style => "width: " + @user.percent_none.to_s + "%"}
+                      =@user.percent_none.round(0).to_s + "% Ignored"
+            -else
+              %h4
+                =@user.display_name + " has not been invited to any events yet."
 
       .panel.translucent
         .panel-body
