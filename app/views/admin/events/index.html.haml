@@ -1,7 +1,7 @@
 %section.static-header
   %div.container
     %h1
-      Eventes Planned per Month
+      Events Planned per Month
     = render :partial => "weekly_chart", locals: {monthly_array: @monthly_array}
     %h1
       All Events
@@ -55,5 +55,5 @@
 %div.fill-footer
 :javascript
   $(document).ready(function() {
-    $('#all-events').dataTable();
+    $('#all-events').dataTable("order": [[ 2, "desc" ]]);
   } );
