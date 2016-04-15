@@ -8,6 +8,7 @@ class Admin::EventsController < ApplicationController
 
   def index
     @events = Event.all.order("id DESC")
+    @monthly_array = Statistics.new.monthly_array
   end
 
   def authorized?

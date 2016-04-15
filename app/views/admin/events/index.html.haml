@@ -1,6 +1,9 @@
 %section.static-header
   %div.container
     %h1
+      Eventes Planned per Month
+    = render :partial => "weekly_chart", locals: {monthly_array: @monthly_array}
+    %h1
       All Events
     .panel.translucent
       .panel-body
