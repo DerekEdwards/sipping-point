@@ -32,6 +32,8 @@
 <% end %>
       
 <hr>
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+
   <div class="panel translucent">
     <div class="panel-body"> 
       <%= render "devise/shared/links" %>
@@ -39,4 +41,6 @@
   </div>
 </div>    
 </div>
+
+<%= render 'shared/google' %>
 </header>
