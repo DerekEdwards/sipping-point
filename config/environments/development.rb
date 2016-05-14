@@ -45,4 +45,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  #Custon Configs
+  config.google_api_client_id = ENV['google_api_client_id']
 end

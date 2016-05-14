@@ -92,4 +92,7 @@ Rails.application.configure do
    :authentication       => "plain",
    :enable_starttls_auto => true
   }
+
+  #Custon Configs
+  config.google_api_client_id = ENV['google_api_client_id']
 end
