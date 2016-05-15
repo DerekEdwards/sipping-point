@@ -100,7 +100,7 @@ class User < ActiveRecord::Base
   # test/models/user_test also
   def sipping_points
     # An ActiveRecord::Relation to scope to only tipped events
-    tipped_event_rsvps = rsvps.joins(:event).merge(Event.tipped)
+    tipped_event_rsvps = rsvps.answered.joins(:event).merge(Event.tipped)
 
     # Points from this user's Events
     events.tipped.to_a.sum(&:sipping_points) +

@@ -20,6 +20,7 @@ class Rsvp < ActiveRecord::Base
   #Scopes
   scope :said_yes, -> { where(response: Rsvp::YES) }
   scope :said_no, -> { where(response: Rsvp::NO) }
+  scope :answered, -> { where.not(response: nil) }
   scope :unanswered, -> { where(response: nil) }
   scope :upcoming, -> { joins(:event).where("time >= ?", Time.now - 2*3600) }
   scope :prior, -> { joins(:event).where("time < ?", Time.now - 2*3600) }
