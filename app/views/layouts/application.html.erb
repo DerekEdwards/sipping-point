@@ -25,10 +25,6 @@
     <!-- Plugin CSS -->
     <link rel="stylesheet" href="/assets/animate.min.css" type="text/css">
 
-    <!-- Google API: Used for Sign In -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content=<%= Rails.application.config.google_api_client_id %> >
-
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/assets/creative.css" type="text/css">
@@ -144,6 +140,10 @@
 
 <%= yield %>
 
+
+<!-- Google API: Used for Sign In -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content=<%= Rails.application.config.google_api_client_id %> >
 <!-- Bootstrap Core JavaScript -->
 <script src="/assets/bootstrap.min.js"></script>
 <scirpt src="assets/jquery.dataTables.min.js"></script>
@@ -168,20 +168,20 @@
     function(e) {
       e.preventDefault(); 
       signOutGoogle();
-      console.log('logout google');
-      return false; 
     });
 
   function signOutGoogle() {
     var auth2 = gapi.auth2;
     if(auth2 == null){
+      console.log('the thing is null');
       signOutSippingPoint();
     }
     else{
+      console.log('the thing is NOT null');
       var auth2 = gapi.auth2.getAuthInstance();
       auth2.signOut().then(function () {
-        console.log('User signed out.');
-        signOutSippingPoint();
+        console.log('Google User signed out.');
+        //signOutSippingPoint();
       });
     }
   }

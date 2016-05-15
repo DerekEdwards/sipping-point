@@ -22,8 +22,8 @@ class Users::SessionsController < Devise::SessionsController
       current_user.confirmed = true
       current_user.save 
       sign_in(:user, current_user)
-      yield current_user if block_given?
-      respond_with current_user, location: after_sign_in_path_for(current_user)
+      hash = {email: current_user.email}
+      render json: hash
     end 
     #set_flash_message!(:notice, :signed_in)
 

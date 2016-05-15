@@ -2,6 +2,7 @@
 //<a href="#" onclick="signOut();">Sign out</a>
 
 :javascript
+  
   function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     var id_token = googleUser.getAuthResponse().id_token;
@@ -12,8 +13,8 @@
       data: JSON.stringify({id_token: id_token}),
       contentType: "application/json"
     })
-    .done(function(data) {
-      console.log(data);
+    .success(function(data) {
+      location.href = '#{root_url}';
     });
   }
 
