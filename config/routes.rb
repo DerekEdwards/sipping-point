@@ -6,6 +6,10 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
+
+  devise_scope :user do
+    post "/google_login" => "users/sessions#google_create"
+  end
   
   resources :users do
     member do

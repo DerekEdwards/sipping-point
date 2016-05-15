@@ -125,7 +125,7 @@
                        <%= link_to 'Account', edit_user_registration_path, :class => 'page-scroll my-scroll' %>
                     </li>
                     <li>
-                       <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'page-scroll my-scroll'  %>
+                       <%= link_to "Logout", '#', :class => 'page-scroll my-scroll', :id => 'logout_link'  %>
                     </li>
                   <% else %>
                     <li>
@@ -162,7 +162,46 @@
             $('.my-scroll').removeClass('logo-shrink');
         }
     });
-});
+  });
+
+  $('#logout_link').click( 
+    function(e) {
+      e.preventDefault(); 
+      signOutGoogle();
+      console.log('logout google');
+      return false; 
+    });
+
+  function signOutGoogle() {
+    var auth2 = gapi.auth2;
+    if(auth2 == null){
+      signOutSippingPoint();
+    }
+    else{
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+        signOutSippingPoint();
+      });
+    }
+  }
+
+  function signOutSippingPoint() {
+
+    //console.log(<%= root_url %> + '/users/sign_out');
+    //console.log(<%= root_url %>  + 'users/' + '1' + '/unfriendships');
+    $.ajax({
+      url: '<%= root_url %>' + 'users/sign_out',
+      type: 'DELETE',
+      success: function(result) {
+        location.href = '<%= root_url %>' // Do something with the result
+        return 
+      }
+    });
+    return
+    location.href =  'http://www.google.com';//'#{root_url}' + 'users/sign_out'
+  }
+
 </script>
 
 </body>
