@@ -127,6 +127,9 @@
                             = link_to (truncate(rsvp.user.display_name, length: 35) || "") + " (Me)", user_path(rsvp.user)
                           -else
                             = link_to truncate(rsvp.user.display_name, length: 35), user_path(rsvp.user)
+                          -if current_user == @event.owner 
+                            %div{:style => "font-size: 10px;"}
+                              =rsvp.viewed ? "RSVP seen" : "RSVP not yet seen"
                         %td
                           -reliability_factor = rsvp.user.reliability_factor
                           -if reliability_factor
@@ -168,6 +171,9 @@
                               = link_to (truncate(rsvp.user.display_name, length: 35) || "") + " (Me)", user_path(rsvp.user)
                             -else
                               = link_to truncate(rsvp.user.display_name, length: 35), user_path(rsvp.user)
+                            -if current_user == @event.owner 
+                              %div{:style => "font-size: 10px;"}
+                                =rsvp.viewed ? "RSVP seen" : "RSVP not yet seen"
 
                           %div.col-md-12
                             -reliability_factor = rsvp.user.reliability_factor
