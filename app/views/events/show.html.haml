@@ -145,13 +145,14 @@
                             -elsif rsvp.response == 0
                               ="No"
                             -else
+                              -if current_user = @event.owner  
+                                %div{:style => "font-size: 10px;"}
+                                  =rsvp.viewed ? "RSVP seen" : "RSVP not seen"
                               -if current_user == @event.owner and not @event.deadline_passed?
                                 %div
                                   %button.btn.btn-xs.reminder_button{"data-id" => rsvp.hash_key }
                                     Send Reminder
                               -if current_user = @event.owner  
-                                %div{:style => "font-size: 10px;"}
-                                  =rsvp.viewed ? "RSVP seen" : "RSVP not seen"
                                 %div{:id => (rsvp.hash_key + '_message'), :style => "font-size: 10px;"}
                                   =rsvp.reminded_time_string
                               -else
@@ -189,13 +190,14 @@
                               -elsif rsvp.response == 0
                                 ="Not Going"
                               -else
+                                -if current_user = @event.owner  
+                                  %div{:style => "font-size: 10px;"}
+                                    =rsvp.viewed ? "RSVP seen" : "RSVP not seen"
                                 -if current_user == @event.owner and not @event.deadline_passed?
                                   %div
                                     %button.btn.btn-xs.reminder_button{"data-id" => rsvp.hash_key }
                                       Send Reminder
                                 -if current_user = @event.owner  
-                                  %div{:style => "font-size: 10px;"}
-                                    =rsvp.viewed ? "RSVP seen" : "RSVP not seen"
                                   %div{:id => (rsvp.hash_key + '_m_message'), :style => "font-size: 10px;"}
                                     =rsvp.reminded_time_string
                                 -else
