@@ -127,9 +127,6 @@
                             = link_to (truncate(rsvp.user.display_name, length: 35) || "") + " (Me)", user_path(rsvp.user)
                           -else
                             = link_to truncate(rsvp.user.display_name, length: 35), user_path(rsvp.user)
-                          -if current_user == @event.owner 
-                            %div{:style => "font-size: 10px;"}
-                              =rsvp.viewed ? "RSVP seen" : "RSVP not yet seen"
                         %td
                           -reliability_factor = rsvp.user.reliability_factor
                           -if reliability_factor
@@ -152,6 +149,9 @@
                                 %div
                                   %button.btn.btn-xs.reminder_button{"data-id" => rsvp.hash_key }
                                     Send Reminder
+                              -if current_user = @event.owner  
+                                %div{:style => "font-size: 10px;"}
+                                  =rsvp.viewed ? "RSVP seen" : "RSVP not seen"
                                 %div{:id => (rsvp.hash_key + '_message'), :style => "font-size: 10px;"}
                                   =rsvp.reminded_time_string
                               -else
@@ -171,10 +171,6 @@
                               = link_to (truncate(rsvp.user.display_name, length: 35) || "") + " (Me)", user_path(rsvp.user)
                             -else
                               = link_to truncate(rsvp.user.display_name, length: 35), user_path(rsvp.user)
-                            -if current_user == @event.owner 
-                              %div{:style => "font-size: 10px;"}
-                                =rsvp.viewed ? "RSVP seen" : "RSVP not yet seen"
-
                           %div.col-md-12
                             -reliability_factor = rsvp.user.reliability_factor
                             -if reliability_factor
@@ -197,6 +193,9 @@
                                   %div
                                     %button.btn.btn-xs.reminder_button{"data-id" => rsvp.hash_key }
                                       Send Reminder
+                                -if current_user = @event.owner  
+                                  %div{:style => "font-size: 10px;"}
+                                    =rsvp.viewed ? "RSVP seen" : "RSVP not seen"
                                   %div{:id => (rsvp.hash_key + '_m_message'), :style => "font-size: 10px;"}
                                     =rsvp.reminded_time_string
                                 -else
