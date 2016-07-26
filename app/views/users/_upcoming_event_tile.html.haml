@@ -28,6 +28,12 @@
             =rsvp.event.percent_complete.round.to_s + "%"
         %div.row.small-text
           ="Deadline to RSVP: " + rsvp.event.display_deadline
+      -elsif rsvp.event.deleted?
+        .progress.zero-margin-below
+          .progress-bar.progress-bar-danger.zero-margin-below{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
+            =rsvp.event.percent_complete.round.to_s + "%"
+        %div.row.small-text
+          ="Canceled by " + rsvp.event.owner.display_name 
       -else 
         .progress.zero-margin-below
           .progress-bar.progress-bar-danger.progress-bar-striped.active.zero-margin-below{:role => "progressbar", :style => "width:" + rsvp.event.percent_complete.to_s + "%"}
