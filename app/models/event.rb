@@ -404,6 +404,13 @@ class Event < ActiveRecord::Base
 
   end
 
+  #Send email to anyone who said yes, if an event is canceld
+  def send_cancellation_emails
+    sendable_rsvps = self.rsvps.said_yes 
+    sendable_rsvps.each do |rsvp|
+      UserMailer.cancellation_email(rsvp).deliver!
+    end
+  end 
   ########### End Emails ##############
 
   def update_is_tipped
