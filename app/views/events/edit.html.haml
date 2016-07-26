@@ -158,8 +158,12 @@
                               Unfriend
                           -current_user.my_people.each do |person|
                             %tr{id: person.id.to_s + "_row"}
-                              %td   
-                                %input.old-friend-checkbox.checkbox-full{:id => 'old-friend-' + person.id.to_s, :type => "checkbox", :name => '!!!email' + person.id.to_s, :value => person.id}
+                              %td
+                                -if person.is_invited_to? @event 
+                                  .hint-text  
+                                    Already Invited
+                                -else
+                                  %input.old-friend-checkbox.checkbox-full{:id => 'old-friend-' + person.id.to_s, :type => "checkbox", :name => '!!!email' + person.id.to_s, :value => person.id}
                               %td
                                 =truncate(person.email, length: 30)
                               %td
@@ -179,7 +183,11 @@
                           -current_user.my_people.each do |person|
                             %tr{id: person.id.to_s + "_row_m"}
                               %td   
-                                %input.checkbox-m{:id=> 'old-friend-m-' + person.id.to_s, :type => "checkbox", :name => '!!!m-email' + person.id.to_s, :value => person.id}
+                                -if person.is_invited_to? @event   
+                                  .hint-text
+                                    Already Invited
+                                -else
+                                  %input.checkbox-m{:id=> 'old-friend-m-' + person.id.to_s, :type => "checkbox", :name => '!!!m-email' + person.id.to_s, :value => person.id}
                               %td
                                 %div.row
                                   =truncate(person.display_name, length: 24)
