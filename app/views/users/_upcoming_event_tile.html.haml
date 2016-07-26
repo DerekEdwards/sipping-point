@@ -39,7 +39,7 @@
             =rsvp.event.percent_complete.round.to_s + "%"
         %div.row.small-text
           ="Deadline to RSVP: " + rsvp.event.display_deadline
-  -if rsvp.event.expired? or rsvp.no?
+  -if rsvp.event.expired? or rsvp.no? or rsvp.event.deleted?
     %button.spacer.btn.panel-text.event_trash_button{ "data-id" => rsvp.hash_key }
       %i.fa.fa-trash.panel-text
       Delete Invitation  
