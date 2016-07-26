@@ -234,26 +234,26 @@
                     %div{id: 'initial-cancel'}
                       %div.col-md-4
                         %strong{:style => "font-size:20px"}
-                          Delete this Event
+                          Cancel this Event
                         %div.hint-text
                           Caution! This action cannot be reversed.
-                      %div.col-m-4{:style => "font-size:20px;"}
+                      %div.col-xs-4{:style => "font-size:20px;"}
                         %div
                           %button.btn.btn-primary.btn-m{ "data-loading-text" => "Cancelling Event", :id => 'cancel', :type => "button"}
-                            ="Delete"
+                            ="Cancel"
 
                     %div{id: 'confirm-cancel', :style => "display: none;"}
                       %div.col-md-4
                         %strong{:style => "font-size:20px"}
-                          Are you sure?
+                          Do you really want to cancel this event?
                         %div.hint-text
                           Think about it.
-                      %div.col-md-2
+                      %div.col-xs-2.col-md-2
                         %button.btn.btn-primary.btn-m{ "data-loading-text" => "Cancelling Event", :id => 'cancel-confirm', :type => "button"}
-                          ="Yes, Delete"
-                      %div.col-md-2
+                          ="Yes"
+                      %div.col-xs-2.col-md-2
                         %button.btn.btn.btn-m{ "data-loading-text" => "Cancelling Event", :id => 'cancel-cancel', :type => "button"}
-                          ="No, Go Back"
+                          ="No"
 
 
           %button.btn.btn-primary.btn-xl{ "data-loading-text" => "Saving Event", :id => 'save_and_send', :type => "submit"} 
