@@ -156,7 +156,7 @@
                               -if current_user == @event.owner  
                                 %div{:style => "font-size: 10px;"}
                                   =rsvp.viewed ? "RSVP seen" : "RSVP not seen"
-                              -if current_user == @event.owner and not @event.deadline_passed?
+                              -if current_user == @event.owner and not @event.deadline_passed? and not @event.deleted?
                                 %div
                                   %button.btn.btn-xs.reminder_button{"data-id" => rsvp.hash_key }
                                     Send Reminder
@@ -201,7 +201,7 @@
                                 -if current_user == @event.owner  
                                   %div{:style => "font-size: 10px;"}
                                     =rsvp.viewed ? "RSVP seen" : "RSVP not seen"
-                                -if current_user == @event.owner and not @event.deadline_passed?
+                                -if current_user == @event.owner and not @event.deadline_passed? and not @event.deleted?
                                   %div
                                     %button.btn.btn-xs.reminder_button{"data-id" => rsvp.hash_key }
                                       Send Reminder
