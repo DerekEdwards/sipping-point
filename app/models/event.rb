@@ -26,6 +26,7 @@ class Event < ActiveRecord::Base
   OPEN = 'open'
   EXPIRED = 'expired'
   CONFIRMED = 'confirmed'
+  DELETED = 'deleted'
 
   #Scopes
   scope :open, -> { where(status:Event::OPEN) }
@@ -101,6 +102,10 @@ class Event < ActiveRecord::Base
     #Once an event expires, it cannot un-expire
     if self.status == Event::EXPIRED
       return self.status
+
+    #Once an event is canceled/deleted, it cannot be un-canceled/deleted
+    elsif self.status == Event::DELETED 
+      return self.status  
   
     # if the deadline passed and we haven't reached the SP, finalize the event# 
     elsif deadline < DateTime.now and self.rsvps.said_yes.count < self.threshold 
@@ -159,6 +164,10 @@ class Event < ActiveRecord::Base
 
   def expired?
     return self.status == Event::EXPIRED
+  end
+
+  def deleted?
+    return self.status == Event::DELETED
   end
 
   ####### Custom Getters/Setters #####
@@ -307,6 +316,8 @@ class Event < ActiveRecord::Base
       return "Invitations not Sent"
     when Event::EXPIRED
       return "Not Happening"
+    when Event::DELETED
+      return "Canceled"
     when Event::CONFIRMED
       return "It's On!"
     end
@@ -320,6 +331,8 @@ class Event < ActiveRecord::Base
       return "How did you get here?  Invitations haven't been sent yet."
     when Event::EXPIRED
       return "This event failed to reach the Sipping Point.  Don't bother showing up because no one else is going to be there."
+    when Event::DELETED
+      return "This event was canceled by " + self.owner.display_name + '.' 
     when Event::CONFIRMED
       return "This event is officially happening!"
     end

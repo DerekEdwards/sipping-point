@@ -134,7 +134,7 @@
                     %div.col-md-10
                       %textarea{:type => "text", :name => 'event[description]', :rows => 4, :style=>"width:100%;", :maxlength => "500", :placeholder => "Tell us about this event: e.g., Happy hour after work. You can include images by pasting the URL (jpg, png, gif)."}
                         =@event.description
-                -unless @event.deadline_passed?       
+                -unless @event.deadline_passed? or @event.deleted?     
                   -if current_user and current_user.my_people.count > 0
                     %div.row.spacer
                       %div.col-md-1
@@ -205,7 +205,7 @@
                     %div.col-md-10   
                       %textarea{:type => "text", :id => 'new_invitees', :style=>"width:100%;", :name => 'event[invitee_emails]', :value => @event.invitee_emails,  :rows => 5, :placeholder => "Enter emails separated by commas: e.g., derek@sippingpoint.net, georgepburdell@example.com"} 
 
-                -if current_user == @event.owner
+                -if current_user == @event.owner and not @event.deleted? and not @event.deadline_passed?
                   %div.row.spacer
                     %div.col-md-1
                     %div.col-md-4
@@ -221,6 +221,31 @@
                       %input{:type => "radio", :name => 'event[open]', :value => 0, :checked => !@event.open}
                         No 
 
+                  %div.row.spacer
+                    %div.col-md-1
+                    %div{id: 'initial-cancel'}
+                      %div.col-md-4
+                        %strong{:style => "font-size:20px"}
+                          Delete this Event
+                        %div.hint-text
+                          Caution! This action cannot be reversed.
+                      %div.col-m-4{:style => "font-size:20px;"}
+                        %div
+                          %button.btn.btn-primary.btn-m{ "data-loading-text" => "Cancelling Event", :id => 'cancel', :type => "button"}
+                            ="Delete"
+
+                    %div{id: 'confirm-cancel', :style => "display: none;"}
+                      %div.col-md-4
+                        %strong{:style => "font-size:20px"}
+                          Are you sure?
+                        %div.hint-text
+                          Think about it.
+                      %div.col-md-2
+                        %button.btn.btn-primary.btn-m{ "data-loading-text" => "Cancelling Event", :id => 'cancel-confirm', :type => "button"}
+                          ="Yes, Delete"
+                      %div.col-md-2
+                        %button.btn.btn.btn-m{ "data-loading-text" => "Cancelling Event", :id => 'cancel_-ancel', :type => "button"}
+                          ="No, Go Back"
 
 
           %button.btn.btn-primary.btn-xl{ "data-loading-text" => "Saving Event", :id => 'save_and_send', :type => "submit"} 
@@ -351,6 +376,31 @@
     var url = $('#cover-photo').val();
     $('#cover-photo-preview').html("<img src=" + url + "><div class='row hint-text'>Cover Photo Preview</div>");
   })
+
+  //Handle First Delete Button
+  $("#cancel").on('click', function () {
+    $("#initial-cancel").hide();
+    $("#confirm-cancel").show();
+  })
+
+  //Nevermind Button
+  $("#cancel-cancel").on('click', function () {
+    $("#initial-cancel").show();
+    $("#confirm-cancel").hide();
+  })
+
+  // Confirm The Delete
+  $("#cancel-confirm").click(function(){
+       $.ajax({
+        type: 'POST',
+        url: '#{root_url}' + 'events/' + '#{@event.hash_key}' + '/cancel',
+        contentType: "application/json"
+       })
+      .done(function(data) {
+        $(location).attr('href', '#{root_url}' + 'users/' +  '#{current_user.id}' + '/events' );
+      });
+  });
+
 
 
 

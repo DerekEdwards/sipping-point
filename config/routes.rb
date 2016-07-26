@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       get 'caltest'
       get 'report'
       patch 'report', action: 'update_report'
+      post 'cancel'
     end
   end
 

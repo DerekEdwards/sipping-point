@@ -84,6 +84,10 @@ class Rsvp < ActiveRecord::Base
   #retuns a boolean and a message
   def editable?
     
+    if self.event.deleted?
+      return false, "This event has been canceled."
+    end
+
     if self.event.deadline_passed?
       return false, "The deadline to RSVP to this event has passed."
     end
@@ -149,6 +153,10 @@ class Rsvp < ActiveRecord::Base
       return 'Event Failed'
     end
 
+    if self.event.deleted?
+      return 'Event Canceled'
+    end
+
     case self.response
     when Rsvp::YES
       return 'Going'
@@ -162,6 +170,10 @@ class Rsvp < ActiveRecord::Base
   def past_simple_status_string
     if self.event.expired?
       return 'Event Failed'
+    end
+
+    if self.event.deleted?
+      return 'Event Canceled'
     end
 
     case self.response

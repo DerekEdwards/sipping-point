@@ -2,8 +2,8 @@ class EventsController < ApplicationController
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
 
-  before_action :set_event, only: [:show, :edit, :update, :destroy, :report, :update_report]
-  before_action :authenticate_user!, :except => [:show, :index, :update]  
+  before_action :set_event, only: [:show, :edit, :update, :report, :update_report, :cancel]
+  before_action :authenticate_user!, :except => [:show, :index, :update, :destroy]  
   after_action  :update_status, only: [:create, :show, :update, :destroy]
 
   # GET /events
@@ -97,15 +97,11 @@ class EventsController < ApplicationController
 
   # DELETE /events/1
   # DELETE /events/1.json
-  def destroy
-
+  def cancel
     confirm_owner
-
-    @event.destroy
-    respond_to do |format|
-      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    @event.status = Event::DELETED
+    @event.save
+    render json: {result: true}
   end
 
   def report

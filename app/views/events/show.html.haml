@@ -17,6 +17,8 @@
               ="This event has reached The Sipping Point!  It's officially happening!"
             -elsif @event.status == Event::EXPIRED
               ="This event failed to reach The Sipping Point.  It is canceled."
+            -elsif @event.status == Event::DELETED
+              ="This event has been CANCELED by " + @event.owner.display_name.to_s + '.'
           -if @event.is_full_up?
             %h4
               %strong
@@ -95,16 +97,22 @@
                     %td
                       =@event.rsvps.unanswered.count
               .col-md-6
-                .very-large-font
-                  =@event.rsvps_needed
-                more needed to party
+                -unless @event.status == Event::DELETED
+                  .very-large-font
+                    =@event.rsvps_needed
+                  more needed to party
+                -else
+                  .very-large-font
+                    %i.fa.fa-ban
                 .progress
                   -if @event.status == Event::CONFIRMED
                     .progress-bar.progress-bar-info{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
                       =@event.percent_complete.round.to_s + "%"
-                  -elsif @event.status == Event::EXPIRED
+                  -elsif @event.status == Event::EXPIRED 
                     .progress-bar.progress-bar-danger{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
                       =@event.percent_complete.round.to_s + "%"
+                  -elsif @event.status == Event::DELETED
+                    ="CANCELED"
                   -else 
                     .progress-bar.progress-bar-danger.progress-bar-striped.active{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
                       =@event.percent_complete.round.to_s + "%"
