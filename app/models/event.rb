@@ -332,7 +332,7 @@ class Event < ActiveRecord::Base
     when Event::EXPIRED
       return "This event failed to reach the Sipping Point.  Don't bother showing up because no one else is going to be there."
     when Event::DELETED
-      return "This event was canceled by " + self.owner.display_name + '.' 
+      return "This event was canceled by " + self.owner.display_name.strip + '.' 
     when Event::CONFIRMED
       return "This event is officially happening!"
     end
