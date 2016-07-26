@@ -30,8 +30,6 @@
           ="Deadline to RSVP: " + rsvp.event.display_deadline
       -elsif rsvp.event.deleted?
         .progress.zero-margin-below
-          Canceled
-        %div.row.small-text
           ="Canceled by " + rsvp.event.owner.display_name 
       -else 
         .progress.zero-margin-below
