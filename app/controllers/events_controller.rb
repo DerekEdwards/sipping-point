@@ -3,8 +3,8 @@ class EventsController < ApplicationController
   include ActionView::Helpers::SanitizeHelper
 
   before_action :set_event, only: [:show, :edit, :update, :report, :update_report, :cancel]
-  before_action :authenticate_user!, :except => [:show, :index, :update, :destroy]  
-  after_action  :update_status, only: [:create, :show, :update, :destroy]
+  before_action :authenticate_user!, :except => [:show, :index, :update, :cancel]  
+  after_action  :update_status, only: [:create, :show, :update]
 
   # GET /events
   # GET /events.json
@@ -99,6 +99,9 @@ class EventsController < ApplicationController
   # DELETE /events/1.json
   def cancel
     confirm_owner
+    unless @event.status == Event::DELETED
+      @event.send_cancellation_emails
+    end
     @event.status = Event::DELETED
     @event.save
     render json: {result: true}

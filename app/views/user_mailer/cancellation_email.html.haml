@@ -1,0 +1,25 @@
+%center
+  %h2{:style => "text-decoration:none; color:#58616c;"}
+    =@event.name + " is Canceled"
+
+%div.email-body{ :style => "border-radius: 25px; padding: 20px; border: 2px solid #58616c;" }    
+  %center
+    %h1
+      =link_to @event.name, event_url(@rsvp.event, rsvp:@rsvp.hash_key), only_path: false, :style => "text-decoration:none; color:#000000;"
+    %div{:style => "text-decoration:none; color:#000000;"}
+      -unless @event.cover_photo_url.blank?
+        %img{src: @event.cover_photo_url, style: 'max-width: 600px; max-height: 600px;'}
+      =@event.email_description.html_safe
+    %hr{ :style => "border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));"}
+    %h2{:style => "text-decoration:none; color:#000000;"}
+      ="This event has been CANCELED by " + @event.owner.display_name + ". Don't bother showing up because no one else is going to be there."   
+    %hr{ :style => "border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));"}
+    %center
+      %a{ :href => event_url(@event, rsvp:@rsvp.hash_key), only_path: false, :style => "background-color:#fe6333;-moz-border-radius:28px;-webkit-border-radius:28px;border-radius:28px;display:inline-block; cursor:pointer; color:#ffffff; font-family:Arial; font-size:17px; padding:10px 22px; text-decoration:none;"}
+        View Event
+%center
+  =link_to "The Sipping Point", root_url, only_path: false, :style => "text-decoration:none; font-weight:bold;color:#58616c;word-spacing:2pt;font-size:20px;"    
+  %div{ :style => "text-decoration:none;color:#58616c;font-size:14px;"}
+    The Sipping Point is the best way to make sure you have a critical mass for your event.When enough people are in, the Sipping Point is reached and the event is on! 
+    =link_to "Click here", root_url, only_path: false, :style => "text-decoration:none; font-weight:bold;color:#58616c;"
+    to plan your next gathering.

@@ -32,6 +32,14 @@ class UserMailer < ActionMailer::Base
   	mail(to: @user.email, subject: @event.name + " Failed to Reach the Sipping Point", from: "Sipping Point")
   end
 
+  #Let people know the event has been manually canceled
+  def cancellation_email(rsvp)
+    @user = rsvp.user
+    @rsvp = rsvp
+    @event = rsvp.event
+    mail(to: @user.email, subject: @event.name + " CANCELED", from: "Sipping Point")
+  end
+
   #Notice that new comments have been made
   def comments_email(rsvp, comments)
     @user = rsvp.user
