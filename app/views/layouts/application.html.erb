@@ -108,7 +108,7 @@
 
                     <li>
                       <%= link_to events_user_path(current_user), :class => 'page-scroll my-scroll' do %>
-                        My Events <% if current_user.rsvps.not_expired.upcoming.where(response: nil).count > 0
+                        My Events <% if current_user.rsvps.not_expired.upcoming.not_canceled.where(response: nil).count > 0
  %><span class="badge"><%= current_user.rsvps.not_expired.upcoming.not_canceled.where(response: nil).count %>
 </span><% end %>
                       <% end %>
