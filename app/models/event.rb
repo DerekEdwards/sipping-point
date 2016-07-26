@@ -36,8 +36,9 @@ class Event < ActiveRecord::Base
   scope :ready_for_report, -> { where("time <= ? and report_sent = false and status = ?", Time.now - 6*3600, Event::CONFIRMED)}
   scope :happening_within_24hrs, -> { where("time >= ? and time < ?", Time.now, Time.now + 24*3600)}
   scope :deadline_not_passed, -> { where("deadline >= ?", Time.now) }
-  scope :not_expired, -> { where("status <> ?", Event::EXPIRED)}
+  scope :not_expired, -> { where("status <> ?", Event::EXPIRED) }
   scope :tipped, -> { where(is_tipped: true)}
+  scope :not_canceled, -> { where("status <> ?", Event::DELETED) }
 
   #Commentable
   acts_as_commentable
