@@ -11,7 +11,7 @@
           Let's finalize your event and invite some people.
         %div.col-md-2
     %div.row  
-      %div.col-md-2
+      %div.col-md-2.col-sm-1
       %div.col-md-8
         =form_tag(event_path, method: "patch") do 
           .panel.translucent
@@ -160,8 +160,8 @@
                             %tr{id: person.id.to_s + "_row"}
                               %td
                                 -if person.is_invited_to? @event 
-                                  .hint-text  
-                                    Already Invited
+                                  .hint-text{"data-toggle" => "tooltip", :title => "This person has already been invited."}
+                                    %i.fa.fa-check
                                 -else
                                   %input.old-friend-checkbox.checkbox-full{:id => 'old-friend-' + person.id.to_s, :type => "checkbox", :name => '!!!email' + person.id.to_s, :value => person.id}
                               %td
@@ -184,8 +184,8 @@
                             %tr{id: person.id.to_s + "_row_m"}
                               %td   
                                 -if person.is_invited_to? @event   
-                                  .hint-text
-                                    Already Invited
+                                  .hint-text{"data-toggle" => "tooltip", :title => "This person has already been invited."}
+                                    %i.fa.fa-check
                                 -else
                                   %input.checkbox-m{:id=> 'old-friend-m-' + person.id.to_s, :type => "checkbox", :name => '!!!m-email' + person.id.to_s, :value => person.id}
                               %td
@@ -407,6 +407,11 @@
       .done(function(data) {
         $(location).attr('href', '#{root_url}' + 'users/' +  '#{current_user.id}' + '/events' );
       });
+  });
+
+  // Enable Tooltips for Check Marks
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
   });
 
 
