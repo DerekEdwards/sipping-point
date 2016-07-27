@@ -117,7 +117,7 @@
                     .progress-bar.progress-bar-danger.progress-bar-striped.active{:role => "progressbar", :style => "width:" + @event.percent_complete.to_s + "%"}
                       =@event.percent_complete.round.to_s + "%"
                   
-              %table.table.table-center.table-striped{id: 'whos-coming', :style => "display: table;"}
+              %table.table.table-center.table-striped.put-in-middle{id: 'whos-coming', :style => "display: table; vertical-align: middle;"}
                 %thead
                   %tr
                     %th.text-center
@@ -126,20 +126,23 @@
                       Reliability
                     %th.text-center
                       Going?
-                %tbody      
+                %tbody.put-in-middle      
                   - @event.rsvps.each do |rsvp|
                     -unless rsvp.user.nil?
-                      %tr
-                        %td
+                      %tr.put-in-middle{style: "vertical-align: middle;"}
+                        %td.put-in-middle
+                          -unless rsvp.user.avatar_url.blank?
+                            %img.img-circle{src: rsvp.user.avatar_url, style: "height: 60px; width: 60px;"}
+                            %br
                           -if current_user == rsvp.user
                             = link_to (truncate(rsvp.user.display_name, length: 35) || "") + " (Me)", user_path(rsvp.user)
                           -else
                             = link_to truncate(rsvp.user.display_name, length: 35), user_path(rsvp.user)
-                        %td
+                        %td.put-in-middle
                           -reliability_factor = rsvp.user.reliability_factor
                           -if reliability_factor
                             =(reliability_factor * 100).round.to_s + "%"
-                        %td
+                        %td.put-in-middle
                           -if current_user == rsvp.user or @comment_as == rsvp.user
                             -if rsvp.response == 1
                               = link_to 'Yes', edit_rsvp_url(rsvp)
@@ -176,6 +179,9 @@
                       %tr
                         %td                          
                           %div.col-md-12
+                            -unless rsvp.user.avatar_url.blank?
+                              %img.img-circle{src: rsvp.user.avatar_url, style: "height: 60px; width: 60px;"}
+                              %br
                             -if current_user == rsvp.user
                               = link_to (truncate(rsvp.user.display_name, length: 35) || "") + " (Me)", user_path(rsvp.user)
                             -else
