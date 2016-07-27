@@ -517,13 +517,13 @@ fieldset[disabled] .btn-primary.active {
 
 ::-moz-selection {
     text-shadow: none;
-    color: #fff;
+    color: #000;
     background: #222;
 }
 
 ::selection {
     text-shadow: none;
-    color: #fff;
+    color: #000;
     
 }
 
