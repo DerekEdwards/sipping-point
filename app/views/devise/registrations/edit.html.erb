@@ -19,7 +19,8 @@
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
     <% end %> 
-
+    <%= f.input :avatar_url, required: false, label: "Photo URL", hint: "(Optional) Past a photo URL here.", input_html: { maxlength: 350, size: 25, id: 'avatar-url'} %>
+    <div class="row event-cover text-center spacer" id="avatar-url-preview"></div>
     <%= f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false, input_html: { maxlength: 50, size: 25 }%>
     <%= f.input :password_confirmation, required: false, input_html: { maxlength: 50, size: 25 } %>
     <br>
@@ -40,3 +41,10 @@
 </div>    
 </div>
 </header>
+<script>
+  $( "#avatar-url" ).focusout(function() { 
+    console.log('asdf');
+    var url = $('#avatar-url').val();
+    $('#avatar-url-preview').html("<img src=" + url + "><div class='row hint-text'>Cover Photo Preview</div>");
+  })
+</script>
