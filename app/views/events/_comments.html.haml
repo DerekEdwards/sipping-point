@@ -15,45 +15,51 @@
   -@comments.each do |comment|
     .panel.translucent{id: 'global_comment_' + comment.id.to_s}
       .panel-body.event-comment 
-        %div
-          .col-md-6
-            .message-header-text
-              =comment.user.display_name
-          .col-md-6
-            .message-time-text
-              =comment.created_at.strftime("%B %-d, %Y at %-I:%M%p")
-        %div{id: 'comment_' + comment.id.to_s}
-          .col-md-12
-            .message-body-text
-              -unless comment.body.blank?
-                =comment.body_html || comment.body.html_safe
-        %div{id: 'comment_field_' + comment.id.to_s, :style => "display:none;"}
-          = simple_form_for comment, :url => url_for(:action => 'update', :controller => 'comments'), :method => 'patch', html: { id: 'comment_form_' + comment.id.to_s}, :authenticity_token => true, :remote => true do |f| 
-            =f.input :body, label: false, :input_html => {:style => 'width: 100%', :value => comment.body.gsub("<p>","").gsub("</p>","")}
-            =f.hidden_field :id, value: comment.id
-            =f.hidden_field :rsvp_hash_key, value: @rsvp_hash_key
+        %div.row
+          %div
+            .col-md-3{style: "valign=middle;"}
+              -unless comment.user.avatar_url.blank?
+                %img.img-circle{src: comment.user.avatar_url, style: "height: 60px; width: 60px;"}
+              %div.row
+                .message-header-text
+                  =comment.user.display_name
+              %div.row
+                .message-time-text
+                  =comment.created_at.strftime("%B %-d, %Y at %-I:%M%p")
+            .col-md-9  
+              %div{id: 'comment_' + comment.id.to_s}
+                .col-md-12
+                  .message-body-text
+                    -unless comment.body.blank?
+                      =comment.body_html || comment.body.html_safe
+              %div{id: 'comment_field_' + comment.id.to_s, :style => "display:none;"}
+                = simple_form_for comment, :url => url_for(:action => 'update', :controller => 'comments'), :method => 'patch', html: { id: 'comment_form_' + comment.id.to_s}, :authenticity_token => true, :remote => true do |f| 
+                  =f.input :body, label: false, :input_html => {:style => 'width: 100%', :value => comment.body.gsub("<p>","").gsub("</p>","")}
+                  =f.hidden_field :id, value: comment.id
+                  =f.hidden_field :rsvp_hash_key, value: @rsvp_hash_key
 
-        -if comment.user == @comment_as and not @comment_as.nil?
-          %div{id: 'comment_buttons_' + comment.id.to_s}
-            .col-md-5
-            .col-md-2.panel-text
-              .message-header-text.edit_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
-                %i.fa.fa-edit
-                Edit
-            .col-md-5
-          %div{id: 'edit_comment_buttons_' + comment.id.to_s, :style => "display:none;"}
-            .col-md-4.panel-text
-              .message-header-text.delete_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
-                %i.fa.fa-trash
-                Delete
-            .col-md-4.panel-text
-              .message-header-text.cancel_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
-                %i.fa.fa-close
-                Cancel
-            .col-md-4.panel-text
-              .message-header-text.update_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
-                %i.fa.fa-check-square-o
-                Update
+              -if comment.user == @comment_as and not @comment_as.nil?
+                %div.row
+                  %div{id: 'comment_buttons_' + comment.id.to_s}
+                    .col-md-5
+                    .col-md-2.panel-text
+                      .message-header-text.edit_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
+                        %i.fa.fa-edit
+                        Edit
+                    .col-md-5
+                  %div{id: 'edit_comment_buttons_' + comment.id.to_s, :style => "display:none;"}
+                    .col-md-4.panel-text
+                      .message-header-text.delete_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
+                        %i.fa.fa-trash
+                        Delete
+                    .col-md-4.panel-text
+                      .message-header-text.cancel_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
+                        %i.fa.fa-close
+                        Cancel
+                    .col-md-4.panel-text
+                      .message-header-text.update_comment_button{"data-id" => comment.id.to_s, :style => 'cursor:pointer;'}
+                        %i.fa.fa-check-square-o
+                        Update
 
 
 
