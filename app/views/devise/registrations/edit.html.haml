@@ -35,7 +35,14 @@
                   %strong{:style => "font-size:15px"}
                     ="Photo URL"
                 %div.col-md-6   
-                  %input{:type => "string", :name => 'avatar_url', :value => resource.avatar_url, :style=>"width:100%;", :maxlength => "100"}
+                  %input{id: 'avatar_url', :type => "string", :name => 'avatar_url', :value => resource.avatar_url, :style=>"width:100%;", :maxlength => "100"}
+                
+                  %div.row.user-photo-preview.text-center.spacer#avatar-preview
+                    -unless resource.avatar_url.blank?
+                      %img{src: resource.avatar_url}
+                      %div.row.hint-text
+                        Photo Preview
+
               %div.row.spacer-sm
                 %div.col-md-1
                 %div.col-md-4
@@ -71,7 +78,14 @@
   %br
   %br
   %p
-    #{link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}      
+    #{link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}    
+
+:javascript
+  // Handle Cover Photo Preview
+  $( "#avatar_url" ).focusout(function() { 
+    var url = $('#avatar_url').val();
+    $('#avatar-preview').html("<img src=" + url + "><div class='row hint-text'>Photo Preview</div>");
+  })  
 
        
              

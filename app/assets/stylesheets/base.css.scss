@@ -242,6 +242,13 @@ table.xtra-padding {
     border-radius: 50%;
 }
 
+.user-photo-preview img {
+  max-width: 100%;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+}
+
 .put-in-middle{
   vertical-align: middle !important;
 }
