@@ -1,0 +1,91 @@
+%section.static-header
+  %div.container
+    %h1.static-header-title
+      ="Edit " + resource_name.to_s.humanize
+
+  
+  =form_tag(registration_path(resource_name), method: "put") do 
+    %div.row
+      %div.col-md-2
+      %div.col-md-8
+        .panel
+          .panel-body
+            .alert-text
+              -if resource.errors.count > 0
+                =resource.errors.first.first.to_s.humanize + ' ' + resource.errors.first.last
+                %div.row.spacer
+            .panel-text{:style => "text-align: left;"}
+              %div.row
+                %div.col-md-1
+                %div.col-md-4
+                  %strong{:style => "font-size:15px"}
+                    ="Email"
+                %div.col-md-6   
+                  %input{:type => "string", :name => 'email', :value => resource.email, :style=>"width:100%;", :maxlength => "100"}
+              %div.row.spacer-sm
+                %div.col-md-1
+                %div.col-md-4
+                  %strong{:style => "font-size:15px"}
+                    ="Name"
+                %div.col-md-6   
+                  %input{:type => "string", :name => 'name', :value => resource.name, :style=>"width:100%;", :maxlength => "100"}
+              %div.row.spacer-sm
+                %div.col-md-1
+                %div.col-md-4
+                  %strong{:style => "font-size:15px"}
+                    ="Photo URL"
+                %div.col-md-6   
+                  %input{id: 'avatar_url', :type => "string", :name => 'avatar_url', :value => resource.avatar_url, :style=>"width:100%;", :maxlength => "100"}
+                
+                  %div.row.user-photo-preview.text-center.spacer#avatar-preview
+                    -unless resource.avatar_url.blank?
+                      %img{src: resource.avatar_url}
+                      %div.row.hint-text
+                        Photo Preview
+
+              %div.row.spacer-sm
+                %div.col-md-1
+                %div.col-md-4
+                  %strong{:style => "font-size:15px"}
+                    ="New Password"
+                %div.col-md-6   
+                  %input{:type => "password", :name => 'password', :value => resource.current_password, :style=>"width:100%;", :maxlength => "100"}
+                  %div.hint-text
+                    ="Leave this blank if you don't want to change it."
+              %div.row.spacer-sm
+                %div.col-md-1
+                %div.col-md-4
+                  %strong{:style => "font-size:15px"}
+                    ="Confirm Password"
+                %div.col-md-6   
+                  %input{:type => "password", :name => 'password_confirmation', :value => resource.current_password, :style=>"width:100%;", :maxlength => "100"}
+              %div.row.spacer-sm
+                %div.col-md-1
+                %div.col-md-4
+                  %strong{:style => "font-size:15px"}
+                    ="Current Password"
+                %div.col-md-6   
+                  %input{:type => "password", :name => 'current_password', :value => resource.current_password, :style=>"width:100%;", :maxlength => "100"}
+                  %div.hint-text
+                    ="We need your current password to confirm your changes."
+
+  
+
+    %button.btn.btn-primary.btn-xl{ "data-loading-text" => "Updating", :id => 'save_and_update', :type => "submit"} 
+      ="Update"
+
+  %br
+  %br
+  %br
+  %p
+    #{link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}    
+
+:javascript
+  // Handle Cover Photo Preview
+  $( "#avatar_url" ).focusout(function() { 
+    var url = $('#avatar_url').val();
+    $('#avatar-preview').html("<img src=" + url + "><div class='row hint-text'>Photo Preview</div>");
+  })  
+
+       
+             

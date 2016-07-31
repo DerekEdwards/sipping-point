@@ -72,8 +72,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
+
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+
+    #Using Form_Tag instead of Form_For, Set Custom account_update_params
+    account_update_params = custom_account_update_params params
 
     resource_updated = update_resource(resource, account_update_params)
     yield resource if block_given?
@@ -114,8 +119,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
-  #   devise_parameter_sanitizer.for(:account_update) << :attribute
+  #   devise_parameter_sanitizer.for(:account_update) << :avatar_url
   # end
+
+  # Sipping Point is using form_tag instead of form_for.  Form_tag allows for easier customization, but requires the 
+  # default params to be overwritten since they are not associated with a model.
+  def custom_account_update_params params
+    custom_params  = {}
+    [:email, :name, :avatar_url, :password, :password_confirmation, :current_password].each do |key|
+      custom_params[key] = params[key]
+    end
+    return custom_params
+  end
 
   # The path used after sign up.
   # def after_sign_up_path_for(resource)
