@@ -26,5 +26,9 @@ The following rake task should be scheduled to run at least once per hour.  Idea
 ### For 0.6.0, Update is_tipped for all existing events.
 
   * rake sipping_point:update_event_tipped_column
+ 
+### For 0.7.0, Add a google api key to use google sign in.
+
+  * ENV['google_api_client_id']
 
 
