@@ -1,0 +1,22 @@
+//<div class="g-signin2" data-onsuccess="onSignIn"></div>
+//<a href="#" onclick="signOut();">Sign out</a>
+
+:javascript
+  
+  function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    var id_token = googleUser.getAuthResponse().id_token;
+
+    $.ajax({
+      type: 'POST',
+      url: '#{google_login_url}',
+      data: JSON.stringify({id_token: id_token}),
+      contentType: "application/json"
+    })
+    .success(function(data) {
+      location.href = '#{root_url}';
+    });
+  }
+
+
+

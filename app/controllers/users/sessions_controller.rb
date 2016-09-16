@@ -13,12 +13,45 @@ class Users::SessionsController < Devise::SessionsController
     current_user.save 
   end
 
+  def google_create
+    #self.resource = warden.authenticate!(auth_options)
+    current_user = google_verify params['id_token']
+    
+    if current_user 
+      puts 'success so far'
+      current_user.confirmed = true
+      current_user.save 
+      sign_in(:user, current_user)
+      hash = {email: current_user.email}
+      render json: hash
+    end 
+    #set_flash_message!(:notice, :signed_in)
+
+  end
+
   # DELETE /resource/sign_out
   # def destroy
   #   super
   # end
 
-  # protected
+  protected
+
+  def google_verify id_token
+
+    user_hash = GoogleAuth.new.verify id_token
+
+    unless user_hash[:result]
+      return nil
+    end
+
+    user = User.find_or_create_by(email: user_hash[:email].downcase) do |u|
+      u.password = u.password_confirmation = Devise.friendly_token.first(8)
+    end
+
+    return user
+
+  end
+
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_in_params

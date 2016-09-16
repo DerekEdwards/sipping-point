@@ -30,8 +30,14 @@
   
   <button class="btn btn-primary btn-xl" type="submit">Sign In</button>
 <% end %>
-      
+or
+<br>   
+<center>
+<div class="g-signin2" data-onsuccess="onSignIn" id='gsign' ></div>
+</center>
+
 <hr>
+
   <div class="panel translucent">
     <div class="panel-body"> 
       <%= render "devise/shared/links" %>
@@ -39,4 +45,6 @@
   </div>
 </div>    
 </div>
+
+<%= render 'shared/google' %>
 </header>

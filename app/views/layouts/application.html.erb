@@ -25,6 +25,7 @@
     <!-- Plugin CSS -->
     <link rel="stylesheet" href="/assets/animate.min.css" type="text/css">
 
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/assets/creative.css" type="text/css">
     <link rel="stylesheet" href="/assets/jquery.dataTables.css" type="text/css">
@@ -120,7 +121,7 @@
                        <%= link_to 'Account', edit_user_registration_path, :class => 'page-scroll my-scroll' %>
                     </li>
                     <li>
-                       <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'page-scroll my-scroll'  %>
+                       <%= link_to "Logout", '#', :class => 'page-scroll my-scroll', :id => 'logout_link'  %>
                     </li>
                   <% else %>
                     <li>
@@ -139,6 +140,10 @@
 
 <%= yield %>
 
+
+<!-- Google API: Used for Sign In -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content=<%= Rails.application.config.google_api_client_id %> >
 <!-- Bootstrap Core JavaScript -->
 <script src="/assets/bootstrap.min.js"></script>
 <scirpt src="assets/jquery.dataTables.min.js"></script>
@@ -157,7 +162,46 @@
             $('.my-scroll').removeClass('logo-shrink');
         }
     });
-});
+  });
+
+  $('#logout_link').click( 
+    function(e) {
+      e.preventDefault(); 
+      signOutGoogle();
+    });
+
+  function signOutGoogle() {
+    var auth2 = gapi.auth2;
+    if(auth2 == null){
+      console.log('the thing is null');
+      signOutSippingPoint();
+    }
+    else{
+      console.log('the thing is NOT null');
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('Google User signed out.');
+        //signOutSippingPoint();
+      });
+    }
+  }
+
+  function signOutSippingPoint() {
+
+    //console.log(<%= root_url %> + '/users/sign_out');
+    //console.log(<%= root_url %>  + 'users/' + '1' + '/unfriendships');
+    $.ajax({
+      url: '<%= root_url %>' + 'users/sign_out',
+      type: 'DELETE',
+      success: function(result) {
+        location.href = '<%= root_url %>' // Do something with the result
+        return 
+      }
+    });
+    return
+    location.href =  'http://www.google.com';//'#{root_url}' + 'users/sign_out'
+  }
+
 </script>
 
 </body>
