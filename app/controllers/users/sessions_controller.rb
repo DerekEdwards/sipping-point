@@ -48,6 +48,11 @@ class Users::SessionsController < Devise::SessionsController
       u.password = u.password_confirmation = Devise.friendly_token.first(8)
     end
 
+    if user.avatar_url.blank?
+      user.avatar_url = user_hash[:picture]
+      user.save
+    end
+
     return user
 
   end
