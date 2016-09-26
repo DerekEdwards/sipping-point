@@ -5,7 +5,7 @@ class UserMailer < ActionMailer::Base
   	@user =  rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
-  	mail(to: @user.email, subject: @event.name, from: @event.owner.email_name)
+  	mail(to: @user.email, subject: @event.name, from: ENV['smtp_from'])
   end
 
   #Reminder to attend
@@ -13,7 +13,7 @@ class UserMailer < ActionMailer::Base
     @user =  rsvp.user
     @rsvp = rsvp
     @event = rsvp.event
-    mail(to: @user.email, subject: "Reminder about " + @event.name, from: "Sipping Point")
+    mail(to: @user.email, subject: "Reminder about " + @event.name, from: ENV['smtp_from'])
   end
 
   #Let people know the event is officially on
@@ -21,7 +21,7 @@ class UserMailer < ActionMailer::Base
   	@user = rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
-  	mail(to: @user.email, subject: @event.name + " is Happening!", from: "Sipping Point")
+  	mail(to: @user.email, subject: @event.name + " is Happening!", from: ENV['smtp_from'])
   end 
 
   #Let people know the event failed
@@ -29,7 +29,7 @@ class UserMailer < ActionMailer::Base
   	@user = rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
-  	mail(to: @user.email, subject: @event.name + " Failed to Reach the Sipping Point", from: "Sipping Point")
+  	mail(to: @user.email, subject: @event.name + " Failed to Reach the Sipping Point", from: ENV['smtp_from'])
   end
 
   #Let people know the event has been manually canceled
@@ -47,16 +47,16 @@ class UserMailer < ActionMailer::Base
     @event = rsvp.event
     @comments = comments
     if @comments.count == 0
-      mail(to: @user.email, subject: "New comment on " + @event.name, from: "Sipping Point")
+      mail(to: @user.email, subject: "New comment on " + @event.name, from: ENV['smtp_from'])
     else
-      mail(to: @user.email, subject: "New comments on " + @event.name, from: "Sipping Point")
+      mail(to: @user.email, subject: "New comments on " + @event.name, from: ENV['smtp_from'])
     end
   end
 
   #Email sent to owner to report flakes
   def report_email(event)
     @event = event
-    mail(to: @event.owner.email, subject: "Who flaked on " + @event.name + "?", from: "Sipping Point")
+    mail(to: @event.owner.email, subject: "Who flaked on " + @event.name + "?", from: ENV['smtp_from'])
   end
 
   #Reminder to RSVP
@@ -64,6 +64,6 @@ class UserMailer < ActionMailer::Base
     @rsvp = rsvp
     @event = rsvp.event
     @user = rsvp.user
-    mail(to: @rsvp.user.email, subject: "Don't forget to RSVP for " + @rsvp.event.name, from: @rsvp.event.owner.email_name)
+    mail(to: @rsvp.user.email, subject: "Don't forget to RSVP for " + @rsvp.event.name, from: ENV['smtp_from'])
   end
 end 
