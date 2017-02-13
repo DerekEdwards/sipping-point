@@ -9,6 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <!-- Used for Google Sign in -->
+    <meta name="google-signin-client_id" content=<%= Rails.application.config.google_api_client_id %> >
+
     <title>The Sipping Point</title>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
@@ -29,7 +32,8 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/assets/creative.css" type="text/css">
     <link rel="stylesheet" href="/assets/jquery.dataTables.css" type="text/css">
-   
+
+    <!-- Finds the correct favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/assets/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/assets/apple-icon-72x72.png">
@@ -47,7 +51,6 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/assets/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -142,14 +145,15 @@
 
 
 <!-- Google API: Used for Sign In -->
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<meta name="google-signin-client_id" content=<%= Rails.application.config.google_api_client_id %> >
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="/assets/bootstrap.min.js"></script>
 <scirpt src="assets/jquery.dataTables.min.js"></script>
 <scirpt src="assets/d3.min.js"></script>
 <!-- Javascript for finding the browser time zone -->
 <scirpt src="assets/jstz.min.js"></script>
+
+
 <script>
   $(function(){
     $(window).scroll(function(){
@@ -172,16 +176,17 @@
 
   function signOutGoogle() {
     var auth2 = gapi.auth2;
+    //var auth2 = gapi.auth2.getAuthInstance();
     if(auth2 == null){
       console.log('the thing is null');
-      signOutSippingPoint();
+      //signOutSippingPoint();
     }
     else{
       console.log('the thing is NOT null');
       var auth2 = gapi.auth2.getAuthInstance();
       auth2.signOut().then(function () {
         console.log('Google User signed out.');
-        //signOutSippingPoint();
+        signOutSippingPoint();
       });
     }
   }
@@ -199,11 +204,21 @@
       }
     });
     return
-    location.href =  'http://www.google.com';//'#{root_url}' + 'users/sign_out'
+    location.href =  '#{root_url}' + 'users/sign_out'
   }
 
-</script>
+  function loadIT() {
+    console.log ('fucking loading it')
+    gapi.load('auth2', function() {
+      gapi.auth2.init();
+    });
+  }
 
+  $(window).load(function() {
+    loadIT();
+  });
+
+</script>
 </body>
 </html>
 
