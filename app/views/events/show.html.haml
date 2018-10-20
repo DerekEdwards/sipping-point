@@ -28,6 +28,8 @@
             -unless @event.description.blank?
               %div.event-description
                 =@event.description_html || @event.html_description.html_safe
+          %h5
+            ="Organized by #{@event.owner.display_name}"
 
     %div.col-md-6
       %h2
