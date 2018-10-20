@@ -1,9 +1,9 @@
 %center
   %h2{:style => "text-decoration:none; color:#58616c;"}
-    -unless @event.owner.avatar_url.blank?
-      %img{src: @event.owner.avatar_url, style: "height: 60px; width: 60px; border-radius: 50%;"}
+    -unless @invitor.avatar_url.blank?
+      %img{src: @invitor.avatar_url, style: "height: 60px; width: 60px; border-radius: 50%;"}
       %br
-    ="An invitation from " + @event.owner.display_name
+    ="An invitation from " + @invitor.display_name
     
   -unless @event.owner == @invitor
     %h5

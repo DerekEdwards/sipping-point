@@ -365,10 +365,10 @@ class Event < ActiveRecord::Base
     end
   end 
 
-  def send_rsvp_emails
+  def send_rsvp_emails(invitor=nil)
     self.rsvps.each do |rsvp|
       unless rsvp.emailed?
-        UserMailer.invite_email(rsvp).deliver!
+        UserMailer.invite_email(rsvp,invitor).deliver!
         rsvp.emailed = true
         rsvp.reminded = Time.now
         rsvp.save

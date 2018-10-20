@@ -1,10 +1,11 @@
 class UserMailer < ActionMailer::Base
 
   #Send invitations
-  def invite_email(rsvp)
+  def invite_email(rsvp, invitor=nil)
   	@user =  rsvp.user
   	@rsvp = rsvp
     @event = rsvp.event
+    @invitor = invitor || @event.owern
   	mail(to: @user.email, subject: @event.name, from: ENV['smtp_from'])
   end
 

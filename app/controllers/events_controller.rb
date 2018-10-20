@@ -63,7 +63,7 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1
   def update
 
-    @event.errors.clear    
+    @event.errors.clear   
     confirm_invitee
 
     #Pull out the allowed event_params
@@ -85,7 +85,7 @@ class EventsController < ApplicationController
           @event.maximum_attendance = params['maximum_attendance'].to_i
         end
         @event.save
-        @event.send_rsvp_emails 
+        @event.send_rsvp_emails(current_user) 
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
