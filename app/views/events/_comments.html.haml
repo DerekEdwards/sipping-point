@@ -31,7 +31,7 @@
                   =comment.created_at.strftime("%-I:%M%p")
             .col-md-9  
               %div{id: 'comment_' + comment.id.to_s}
-                .col-md-12
+                .col-md-12.text-left
                   .message-body-text
                     -unless comment.body.blank?
                       =comment.body_html || comment.body.html_safe

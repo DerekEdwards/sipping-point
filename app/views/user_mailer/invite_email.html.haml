@@ -4,6 +4,10 @@
       %img{src: @event.owner.avatar_url, style: "height: 60px; width: 60px; border-radius: 50%;"}
       %br
     ="An invitation from " + @event.owner.display_name
+    
+  -unless @event.owner == @invitor
+    %h5
+      ="Event organized by #{@event.owner.display_name}"
 %div.email-body{ :style => "border-radius: 25px; padding: 20px; border: 2px solid #58616c;" }
   %center
     %h1
