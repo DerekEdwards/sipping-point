@@ -1,7 +1,13 @@
 %section.static-header
   %div.container
     %h1.static-header-title
-      =@event.name  
+      =@event.name
+    %h3
+      -if current_user == @event.owner and @event.rsvps.count == 0
+        %a.btn.btn-primary.btn-sm{:href => edit_event_path(@event)} Let's invite some people!
+      - if current_user == @event.owner and @event.rsvps.count > 0
+        %a.btn.btn-primary.btn-sm{:href => edit_event_path(@event)} Edit Details   
+    
     .panel.translucent
       .panel-body
         .panel-text
