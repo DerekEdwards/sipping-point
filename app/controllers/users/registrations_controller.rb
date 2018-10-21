@@ -80,7 +80,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     #Using Form_Tag instead of Form_For, Set Custom account_update_params
     account_update_params = custom_account_update_params params
 
-    resource_updated = update_resource(resource, account_update_params)
+    if account_update_params[:password_confirmation].blank? and account_update_params[:password].blank?
+      account_update_params.delete(:current_password)
+      resource_updated = resource.update_without_password(account_update_params)
+    else
+      resource_updated = update_resource(resource, account_update_params)
+    end
+
     yield resource if block_given?
     if resource_updated
       if is_flashing_format?
