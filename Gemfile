@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
-ruby "2.1.7"
+ruby "2.3.0"
 
+# Uploading photos
+gem 'carrierwave', '~> 1.0'
+gem "fog"
 
 gem 'haml-rails'
 # https://github.com/twbs/bootstrap-sass/issues/692 for why we're hitting github here...

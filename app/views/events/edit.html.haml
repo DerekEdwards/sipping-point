@@ -112,15 +112,15 @@
                       %strong{:style => "font-size:20px"}
                         ="Cover Photo"
                       %div.hint-text
-                        Optional: Add a cover photo for your event.
+                        Optional: Past an image URL to add or edit the cover photo for your event.
                   %div.row
                     %div.col-md-1
                     %div.col-md-5      
-                      %input{:id => "cover-photo", :type => "string", :name => 'event[cover_photo_url]', :value => @event.cover_photo_url, :style=>"width:100%;", :maxlength => "255", :placeholder => "http://myphoto.png"}
+                      %input{:id => "cover-photo", :type => "string", :name => 'event[cover_photo_url]', :value => @event.cover_photo_url, :style=>"width:100%;", :maxlength => "500", :placeholder => "http://myphoto.png"}
 
                   %div.row.event-cover.text-center.spacer#cover-photo-preview
-                    -if @event.cover_photo_url
-                      %img{src: @event.cover_photo_url}
+                    -if @event.event_photo.url
+                      %img{src: @event.event_photo.url}
                       %div.row.hint-text
                         Cover Photo Preview
 
@@ -382,7 +382,9 @@
   // Handle Cover Photo Preview
   $( "#cover-photo" ).focusout(function() { 
     var url = $('#cover-photo').val();
-    $('#cover-photo-preview').html("<img src=" + url + "><div class='row hint-text'>Cover Photo Preview</div>");
+    if(url.length > 0){ 
+      $('#cover-photo-preview').html("<img src=" + url + "><div class='row hint-text'>Cover Photo Preview</div>");
+    }  
   })
 
   //Handle First Delete Button

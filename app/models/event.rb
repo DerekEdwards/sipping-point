@@ -1,5 +1,11 @@
 class Event < ActiveRecord::Base
 
+  #Uploaders
+  mount_uploader :event_photo, EventPhotoUploader
+
+  #Callbacks
+  before_save :save_url_photo
+
   #Relationships
   belongs_to :owner, :class_name => "User"
   has_many   :coming_rsvps, -> {where(response: Rsvp::YES)}, class_name: 'Rsvp',
@@ -416,6 +422,16 @@ class Event < ActiveRecord::Base
 
   def update_is_tipped
     update!(is_tipped: tipped?)
+  end
+
+  def save_url_photo
+    if cover_photo_url.blank? 
+      return 
+    end
+    uri = URI.parse(cover_photo_url)
+    file = uri.open 
+    self.event_photo = file
+    self.cover_photo_url = nil
   end
 
   private

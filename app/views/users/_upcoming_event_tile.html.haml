@@ -3,8 +3,8 @@
   %a{href: event_path(rsvp.event)}
     .panel-text
       .grid-cover-photo
-        -unless rsvp.event.cover_photo_url.blank?
-          %img{src: rsvp.event.cover_photo_url}
+        -unless rsvp.event.event_photo.url.nil?
+          %img{src: rsvp.event.event_photo.url}
         -else
           %img{src: '/assets/sp_logo.png'}
         %span.overlay-text

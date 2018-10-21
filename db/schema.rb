@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160727010513) do
+ActiveRecord::Schema.define(version: 20181021000502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20160727010513) do
     t.boolean  "is_tipped",            default: false,              null: false
     t.string   "timezone",             default: "America/New_York"
     t.string   "cover_photo_url"
+    t.string   "event_photo"
   end
 
   create_table "rsvps", force: true do |t|
