@@ -425,13 +425,27 @@ class Event < ActiveRecord::Base
   end
 
   def save_url_photo
+
     if cover_photo_url.blank? 
       return 
     end
+
     uri = URI.parse(cover_photo_url)
-    file = uri.open 
+
+    #This is a Hack. This needs to be pulled out when updating to Rails5
+    #TODO: replace this hack that first trips http and then https when downloading cover photo urls
+    tries = 3
+    begin
+      file = uri.open(redirect: false)
+    rescue OpenURI::HTTPRedirect => redirect
+       uri = redirect.uri # assigned from the "Location" response header
+       retry if (tries -= 1) > 0
+      raise
+    end
+
     self.event_photo = file
     self.cover_photo_url = nil
+
   end
 
   private
