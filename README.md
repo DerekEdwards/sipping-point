@@ -31,6 +31,8 @@ The following rake task should be scheduled to run at least once per hour.  Idea
 
   * ENV['google_api_client_id']
   
+  * To store images on AWS, you need to enter these environment variables: https://github.com/DerekEdwards/sipping-point/blob/develop/config/initializers/carrier_wave.rb
+  
   * Images are downloaded and not hotlinked. Do this to update all existing images
     
     Event.all.each do |e|
@@ -40,5 +42,5 @@ The following rake task should be scheduled to run at least once per hour.  Idea
       e.save
     
     end
-
+ 
 
