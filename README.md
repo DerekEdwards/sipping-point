@@ -30,5 +30,15 @@ The following rake task should be scheduled to run at least once per hour.  Idea
 ### For 0.7.0, Add a google api key to use google sign in.
 
   * ENV['google_api_client_id']
+  
+  * Images are downloaded and not hotlinked. Do this to update all existing images
+    
+    Event.all.each do |e|
+      
+      e.save_url_photo
+      
+      e.save
+    
+    end
 
 
