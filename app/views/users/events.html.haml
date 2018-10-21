@@ -44,16 +44,16 @@
 :javascript
   // On click for a button
   $(".event_trash_button").click(function(){
-       // Get the id data attribute
-       var id = $(this).data("id");
-       var block = document.getElementById(id + '_block');
-       var delete_link = document.getElementById('link_to_deleted_events');
-       delete_link.style.display = 'block';
-       block.remove();
-       $.ajax({
-        type: 'PATCH',
-        url: '#{root_url}' + 'rsvps/' + id + '/hide'
-       });
+    // Get the id data attribute
+    var id = $(this).data("id");
+    var block = document.getElementById(id + '_block');
+    var delete_link = document.getElementById('link_to_deleted_events');
+    delete_link.style.display = 'block';
+    block.remove();
+    $.ajax({
+      type: 'PATCH',
+      url: '#{root_url}' + 'rsvps/' + id + '/hide'
+    });
   });
 
   
